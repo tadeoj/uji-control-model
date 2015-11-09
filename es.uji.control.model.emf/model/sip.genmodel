@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/es.uji.control.sip.model.emf/src" editDirectory="/es.uji.control.sip.model.emf.edit/src"
+    editorDirectory="/es.uji.control.sip.model.emf.editor/src" modelPluginID="es.uji.control.sip.model.emf"
+    modelName="Sip" editPluginClass="es.uji.control.sip.model.emf.sip.provider.SipEditPlugin"
+    editorPluginClass="es.uji.control.sip.model.emf.sip.presentation.SipEditorPlugin"
+    testSuiteClass="es.uji.control.sip.model.emf.sip.tests.SipAllTests" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="6.0" copyrightFields="false" editPluginID="es.uji.control.sip.model.emf.edit"
+    editorPluginID="es.uji.control.sip.model.emf.editor">
+  <foreignModel>scaid.ecore</foreignModel>
+  <genPackages prefix="Sip" basePackage="es.uji.control.sip.model.emf" disposableProviderFactory="true"
+      ecorePackage="sip.ecore#/">
+    <genClasses ecoreClass="sip.ecore#//Model">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Model/date"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sip.ecore#//Model/modelPersonsList"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sip.ecore#//Model/modelCardsList"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Model/zoneId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Model/zoneName"/>
+    </genClasses>
+    <genClasses ecoreClass="sip.ecore#//Persons">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Persons/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Persons/identification"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Persons/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Persons/firstName1"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Persons/firstName2"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Persons/link"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference sip.ecore#//Persons/cardsList"/>
+    </genClasses>
+    <genClasses ecoreClass="sip.ecore#//Cards">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Cards/id"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Cards/perId"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Cards/creationDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Cards/issueDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Cards/cancelationDate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Cards/description"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute sip.ecore#//Cards/serialNumber"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

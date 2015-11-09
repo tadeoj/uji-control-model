@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Manager
+Bundle-SymbolicName: es.uji.control.model.manager
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: es.uji.control.model,
+ es.uji.control.model.cache,
+ es.uji.control.model.emf.sip,
+ es.uji.control.model.factory,
+ org.osgi.framework;version="1.3.0",
+ org.osgi.service.component;version="1.2.2",
+ org.slf4j;version="1.7.12"
+Service-Component: OSGI-INF/ModelManagerComponent.xml
+Export-Package: es.uji.control.model.manager

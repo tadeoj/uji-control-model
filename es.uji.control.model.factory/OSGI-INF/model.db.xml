@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="model.db">
+   <service>
+      <provide interface="es.uji.control.model.factory.IModelFactory"/>
+   </service>
+   <implementation class="es.uji.control.model.factory.internal.ModelDBComponent"/>
+</scr:component>

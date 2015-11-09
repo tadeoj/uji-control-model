@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Db
+Bundle-SymbolicName: es.uji.control.model.factory
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: es.uji.control.commons.diskcache,
+ es.uji.control.sip.db,
+ org.osgi.service.component.annotations;version="1.2.0",
+ org.slf4j;version="1.7.12"
+Require-Bundle: javax.persistence;bundle-version="2.1.0",
+ org.eclipse.persistence.jpa;bundle-version="2.6.0",
+ es.uji.control.sip.model.emf;bundle-version="1.0.0",
+ org.eclipse.persistence.jpa.jpql;bundle-version="2.6.0"
+Export-Package: es.uji.control.model.factory
+Service-Component: OSGI-INF/ModelDAOComponent.xml,
+ OSGI-INF/model.db.xml
