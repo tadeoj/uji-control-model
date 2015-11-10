@@ -11,7 +11,7 @@ import es.uji.control.controller.mifare.MifareTagId;
 import es.uji.control.model.emf.sip.Model;
 import es.uji.control.model.emf.sip.Persons;
 
-public interface IModelContainer {
+public interface IModelAPI {
 	
 	public Model getCurrentModel();
 	public void setCurrentModel(Model model);

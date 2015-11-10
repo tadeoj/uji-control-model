@@ -10,7 +10,7 @@ package es.uji.control.model.manager.internal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import es.uji.control.model.IModelContainer;
+import es.uji.control.model.IModelAPI;
 import es.uji.control.model.cache.IModelCache;
 import es.uji.control.model.factory.IModelFactory;
 import es.uji.control.model.manager.IModelManager;
@@ -21,7 +21,7 @@ public class Component implements IModelManager {
 
 	static final Logger logger = LoggerFactory.getLogger(Component.class);
 	
-	private IModelContainer modelContainer;
+	private IModelAPI modelContainer;
 	private IModelCache cache;
 	private IModelFactory modelDAO;
 	
@@ -33,7 +33,7 @@ public class Component implements IModelManager {
 		System.out.println("");
 	}
 	
-	public void setModel(IModelContainer model) {
+	public void setModel(IModelAPI model) {
 		this.modelContainer = model;
 	}
 	

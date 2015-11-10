@@ -8,5 +8,5 @@
 package es.uji.control.model;
 
 public interface IModelListener {
-	public void modelUpdate(IModelContainer model);
+	public void modelUpdate(IModelAPI model);
 }

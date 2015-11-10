@@ -83,10 +83,10 @@ public class ModelDBComponent implements IModelFactory {
 	///////////////////////////////////////////////////////////
 
 	@Override
-	public Model queryModel() throws QueryModelException {
+	public ModelBuilder queryModel() throws QueryModelException {
 		SipPackageImpl.init();
 		SipFactory factory = SipFactory.eINSTANCE;
-		Model model = factory.createModel();
+		ModelBuilder model = factory.createModel();
 		Date date = new Date();
 		
 		listScuVTarjeta = null;
@@ -253,28 +253,6 @@ public class ModelDBComponent implements IModelFactory {
 			}
 		}
 		entityManagerSyncronize.clear();
-	}
-	
-	// Este metodo se instancia una sola vez para obtener un EntityManager
-	private EntityManagerFactory getEntityManagerFactory() throws Exception {
-		try {
-			HashMap<String, Object> properties = new HashMap<String, Object>();
-			properties.put(PersistenceUnitProperties.CLASSLOADER, ScuVTarjeta.class.getClassLoader());
-			properties.put("eclipselink.logging.level", "FINE");
-			properties.put("eclipselink.logging.timestamp", "false");
-			properties.put("eclipselink.logging.session", "false");
-			properties.put("eclipselink.logging.thread", "false");
-			properties.put("javax.persistence.jdbc.url", "jdbc:oracle:thin:@jaumei05-cs.uji.es:1521:alma1");
-			properties.put("javax.persistence.jdbc.user", "*******");
-			properties.put("javax.persistence.jdbc.password", "********");
-			properties.put("eclipselink.jdbc.read-connections.min", "3");
-			properties.put("eclipselink.jdbc.write-connections.min", "3");
-			properties.put("javax.persistence.jdbc.driver", "oracle.jdbc.driver.OracleDriver");
-			EntityManagerFactory entityManagerFactory = new PersistenceProvider().createEntityManagerFactory("sip", properties);
-			return entityManagerFactory;
-		} catch (Exception ex) {
-			throw new Exception(ex);
-		}
 	}
 
 	static public Logger getLogger() {

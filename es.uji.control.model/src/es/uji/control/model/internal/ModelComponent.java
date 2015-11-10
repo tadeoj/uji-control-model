@@ -11,25 +11,32 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.osgi.service.component.annotations.Activate;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
+
 import es.uji.control.controller.mifare.MifareTagId;
-import es.uji.control.model.IModelContainer;
+import es.uji.control.model.IModelAPI;
 import es.uji.control.model.IModelListener;
 import es.uji.control.model.emf.sip.Cards;
 import es.uji.control.model.emf.sip.Model;
 import es.uji.control.model.emf.sip.Persons;
 
-public class Component implements IModelContainer {
+@Component(name = "model.component", immediate = true)
+public class ModelComponent implements IModelAPI {
 	
 	private Model model;
 	private List<IModelListener> listeners;
 	private Object lock;
 	
+	@Activate
 	public void startup() {
 		model = null;
 		lock = new Object();
 		listeners = new ArrayList<IModelListener>(2);
 	}
 	
+	@Deactivate
 	public void shutdown() {
 		removeAllListeners();
 	}

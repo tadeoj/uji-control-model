@@ -11,11 +11,8 @@ import es.uji.control.model.emf.sip.Model;
 
 public interface IModelFactory {
 	
-	// Crea todos los entityManagers necesarios en el DAO
-	public void createEntitiesManager() throws QueryModelException;
-	
 	// Consulta en la base de datos el modelo.
-	public Model queryModel() throws QueryModelException;
+	public ModelBuilder createModel() throws QueryModelException;
 	
 	// Sincroniza las fotos del modelo persistente en disco
 	public void syncronizePhotos() throws QueryModelException;
