@@ -7,8 +7,6 @@
         eType="#//Persons" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="modelCardsList" upperBound="-1"
         eType="#//Cards" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="zoneId" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="zoneName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Persons">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELongObject"/>

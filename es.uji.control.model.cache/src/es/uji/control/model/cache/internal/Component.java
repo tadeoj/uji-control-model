@@ -20,11 +20,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import es.uji.control.model.cache.IModelCache;
-import es.uji.control.sip.model.emf.sip.Cards;
-import es.uji.control.sip.model.emf.sip.Model;
-import es.uji.control.sip.model.emf.sip.Persons;
-import es.uji.control.sip.model.emf.sip.SipFactory;
-import es.uji.control.sip.model.emf.sip.impl.SipPackageImpl;
+import es.uji.control.model.emf.sip.Cards;
+import es.uji.control.model.emf.sip.Model;
+import es.uji.control.model.emf.sip.Persons;
+import es.uji.control.model.emf.sip.SipFactory;
+import es.uji.control.model.emf.sip.impl.SipPackageImpl;
 
 public class Component implements IModelCache {
 

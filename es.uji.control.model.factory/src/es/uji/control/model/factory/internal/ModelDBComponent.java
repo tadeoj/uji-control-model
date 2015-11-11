@@ -84,6 +84,7 @@ public class ModelDBComponent implements IModelFactory {
 
 	@Override
 	public ModelBuilder queryModel() throws QueryModelException {
+		
 		SipPackageImpl.init();
 		SipFactory factory = SipFactory.eINSTANCE;
 		ModelBuilder model = factory.createModel();

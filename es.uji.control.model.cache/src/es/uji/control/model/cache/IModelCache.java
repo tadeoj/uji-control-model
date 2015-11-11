@@ -7,12 +7,11 @@
  *******************************************************************************/
 package es.uji.control.model.cache;
 
-import es.uji.control.sip.model.emf.sip.Model;
+import es.uji.control.model.factory.domain.IModel;
 
 public interface IModelCache {
 	
-	// Metodos sobre la cache.
-	public Model readModelFromCache();
-	public void writeModelToCache(Model model);
+	public IModel readModelFromCache();
+	public void writeModelToCache(IModel model);
 
 }

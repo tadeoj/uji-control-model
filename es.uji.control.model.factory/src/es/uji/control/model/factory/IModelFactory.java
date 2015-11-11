@@ -12,7 +12,7 @@ import es.uji.control.model.emf.sip.Model;
 public interface IModelFactory {
 	
 	// Consulta en la base de datos el modelo.
-	public ModelBuilder createModel() throws QueryModelException;
+	public Model updateModel() throws QueryModelException;
 	
 	// Sincroniza las fotos del modelo persistente en disco
 	public void syncronizePhotos() throws QueryModelException;
