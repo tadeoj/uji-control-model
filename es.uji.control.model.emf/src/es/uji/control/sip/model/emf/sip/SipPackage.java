@@ -139,22 +139,22 @@ public interface SipPackage extends EPackage {
 	int PERSON__NAME = 2;
 
 	/**
-	 * The feature id for the '<em><b>First Name1</b></em>' attribute.
+	 * The feature id for the '<em><b>First Last Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__FIRST_NAME1 = 3;
+	int PERSON__FIRST_LAST_NAME = 3;
 
 	/**
-	 * The feature id for the '<em><b>First Name2</b></em>' attribute.
+	 * The feature id for the '<em><b>Second Last Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__FIRST_NAME2 = 4;
+	int PERSON__SECOND_LAST_NAME = 4;
 
 	/**
 	 * The feature id for the '<em><b>Accreditations List</b></em>' containment reference list.
@@ -166,13 +166,13 @@ public interface SipPackage extends EPackage {
 	int PERSON__ACCREDITATIONS_LIST = 5;
 
 	/**
-	 * The feature id for the '<em><b>Linkages</b></em>' reference.
+	 * The feature id for the '<em><b>Linkage List</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__LINKAGES = 6;
+	int PERSON__LINKAGE_LIST = 6;
 
 	/**
 	 * The number of structural features of the '<em>Person</em>' class.
@@ -354,26 +354,26 @@ public interface SipPackage extends EPackage {
 	EAttribute getPerson_Name();
 
 	/**
-	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Person#getFirstName1 <em>First Name1</em>}'.
+	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Person#getFirstLastName <em>First Last Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>First Name1</em>'.
-	 * @see es.uji.control.sip.model.emf.sip.Person#getFirstName1()
+	 * @return the meta object for the attribute '<em>First Last Name</em>'.
+	 * @see es.uji.control.sip.model.emf.sip.Person#getFirstLastName()
 	 * @see #getPerson()
 	 * @generated
 	 */
-	EAttribute getPerson_FirstName1();
+	EAttribute getPerson_FirstLastName();
 
 	/**
-	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Person#getFirstName2 <em>First Name2</em>}'.
+	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Person#getSecondLastName <em>Second Last Name</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>First Name2</em>'.
-	 * @see es.uji.control.sip.model.emf.sip.Person#getFirstName2()
+	 * @return the meta object for the attribute '<em>Second Last Name</em>'.
+	 * @see es.uji.control.sip.model.emf.sip.Person#getSecondLastName()
 	 * @see #getPerson()
 	 * @generated
 	 */
-	EAttribute getPerson_FirstName2();
+	EAttribute getPerson_SecondLastName();
 
 	/**
 	 * Returns the meta object for the containment reference list '{@link es.uji.control.sip.model.emf.sip.Person#getAccreditationsList <em>Accreditations List</em>}'.
@@ -387,15 +387,15 @@ public interface SipPackage extends EPackage {
 	EReference getPerson_AccreditationsList();
 
 	/**
-	 * Returns the meta object for the reference '{@link es.uji.control.sip.model.emf.sip.Person#getLinkages <em>Linkages</em>}'.
+	 * Returns the meta object for the containment reference list '{@link es.uji.control.sip.model.emf.sip.Person#getLinkageList <em>Linkage List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Linkages</em>'.
-	 * @see es.uji.control.sip.model.emf.sip.Person#getLinkages()
+	 * @return the meta object for the containment reference list '<em>Linkage List</em>'.
+	 * @see es.uji.control.sip.model.emf.sip.Person#getLinkageList()
 	 * @see #getPerson()
 	 * @generated
 	 */
-	EReference getPerson_Linkages();
+	EReference getPerson_LinkageList();
 
 	/**
 	 * Returns the meta object for class '{@link es.uji.control.sip.model.emf.sip.Accreditation <em>Accreditation</em>}'.
@@ -563,20 +563,20 @@ public interface SipPackage extends EPackage {
 		EAttribute PERSON__NAME = eINSTANCE.getPerson_Name();
 
 		/**
-		 * The meta object literal for the '<em><b>First Name1</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>First Last Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PERSON__FIRST_NAME1 = eINSTANCE.getPerson_FirstName1();
+		EAttribute PERSON__FIRST_LAST_NAME = eINSTANCE.getPerson_FirstLastName();
 
 		/**
-		 * The meta object literal for the '<em><b>First Name2</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>Second Last Name</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute PERSON__FIRST_NAME2 = eINSTANCE.getPerson_FirstName2();
+		EAttribute PERSON__SECOND_LAST_NAME = eINSTANCE.getPerson_SecondLastName();
 
 		/**
 		 * The meta object literal for the '<em><b>Accreditations List</b></em>' containment reference list feature.
@@ -587,12 +587,12 @@ public interface SipPackage extends EPackage {
 		EReference PERSON__ACCREDITATIONS_LIST = eINSTANCE.getPerson_AccreditationsList();
 
 		/**
-		 * The meta object literal for the '<em><b>Linkages</b></em>' reference feature.
+		 * The meta object literal for the '<em><b>Linkage List</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PERSON__LINKAGES = eINSTANCE.getPerson_Linkages();
+		EReference PERSON__LINKAGE_LIST = eINSTANCE.getPerson_LinkageList();
 
 		/**
 		 * The meta object literal for the '{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl <em>Accreditation</em>}' class.

@@ -68,9 +68,8 @@ public class PersonItemProvider
 			addIdPropertyDescriptor(object);
 			addIdentificationPropertyDescriptor(object);
 			addNamePropertyDescriptor(object);
-			addFirstName1PropertyDescriptor(object);
-			addFirstName2PropertyDescriptor(object);
-			addLinkagesPropertyDescriptor(object);
+			addFirstLastNamePropertyDescriptor(object);
+			addSecondLastNamePropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -142,19 +141,19 @@ public class PersonItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the First Name1 feature.
+	 * This adds a property descriptor for the First Last Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addFirstName1PropertyDescriptor(Object object) {
+	protected void addFirstLastNamePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Person_firstName1_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Person_firstName1_feature", "_UI_Person_type"),
-				 SipPackage.Literals.PERSON__FIRST_NAME1,
+				 getString("_UI_Person_firstLastName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Person_firstLastName_feature", "_UI_Person_type"),
+				 SipPackage.Literals.PERSON__FIRST_LAST_NAME,
 				 true,
 				 false,
 				 false,
@@ -164,45 +163,23 @@ public class PersonItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the First Name2 feature.
+	 * This adds a property descriptor for the Second Last Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addFirstName2PropertyDescriptor(Object object) {
+	protected void addSecondLastNamePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_Person_firstName2_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Person_firstName2_feature", "_UI_Person_type"),
-				 SipPackage.Literals.PERSON__FIRST_NAME2,
+				 getString("_UI_Person_secondLastName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Person_secondLastName_feature", "_UI_Person_type"),
+				 SipPackage.Literals.PERSON__SECOND_LAST_NAME,
 				 true,
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Linkages feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addLinkagesPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Person_linkages_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Person_linkages_feature", "_UI_Person_type"),
-				 SipPackage.Literals.PERSON__LINKAGES,
-				 true,
-				 false,
-				 true,
-				 null,
 				 null,
 				 null));
 	}
@@ -220,6 +197,7 @@ public class PersonItemProvider
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
 			childrenFeatures.add(SipPackage.Literals.PERSON__ACCREDITATIONS_LIST);
+			childrenFeatures.add(SipPackage.Literals.PERSON__LINKAGE_LIST);
 		}
 		return childrenFeatures;
 	}
@@ -278,11 +256,12 @@ public class PersonItemProvider
 			case SipPackage.PERSON__ID:
 			case SipPackage.PERSON__IDENTIFICATION:
 			case SipPackage.PERSON__NAME:
-			case SipPackage.PERSON__FIRST_NAME1:
-			case SipPackage.PERSON__FIRST_NAME2:
+			case SipPackage.PERSON__FIRST_LAST_NAME:
+			case SipPackage.PERSON__SECOND_LAST_NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 			case SipPackage.PERSON__ACCREDITATIONS_LIST:
+			case SipPackage.PERSON__LINKAGE_LIST:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -304,6 +283,11 @@ public class PersonItemProvider
 			(createChildParameter
 				(SipPackage.Literals.PERSON__ACCREDITATIONS_LIST,
 				 SipFactory.eINSTANCE.createAccreditation()));
+
+		newChildDescriptors.add
+			(createChildParameter
+				(SipPackage.Literals.PERSON__LINKAGE_LIST,
+				 SipFactory.eINSTANCE.createLinkage()));
 	}
 
 	/**

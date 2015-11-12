@@ -18,10 +18,10 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getId <em>Id</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getIdentification <em>Identification</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getName <em>Name</em>}</li>
- *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getFirstName1 <em>First Name1</em>}</li>
- *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getFirstName2 <em>First Name2</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getFirstLastName <em>First Last Name</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getSecondLastName <em>Second Last Name</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getAccreditationsList <em>Accreditations List</em>}</li>
- *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getLinkages <em>Linkages</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getLinkageList <em>Linkage List</em>}</li>
  * </ul>
  *
  * @see es.uji.control.sip.model.emf.sip.SipPackage#getPerson()
@@ -108,56 +108,56 @@ public interface Person extends EObject {
 	void setName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>First Name1</b></em>' attribute.
+	 * Returns the value of the '<em><b>First Last Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>First Name1</em>' attribute isn't clear,
+	 * If the meaning of the '<em>First Last Name</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>First Name1</em>' attribute.
-	 * @see #setFirstName1(String)
-	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getPerson_FirstName1()
+	 * @return the value of the '<em>First Last Name</em>' attribute.
+	 * @see #setFirstLastName(String)
+	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getPerson_FirstLastName()
 	 * @model
 	 * @generated
 	 */
-	String getFirstName1();
+	String getFirstLastName();
 
 	/**
-	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Person#getFirstName1 <em>First Name1</em>}' attribute.
+	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Person#getFirstLastName <em>First Last Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>First Name1</em>' attribute.
-	 * @see #getFirstName1()
+	 * @param value the new value of the '<em>First Last Name</em>' attribute.
+	 * @see #getFirstLastName()
 	 * @generated
 	 */
-	void setFirstName1(String value);
+	void setFirstLastName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>First Name2</b></em>' attribute.
+	 * Returns the value of the '<em><b>Second Last Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>First Name2</em>' attribute isn't clear,
+	 * If the meaning of the '<em>Second Last Name</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>First Name2</em>' attribute.
-	 * @see #setFirstName2(String)
-	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getPerson_FirstName2()
+	 * @return the value of the '<em>Second Last Name</em>' attribute.
+	 * @see #setSecondLastName(String)
+	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getPerson_SecondLastName()
 	 * @model
 	 * @generated
 	 */
-	String getFirstName2();
+	String getSecondLastName();
 
 	/**
-	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Person#getFirstName2 <em>First Name2</em>}' attribute.
+	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Person#getSecondLastName <em>Second Last Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>First Name2</em>' attribute.
-	 * @see #getFirstName2()
+	 * @param value the new value of the '<em>Second Last Name</em>' attribute.
+	 * @see #getSecondLastName()
 	 * @generated
 	 */
-	void setFirstName2(String value);
+	void setSecondLastName(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Accreditations List</b></em>' containment reference list.
@@ -178,29 +178,19 @@ public interface Person extends EObject {
 	EList<Accreditation> getAccreditationsList();
 
 	/**
-	 * Returns the value of the '<em><b>Linkages</b></em>' reference.
+	 * Returns the value of the '<em><b>Linkage List</b></em>' containment reference list.
+	 * The list contents are of type {@link es.uji.control.sip.model.emf.sip.Linkage}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Linkages</em>' reference isn't clear,
+	 * If the meaning of the '<em>Linkage List</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Linkages</em>' reference.
-	 * @see #setLinkages(Linkage)
-	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getPerson_Linkages()
-	 * @model
+	 * @return the value of the '<em>Linkage List</em>' containment reference list.
+	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getPerson_LinkageList()
+	 * @model containment="true"
 	 * @generated
 	 */
-	Linkage getLinkages();
-
-	/**
-	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Person#getLinkages <em>Linkages</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Linkages</em>' reference.
-	 * @see #getLinkages()
-	 * @generated
-	 */
-	void setLinkages(Linkage value);
+	EList<Linkage> getLinkageList();
 
 } // Person

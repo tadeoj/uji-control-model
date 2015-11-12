@@ -189,7 +189,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_FirstName1() {
+	public EAttribute getPerson_FirstLastName() {
 		return (EAttribute)personEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -198,7 +198,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_FirstName2() {
+	public EAttribute getPerson_SecondLastName() {
 		return (EAttribute)personEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -216,7 +216,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPerson_Linkages() {
+	public EReference getPerson_LinkageList() {
 		return (EReference)personEClass.getEStructuralFeatures().get(6);
 	}
 
@@ -320,10 +320,10 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 		createEAttribute(personEClass, PERSON__ID);
 		createEAttribute(personEClass, PERSON__IDENTIFICATION);
 		createEAttribute(personEClass, PERSON__NAME);
-		createEAttribute(personEClass, PERSON__FIRST_NAME1);
-		createEAttribute(personEClass, PERSON__FIRST_NAME2);
+		createEAttribute(personEClass, PERSON__FIRST_LAST_NAME);
+		createEAttribute(personEClass, PERSON__SECOND_LAST_NAME);
 		createEReference(personEClass, PERSON__ACCREDITATIONS_LIST);
-		createEReference(personEClass, PERSON__LINKAGES);
+		createEReference(personEClass, PERSON__LINKAGE_LIST);
 
 		accreditationEClass = createEClass(ACCREDITATION);
 		createEAttribute(accreditationEClass, ACCREDITATION__ISSUE_DATE);
@@ -374,10 +374,10 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 		initEAttribute(getPerson_Id(), ecorePackage.getELongObject(), "id", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPerson_Identification(), ecorePackage.getEString(), "identification", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPerson_Name(), ecorePackage.getEString(), "name", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPerson_FirstName1(), ecorePackage.getEString(), "firstName1", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getPerson_FirstName2(), ecorePackage.getEString(), "firstName2", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPerson_FirstLastName(), ecorePackage.getEString(), "firstLastName", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPerson_SecondLastName(), ecorePackage.getEString(), "secondLastName", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPerson_AccreditationsList(), this.getAccreditation(), this.getAccreditation_Person(), "accreditationsList", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPerson_Linkages(), this.getLinkage(), null, "linkages", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPerson_LinkageList(), this.getLinkage(), null, "linkageList", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(accreditationEClass, Accreditation.class, "Accreditation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAccreditation_IssueDate(), ecorePackage.getEDate(), "issueDate", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

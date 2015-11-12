@@ -9,8 +9,6 @@ import es.uji.control.domain.people.IPerson;
 public interface IModel {
 	
 	public Date getDate();
-	public long getZoneId();
-	public String getZoneName();
 	public List<IPerson> getPeople();
 	public List<IAccreditation> getAccreditations();
 	

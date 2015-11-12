@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -34,10 +35,10 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getId <em>Id</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getIdentification <em>Identification</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getName <em>Name</em>}</li>
- *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getFirstName1 <em>First Name1</em>}</li>
- *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getFirstName2 <em>First Name2</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getFirstLastName <em>First Last Name</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getSecondLastName <em>Second Last Name</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getAccreditationsList <em>Accreditations List</em>}</li>
- *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getLinkages <em>Linkages</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getLinkageList <em>Linkage List</em>}</li>
  * </ul>
  *
  * @generated
@@ -104,44 +105,44 @@ public class PersonImpl extends EObjectImpl implements Person {
 	protected String name = NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getFirstName1() <em>First Name1</em>}' attribute.
+	 * The default value of the '{@link #getFirstLastName() <em>First Last Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFirstName1()
+	 * @see #getFirstLastName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String FIRST_NAME1_EDEFAULT = null;
+	protected static final String FIRST_LAST_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getFirstName1() <em>First Name1</em>}' attribute.
+	 * The cached value of the '{@link #getFirstLastName() <em>First Last Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFirstName1()
+	 * @see #getFirstLastName()
 	 * @generated
 	 * @ordered
 	 */
-	protected String firstName1 = FIRST_NAME1_EDEFAULT;
+	protected String firstLastName = FIRST_LAST_NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getFirstName2() <em>First Name2</em>}' attribute.
+	 * The default value of the '{@link #getSecondLastName() <em>Second Last Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFirstName2()
+	 * @see #getSecondLastName()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final String FIRST_NAME2_EDEFAULT = null;
+	protected static final String SECOND_LAST_NAME_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getFirstName2() <em>First Name2</em>}' attribute.
+	 * The cached value of the '{@link #getSecondLastName() <em>Second Last Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getFirstName2()
+	 * @see #getSecondLastName()
 	 * @generated
 	 * @ordered
 	 */
-	protected String firstName2 = FIRST_NAME2_EDEFAULT;
+	protected String secondLastName = SECOND_LAST_NAME_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getAccreditationsList() <em>Accreditations List</em>}' containment reference list.
@@ -154,14 +155,14 @@ public class PersonImpl extends EObjectImpl implements Person {
 	protected EList<Accreditation> accreditationsList;
 
 	/**
-	 * The cached value of the '{@link #getLinkages() <em>Linkages</em>}' reference.
+	 * The cached value of the '{@link #getLinkageList() <em>Linkage List</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getLinkages()
+	 * @see #getLinkageList()
 	 * @generated
 	 * @ordered
 	 */
-	protected Linkage linkages;
+	protected EList<Linkage> linkageList;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -250,8 +251,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getFirstName1() {
-		return firstName1;
+	public String getFirstLastName() {
+		return firstLastName;
 	}
 
 	/**
@@ -259,11 +260,11 @@ public class PersonImpl extends EObjectImpl implements Person {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setFirstName1(String newFirstName1) {
-		String oldFirstName1 = firstName1;
-		firstName1 = newFirstName1;
+	public void setFirstLastName(String newFirstLastName) {
+		String oldFirstLastName = firstLastName;
+		firstLastName = newFirstLastName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.PERSON__FIRST_NAME1, oldFirstName1, firstName1));
+			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.PERSON__FIRST_LAST_NAME, oldFirstLastName, firstLastName));
 	}
 
 	/**
@@ -271,8 +272,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getFirstName2() {
-		return firstName2;
+	public String getSecondLastName() {
+		return secondLastName;
 	}
 
 	/**
@@ -280,11 +281,11 @@ public class PersonImpl extends EObjectImpl implements Person {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setFirstName2(String newFirstName2) {
-		String oldFirstName2 = firstName2;
-		firstName2 = newFirstName2;
+	public void setSecondLastName(String newSecondLastName) {
+		String oldSecondLastName = secondLastName;
+		secondLastName = newSecondLastName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.PERSON__FIRST_NAME2, oldFirstName2, firstName2));
+			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.PERSON__SECOND_LAST_NAME, oldSecondLastName, secondLastName));
 	}
 
 	/**
@@ -304,37 +305,11 @@ public class PersonImpl extends EObjectImpl implements Person {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Linkage getLinkages() {
-		if (linkages != null && linkages.eIsProxy()) {
-			InternalEObject oldLinkages = (InternalEObject)linkages;
-			linkages = (Linkage)eResolveProxy(oldLinkages);
-			if (linkages != oldLinkages) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, SipPackage.PERSON__LINKAGES, oldLinkages, linkages));
-			}
+	public EList<Linkage> getLinkageList() {
+		if (linkageList == null) {
+			linkageList = new EObjectContainmentEList<Linkage>(Linkage.class, this, SipPackage.PERSON__LINKAGE_LIST);
 		}
-		return linkages;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Linkage basicGetLinkages() {
-		return linkages;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setLinkages(Linkage newLinkages) {
-		Linkage oldLinkages = linkages;
-		linkages = newLinkages;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.PERSON__LINKAGES, oldLinkages, linkages));
+		return linkageList;
 	}
 
 	/**
@@ -362,6 +337,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 		switch (featureID) {
 			case SipPackage.PERSON__ACCREDITATIONS_LIST:
 				return ((InternalEList<?>)getAccreditationsList()).basicRemove(otherEnd, msgs);
+			case SipPackage.PERSON__LINKAGE_LIST:
+				return ((InternalEList<?>)getLinkageList()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -380,15 +357,14 @@ public class PersonImpl extends EObjectImpl implements Person {
 				return getIdentification();
 			case SipPackage.PERSON__NAME:
 				return getName();
-			case SipPackage.PERSON__FIRST_NAME1:
-				return getFirstName1();
-			case SipPackage.PERSON__FIRST_NAME2:
-				return getFirstName2();
+			case SipPackage.PERSON__FIRST_LAST_NAME:
+				return getFirstLastName();
+			case SipPackage.PERSON__SECOND_LAST_NAME:
+				return getSecondLastName();
 			case SipPackage.PERSON__ACCREDITATIONS_LIST:
 				return getAccreditationsList();
-			case SipPackage.PERSON__LINKAGES:
-				if (resolve) return getLinkages();
-				return basicGetLinkages();
+			case SipPackage.PERSON__LINKAGE_LIST:
+				return getLinkageList();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -411,18 +387,19 @@ public class PersonImpl extends EObjectImpl implements Person {
 			case SipPackage.PERSON__NAME:
 				setName((String)newValue);
 				return;
-			case SipPackage.PERSON__FIRST_NAME1:
-				setFirstName1((String)newValue);
+			case SipPackage.PERSON__FIRST_LAST_NAME:
+				setFirstLastName((String)newValue);
 				return;
-			case SipPackage.PERSON__FIRST_NAME2:
-				setFirstName2((String)newValue);
+			case SipPackage.PERSON__SECOND_LAST_NAME:
+				setSecondLastName((String)newValue);
 				return;
 			case SipPackage.PERSON__ACCREDITATIONS_LIST:
 				getAccreditationsList().clear();
 				getAccreditationsList().addAll((Collection<? extends Accreditation>)newValue);
 				return;
-			case SipPackage.PERSON__LINKAGES:
-				setLinkages((Linkage)newValue);
+			case SipPackage.PERSON__LINKAGE_LIST:
+				getLinkageList().clear();
+				getLinkageList().addAll((Collection<? extends Linkage>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -445,17 +422,17 @@ public class PersonImpl extends EObjectImpl implements Person {
 			case SipPackage.PERSON__NAME:
 				setName(NAME_EDEFAULT);
 				return;
-			case SipPackage.PERSON__FIRST_NAME1:
-				setFirstName1(FIRST_NAME1_EDEFAULT);
+			case SipPackage.PERSON__FIRST_LAST_NAME:
+				setFirstLastName(FIRST_LAST_NAME_EDEFAULT);
 				return;
-			case SipPackage.PERSON__FIRST_NAME2:
-				setFirstName2(FIRST_NAME2_EDEFAULT);
+			case SipPackage.PERSON__SECOND_LAST_NAME:
+				setSecondLastName(SECOND_LAST_NAME_EDEFAULT);
 				return;
 			case SipPackage.PERSON__ACCREDITATIONS_LIST:
 				getAccreditationsList().clear();
 				return;
-			case SipPackage.PERSON__LINKAGES:
-				setLinkages((Linkage)null);
+			case SipPackage.PERSON__LINKAGE_LIST:
+				getLinkageList().clear();
 				return;
 		}
 		super.eUnset(featureID);
@@ -475,14 +452,14 @@ public class PersonImpl extends EObjectImpl implements Person {
 				return IDENTIFICATION_EDEFAULT == null ? identification != null : !IDENTIFICATION_EDEFAULT.equals(identification);
 			case SipPackage.PERSON__NAME:
 				return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-			case SipPackage.PERSON__FIRST_NAME1:
-				return FIRST_NAME1_EDEFAULT == null ? firstName1 != null : !FIRST_NAME1_EDEFAULT.equals(firstName1);
-			case SipPackage.PERSON__FIRST_NAME2:
-				return FIRST_NAME2_EDEFAULT == null ? firstName2 != null : !FIRST_NAME2_EDEFAULT.equals(firstName2);
+			case SipPackage.PERSON__FIRST_LAST_NAME:
+				return FIRST_LAST_NAME_EDEFAULT == null ? firstLastName != null : !FIRST_LAST_NAME_EDEFAULT.equals(firstLastName);
+			case SipPackage.PERSON__SECOND_LAST_NAME:
+				return SECOND_LAST_NAME_EDEFAULT == null ? secondLastName != null : !SECOND_LAST_NAME_EDEFAULT.equals(secondLastName);
 			case SipPackage.PERSON__ACCREDITATIONS_LIST:
 				return accreditationsList != null && !accreditationsList.isEmpty();
-			case SipPackage.PERSON__LINKAGES:
-				return linkages != null;
+			case SipPackage.PERSON__LINKAGE_LIST:
+				return linkageList != null && !linkageList.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}
@@ -503,10 +480,10 @@ public class PersonImpl extends EObjectImpl implements Person {
 		result.append(identification);
 		result.append(", name: ");
 		result.append(name);
-		result.append(", firstName1: ");
-		result.append(firstName1);
-		result.append(", firstName2: ");
-		result.append(firstName2);
+		result.append(", firstLastName: ");
+		result.append(firstLastName);
+		result.append(", secondLastName: ");
+		result.append(secondLastName);
 		result.append(')');
 		return result.toString();
 	}
