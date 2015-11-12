@@ -18,7 +18,7 @@
       <!-- @generated sip -->
       <package
             uri="http://sip/1.0"
-            class="es.uji.control.model.emf.sip.SipPackage"
+            class="es.uji.control.sip.model.emf.sip.SipPackage"
             genModel="model/sip.genmodel"/>
    </extension>
 
