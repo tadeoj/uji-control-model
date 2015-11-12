@@ -106,7 +106,7 @@ public interface Accreditation extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Person</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link es.uji.control.sip.model.emf.sip.Person#getCardsList <em>Cards List</em>}'.
+	 * It is bidirectional and its opposite is '{@link es.uji.control.sip.model.emf.sip.Person#getAccreditationsList <em>Accreditations List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Person</em>' container reference isn't clear,
@@ -116,8 +116,8 @@ public interface Accreditation extends EObject {
 	 * @return the value of the '<em>Person</em>' container reference.
 	 * @see #setPerson(Person)
 	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getAccreditation_Person()
-	 * @see es.uji.control.sip.model.emf.sip.Person#getCardsList
-	 * @model opposite="cardsList" transient="false"
+	 * @see es.uji.control.sip.model.emf.sip.Person#getAccreditationsList
+	 * @model opposite="accreditationsList" transient="false"
 	 * @generated
 	 */
 	Person getPerson();

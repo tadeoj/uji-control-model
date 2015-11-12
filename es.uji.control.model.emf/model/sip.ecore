@@ -14,7 +14,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstName1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="firstName2" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="cardsList" upperBound="-1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="accreditationsList" upperBound="-1"
         eType="#//Accreditation" containment="true" eOpposite="#//Accreditation/person"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="linkages" eType="#//Linkage"/>
   </eClassifiers>
@@ -23,7 +23,7 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="cancelationDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDate"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="raw" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELongObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="person" eType="#//Person"
-        eOpposite="#//Person/cardsList"/>
+        eOpposite="#//Person/accreditationsList"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Linkage">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

@@ -219,7 +219,7 @@ public class PersonItemProvider
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(SipPackage.Literals.PERSON__CARDS_LIST);
+			childrenFeatures.add(SipPackage.Literals.PERSON__ACCREDITATIONS_LIST);
 		}
 		return childrenFeatures;
 	}
@@ -282,7 +282,7 @@ public class PersonItemProvider
 			case SipPackage.PERSON__FIRST_NAME2:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case SipPackage.PERSON__CARDS_LIST:
+			case SipPackage.PERSON__ACCREDITATIONS_LIST:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -302,7 +302,7 @@ public class PersonItemProvider
 
 		newChildDescriptors.add
 			(createChildParameter
-				(SipPackage.Literals.PERSON__CARDS_LIST,
+				(SipPackage.Literals.PERSON__ACCREDITATIONS_LIST,
 				 SipFactory.eINSTANCE.createAccreditation()));
 	}
 

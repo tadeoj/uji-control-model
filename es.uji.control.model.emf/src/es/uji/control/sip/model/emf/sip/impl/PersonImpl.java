@@ -36,7 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getName <em>Name</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getFirstName1 <em>First Name1</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getFirstName2 <em>First Name2</em>}</li>
- *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getCardsList <em>Cards List</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getAccreditationsList <em>Accreditations List</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getLinkages <em>Linkages</em>}</li>
  * </ul>
  *
@@ -144,14 +144,14 @@ public class PersonImpl extends EObjectImpl implements Person {
 	protected String firstName2 = FIRST_NAME2_EDEFAULT;
 
 	/**
-	 * The cached value of the '{@link #getCardsList() <em>Cards List</em>}' containment reference list.
+	 * The cached value of the '{@link #getAccreditationsList() <em>Accreditations List</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getCardsList()
+	 * @see #getAccreditationsList()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Accreditation> cardsList;
+	protected EList<Accreditation> accreditationsList;
 
 	/**
 	 * The cached value of the '{@link #getLinkages() <em>Linkages</em>}' reference.
@@ -292,11 +292,11 @@ public class PersonImpl extends EObjectImpl implements Person {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Accreditation> getCardsList() {
-		if (cardsList == null) {
-			cardsList = new EObjectContainmentWithInverseEList<Accreditation>(Accreditation.class, this, SipPackage.PERSON__CARDS_LIST, SipPackage.ACCREDITATION__PERSON);
+	public EList<Accreditation> getAccreditationsList() {
+		if (accreditationsList == null) {
+			accreditationsList = new EObjectContainmentWithInverseEList<Accreditation>(Accreditation.class, this, SipPackage.PERSON__ACCREDITATIONS_LIST, SipPackage.ACCREDITATION__PERSON);
 		}
-		return cardsList;
+		return accreditationsList;
 	}
 
 	/**
@@ -346,8 +346,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SipPackage.PERSON__CARDS_LIST:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getCardsList()).basicAdd(otherEnd, msgs);
+			case SipPackage.PERSON__ACCREDITATIONS_LIST:
+				return ((InternalEList<InternalEObject>)(InternalEList<?>)getAccreditationsList()).basicAdd(otherEnd, msgs);
 		}
 		return super.eInverseAdd(otherEnd, featureID, msgs);
 	}
@@ -360,8 +360,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case SipPackage.PERSON__CARDS_LIST:
-				return ((InternalEList<?>)getCardsList()).basicRemove(otherEnd, msgs);
+			case SipPackage.PERSON__ACCREDITATIONS_LIST:
+				return ((InternalEList<?>)getAccreditationsList()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -384,8 +384,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 				return getFirstName1();
 			case SipPackage.PERSON__FIRST_NAME2:
 				return getFirstName2();
-			case SipPackage.PERSON__CARDS_LIST:
-				return getCardsList();
+			case SipPackage.PERSON__ACCREDITATIONS_LIST:
+				return getAccreditationsList();
 			case SipPackage.PERSON__LINKAGES:
 				if (resolve) return getLinkages();
 				return basicGetLinkages();
@@ -417,9 +417,9 @@ public class PersonImpl extends EObjectImpl implements Person {
 			case SipPackage.PERSON__FIRST_NAME2:
 				setFirstName2((String)newValue);
 				return;
-			case SipPackage.PERSON__CARDS_LIST:
-				getCardsList().clear();
-				getCardsList().addAll((Collection<? extends Accreditation>)newValue);
+			case SipPackage.PERSON__ACCREDITATIONS_LIST:
+				getAccreditationsList().clear();
+				getAccreditationsList().addAll((Collection<? extends Accreditation>)newValue);
 				return;
 			case SipPackage.PERSON__LINKAGES:
 				setLinkages((Linkage)newValue);
@@ -451,8 +451,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 			case SipPackage.PERSON__FIRST_NAME2:
 				setFirstName2(FIRST_NAME2_EDEFAULT);
 				return;
-			case SipPackage.PERSON__CARDS_LIST:
-				getCardsList().clear();
+			case SipPackage.PERSON__ACCREDITATIONS_LIST:
+				getAccreditationsList().clear();
 				return;
 			case SipPackage.PERSON__LINKAGES:
 				setLinkages((Linkage)null);
@@ -479,8 +479,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 				return FIRST_NAME1_EDEFAULT == null ? firstName1 != null : !FIRST_NAME1_EDEFAULT.equals(firstName1);
 			case SipPackage.PERSON__FIRST_NAME2:
 				return FIRST_NAME2_EDEFAULT == null ? firstName2 != null : !FIRST_NAME2_EDEFAULT.equals(firstName2);
-			case SipPackage.PERSON__CARDS_LIST:
-				return cardsList != null && !cardsList.isEmpty();
+			case SipPackage.PERSON__ACCREDITATIONS_LIST:
+				return accreditationsList != null && !accreditationsList.isEmpty();
 			case SipPackage.PERSON__LINKAGES:
 				return linkages != null;
 		}

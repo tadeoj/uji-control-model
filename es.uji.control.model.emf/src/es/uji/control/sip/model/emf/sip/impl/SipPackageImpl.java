@@ -207,7 +207,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getPerson_CardsList() {
+	public EReference getPerson_AccreditationsList() {
 		return (EReference)personEClass.getEStructuralFeatures().get(5);
 	}
 
@@ -322,7 +322,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 		createEAttribute(personEClass, PERSON__NAME);
 		createEAttribute(personEClass, PERSON__FIRST_NAME1);
 		createEAttribute(personEClass, PERSON__FIRST_NAME2);
-		createEReference(personEClass, PERSON__CARDS_LIST);
+		createEReference(personEClass, PERSON__ACCREDITATIONS_LIST);
 		createEReference(personEClass, PERSON__LINKAGES);
 
 		accreditationEClass = createEClass(ACCREDITATION);
@@ -376,14 +376,14 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 		initEAttribute(getPerson_Name(), ecorePackage.getEString(), "name", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPerson_FirstName1(), ecorePackage.getEString(), "firstName1", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPerson_FirstName2(), ecorePackage.getEString(), "firstName2", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getPerson_CardsList(), this.getAccreditation(), this.getAccreditation_Person(), "cardsList", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getPerson_AccreditationsList(), this.getAccreditation(), this.getAccreditation_Person(), "accreditationsList", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getPerson_Linkages(), this.getLinkage(), null, "linkages", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(accreditationEClass, Accreditation.class, "Accreditation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getAccreditation_IssueDate(), ecorePackage.getEDate(), "issueDate", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAccreditation_CancelationDate(), ecorePackage.getEDate(), "cancelationDate", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAccreditation_Raw(), ecorePackage.getELongObject(), "raw", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getAccreditation_Person(), this.getPerson(), this.getPerson_CardsList(), "person", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAccreditation_Person(), this.getPerson(), this.getPerson_AccreditationsList(), "person", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(linkageEClass, Linkage.class, "Linkage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLinkage_Name(), ecorePackage.getEString(), "name", null, 0, 1, Linkage.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

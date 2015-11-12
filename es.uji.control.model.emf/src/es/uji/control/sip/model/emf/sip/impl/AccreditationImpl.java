@@ -211,7 +211,7 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 			if (eInternalContainer() != null)
 				msgs = eBasicRemoveFromContainer(msgs);
 			if (newPerson != null)
-				msgs = ((InternalEObject)newPerson).eInverseAdd(this, SipPackage.PERSON__CARDS_LIST, Person.class, msgs);
+				msgs = ((InternalEObject)newPerson).eInverseAdd(this, SipPackage.PERSON__ACCREDITATIONS_LIST, Person.class, msgs);
 			msgs = basicSetPerson(newPerson, msgs);
 			if (msgs != null) msgs.dispatch();
 		}
@@ -258,7 +258,7 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	public NotificationChain eBasicRemoveFromContainerFeature(NotificationChain msgs) {
 		switch (eContainerFeatureID()) {
 			case SipPackage.ACCREDITATION__PERSON:
-				return eInternalContainer().eInverseRemove(this, SipPackage.PERSON__CARDS_LIST, Person.class, msgs);
+				return eInternalContainer().eInverseRemove(this, SipPackage.PERSON__ACCREDITATIONS_LIST, Person.class, msgs);
 		}
 		return super.eBasicRemoveFromContainerFeature(msgs);
 	}

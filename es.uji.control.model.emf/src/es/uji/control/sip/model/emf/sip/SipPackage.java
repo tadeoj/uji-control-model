@@ -157,13 +157,13 @@ public interface SipPackage extends EPackage {
 	int PERSON__FIRST_NAME2 = 4;
 
 	/**
-	 * The feature id for the '<em><b>Cards List</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Accreditations List</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__CARDS_LIST = 5;
+	int PERSON__ACCREDITATIONS_LIST = 5;
 
 	/**
 	 * The feature id for the '<em><b>Linkages</b></em>' reference.
@@ -376,15 +376,15 @@ public interface SipPackage extends EPackage {
 	EAttribute getPerson_FirstName2();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link es.uji.control.sip.model.emf.sip.Person#getCardsList <em>Cards List</em>}'.
+	 * Returns the meta object for the containment reference list '{@link es.uji.control.sip.model.emf.sip.Person#getAccreditationsList <em>Accreditations List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Cards List</em>'.
-	 * @see es.uji.control.sip.model.emf.sip.Person#getCardsList()
+	 * @return the meta object for the containment reference list '<em>Accreditations List</em>'.
+	 * @see es.uji.control.sip.model.emf.sip.Person#getAccreditationsList()
 	 * @see #getPerson()
 	 * @generated
 	 */
-	EReference getPerson_CardsList();
+	EReference getPerson_AccreditationsList();
 
 	/**
 	 * Returns the meta object for the reference '{@link es.uji.control.sip.model.emf.sip.Person#getLinkages <em>Linkages</em>}'.
@@ -579,12 +579,12 @@ public interface SipPackage extends EPackage {
 		EAttribute PERSON__FIRST_NAME2 = eINSTANCE.getPerson_FirstName2();
 
 		/**
-		 * The meta object literal for the '<em><b>Cards List</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Accreditations List</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference PERSON__CARDS_LIST = eINSTANCE.getPerson_CardsList();
+		EReference PERSON__ACCREDITATIONS_LIST = eINSTANCE.getPerson_AccreditationsList();
 
 		/**
 		 * The meta object literal for the '<em><b>Linkages</b></em>' reference feature.

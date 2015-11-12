@@ -20,7 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getName <em>Name</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getFirstName1 <em>First Name1</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getFirstName2 <em>First Name2</em>}</li>
- *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getCardsList <em>Cards List</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getAccreditationsList <em>Accreditations List</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getLinkages <em>Linkages</em>}</li>
  * </ul>
  *
@@ -160,22 +160,22 @@ public interface Person extends EObject {
 	void setFirstName2(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Cards List</b></em>' containment reference list.
+	 * Returns the value of the '<em><b>Accreditations List</b></em>' containment reference list.
 	 * The list contents are of type {@link es.uji.control.sip.model.emf.sip.Accreditation}.
 	 * It is bidirectional and its opposite is '{@link es.uji.control.sip.model.emf.sip.Accreditation#getPerson <em>Person</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Cards List</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Accreditations List</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Cards List</em>' containment reference list.
-	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getPerson_CardsList()
+	 * @return the value of the '<em>Accreditations List</em>' containment reference list.
+	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getPerson_AccreditationsList()
 	 * @see es.uji.control.sip.model.emf.sip.Accreditation#getPerson
 	 * @model opposite="person" containment="true"
 	 * @generated
 	 */
-	EList<Accreditation> getCardsList();
+	EList<Accreditation> getAccreditationsList();
 
 	/**
 	 * Returns the value of the '<em><b>Linkages</b></em>' reference.
