@@ -1,11 +1,11 @@
-package es.uji.control.model.cache.util;
+package es.uji.control.model.sip.util;
 
 import java.util.List;
 
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.ILinkage;
 import es.uji.control.domain.people.IPerson;
-import es.uji.control.model.sip.domain.IModel;
+import es.uji.control.model.factory.domain.IModel;
 import es.uji.control.sip.model.emf.sip.Accreditation;
 import es.uji.control.sip.model.emf.sip.Linkage;
 import es.uji.control.sip.model.emf.sip.Model;

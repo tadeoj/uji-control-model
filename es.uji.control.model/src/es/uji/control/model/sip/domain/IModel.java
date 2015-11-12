@@ -1,4 +1,4 @@
-package es.uji.control.model.factory.domain;
+package es.uji.control.model.sip.domain;
 
 import java.util.Date;
 import java.util.List;

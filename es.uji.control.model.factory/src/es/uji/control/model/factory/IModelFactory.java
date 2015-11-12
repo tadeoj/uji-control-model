@@ -7,7 +7,7 @@
  *******************************************************************************/
 package es.uji.control.model.factory;
 
-import es.uji.control.model.emf.sip.Model;
+import es.uji.control.sip.model.emf.sip.Model;
 
 public interface IModelFactory {
 	

@@ -1,10 +1,10 @@
-package es.uji.control.model.cache.util;
+package es.uji.control.model.sip.util;
 
 import org.eclipse.emf.common.util.EList;
 
 import es.uji.control.domain.people.AccreditationBuilder;
-import es.uji.control.model.sip.domain.IModel;
-import es.uji.control.model.sip.domain.ModelBuilder;
+import es.uji.control.model.factory.domain.IModel;
+import es.uji.control.model.factory.domain.ModelBuilder;
 import es.uji.control.sip.model.emf.sip.Accreditation;
 import es.uji.control.sip.model.emf.sip.Model;
 import es.uji.control.sip.model.emf.sip.Person;

@@ -7,7 +7,7 @@
  *******************************************************************************/
 package es.uji.control.model.cache;
 
-import es.uji.control.model.factory.domain.IModel;
+import es.uji.control.model.sip.domain.IModel;
 
 public interface IModelCache {
 	

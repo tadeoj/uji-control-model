@@ -5,8 +5,14 @@
  * La llicència completa es pot descarregar de 
  * https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11
  *******************************************************************************/
-package es.uji.control.model;
+package es.uji.control.model.sip;
 
-public interface IModelListener {
-	public void modelUpdate(IModelAPI model);
+public class QueryModelSIPException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+
+	public QueryModelSIPException(Throwable cause) {
+		super(cause);
+	}
+
 }

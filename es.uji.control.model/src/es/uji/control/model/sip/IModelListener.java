@@ -5,21 +5,8 @@
  * La llicència completa es pot descarregar de 
  * https://joinup.ec.europa.eu/community/eupl/og_page/european-union-public-licence-eupl-v11
  *******************************************************************************/
-package es.uji.control.model;
+package es.uji.control.model.sip;
 
-import es.uji.control.controller.mifare.MifareTagId;
-import es.uji.control.model.emf.sip.Model;
-import es.uji.control.model.emf.sip.Persons;
-
-public interface IModelAPI {
-	
-	public Model getCurrentModel();
-	public void setCurrentModel(Model model);
-	
-	public Persons getUserByTagId(MifareTagId mifareTagId);
-	public Persons getUserByTagId(long tagId);
-		
-	public void addListener(IModelListener listener);
-	public void removeListener(IModelListener listener);
-
+public interface IModelListener {
+	public void modelUpdate(IModelSIP model);
 }
