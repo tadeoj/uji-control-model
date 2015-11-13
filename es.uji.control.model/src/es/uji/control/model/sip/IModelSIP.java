@@ -9,21 +9,22 @@ package es.uji.control.model.sip;
 
 import java.util.Date;
 
+import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
 
 public interface IModelSIP {
 	
 	/////////////////////////////////////////////////////////////
-	// Gestion del modelo
+	// Metodos que controlan el modelo
 	/////////////////////////////////////////////////////////////
 	public Date getModelDate();
-	public void updateModel() throws QueryModelSIPException;
-	public void updatePhotos() throws QueryModelSIPException;
+	public void updateModelFromBackend() throws ModelSIPException;
+	public void updatePhotosFromBackend() throws ModelSIPException;
 	
 	/////////////////////////////////////////////////////////////
-	// API de acceso al modelo
+	// Metodos del modelo
 	/////////////////////////////////////////////////////////////
-	public IPerson getUserByRaw(long raw);
+	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelSIPException;
 		
 	public void addListener(IModelListener listener);
 	public void removeListener(IModelListener listener);

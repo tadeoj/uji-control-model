@@ -21,119 +21,116 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
-import es.uji.control.domain.provider.service.connectionfactory.ControlConnectionException;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
 import es.uji.control.model.sip.IModelListener;
 import es.uji.control.model.sip.IModelSIP;
-import es.uji.control.model.sip.QueryModelSIPException;
-import es.uji.control.model.sip.domain.IModel;
+import es.uji.control.model.sip.ModelSIPException;
+import es.uji.control.model.sip.internal.emf.EMFModelWrapper;
+import es.uji.control.model.sip.internal.emf.EMFModelWrapperException;
 
 @Component(name = "model.sip.component", immediate = true)
 public class ModelSIPComponent implements IModelSIP {
 
-	private Date date;
-	private List<IModelListener> listeners;
-	private Object lock;
-	private IControlConnectionFactory connectionFactory;
-	private List<IPerson> people;
-	private List<IAccreditation> accreditation;
+	private IControlConnectionFactory controlConnectionFactory;
+
+	private List<IModelListener> listeners = new ArrayList<IModelListener>();
+	
+	private EMFModelWrapper modelWrapper;
 	
 	@Activate
-	public void startup() {
-		lock = new Object();
-		model = null;
-		listeners = new ArrayList<IModelListener>(2);
+	public void activate() {
 	}
 	
 	@Deactivate
-	public void shutdown() {
+	public void deactivate() {
 		removeAllListeners();
 	}
 	
-	@Reference(policy=ReferencePolicy.DYNAMIC, cardinality=ReferenceCardinality.MANDATORY, name="controlConnectionFactory")
-	public void bindConnectionFactorySPI(IControlConnectionFactory connectionFactory, Map<String,?> properties) {
-		this.connectionFactory = connectionFactory;
+	@Reference(policy=ReferencePolicy.DYNAMIC, cardinality=ReferenceCardinality.OPTIONAL, name="controlConnectionFactory")
+	public void bindConnectionFactorySPI(IControlConnectionFactory controlConnectionFactory, Map<String,?> properties) {
+		synchronized (this) {
+			this.controlConnectionFactory = controlConnectionFactory;
+		}
 	}
 	
-	public void unbindConnectionFactorySPI(IControlConnectionFactory connectionFactory, Map<String,?> properties) {
-		this.connectionFactory = null;
+	public void unbindConnectionFactorySPI(IControlConnectionFactory controlConnectionFactory, Map<String,?> properties) {
+		this.controlConnectionFactory = null;
 	}
 	
 	/////////////////////////////////////////////////////////////
-	// Gestion del modelo
+	// Metodos que controlan el modelo
 	/////////////////////////////////////////////////////////////
 	
 	@Override
 	public Date getModelDate() {
-		return this.date;
-	}
-
-	@Override
-	public void updateModel() throws QueryModelSIPException {
-		
-	}
-
-	@Override
-	public void updatePhotos() throws QueryModelSIPException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/////////////////////////////////////////////////////////////
-	// API de acceso al modelo
-	/////////////////////////////////////////////////////////////
-
-	@Override
-	public IPerson getUserByRaw(long raw) {
-//		List<Persons> personsList = model.getModelPersonsList();
-//		Iterator<Persons> personsIterator = personsList.iterator();
-//		Cards card = null;
-//		
-//		if (getCardByID(tagId) != null) {
-//			card = getCardBySN(tagId);
-//		} else {
-//			return null;
-//		}
-//		
-//		while (personsIterator.hasNext()) {
-//			Persons person = personsIterator.next();
-//			if(card.getPerId().equals(person.getId())) {
-//				return person;
-//			}
-//		}
-		return null;
-	}
-	
-	/////////////////////////////////////////////////////////////
-	// Notificaciones del modelo
-	/////////////////////////////////////////////////////////////
-	
-	private void fireModelUpdatedEvent() {
-		for (IModelListener listener : listeners) {
-			fireModelUpdatedEvent(listener);
+		synchronized (this) {
+			return modelWrapper == null ? null : modelWrapper.getModelDate();
 		}
 	}
-	
-	private void fireModelUpdatedEvent(IModelListener listener) {
-		listener.modelUpdate(this);
+
+	@Override
+	public void updateModelFromBackend() throws ModelSIPException {
+		try {
+			EMFModelWrapper tmpModel = EMFModelWrapper.newBuilder(controlConnectionFactory).build();
+			synchronized (this) {
+				this.modelWrapper = tmpModel;
+			}
+		} catch (EMFModelWrapperException e) {
+			throw new ModelSIPException("No se ha podido cargar el modelo desde el backend", e);
+		}
+	}
+
+	@Override
+	public void updatePhotosFromBackend() throws ModelSIPException {
+	}
+
+	/////////////////////////////////////////////////////////////
+	// Metodos del modelo
+	/////////////////////////////////////////////////////////////
+
+	@Override
+	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelSIPException {
+		synchronized (this) {
+			if (modelWrapper == null) {
+				throw new ModelSIPException("No ");
+			} else {
+				try {
+					return modelWrapper.getPersonByAccreditation(accreditation);
+				} catch (EMFModelWrapperException e) {
+					throw new ModelSIPException("Error al intentar obtener la persona desde una acreditacion.", e);
+				}
+			}
+		}
 	}
 	
 	@Override
 	public void addListener(final IModelListener listener) {
-		synchronized (lock) {
+		synchronized (this) {
 			listeners.add(listener);
 		}
 	}	
 
 	@Override
 	public void removeListener(IModelListener listener) {
-		synchronized (lock) {
+		synchronized (this) {
 			listeners.remove(listener);
 		}
 	}
 	
+	/////////////////////////////////////////////////////////////
+	// Notificaciones del modelo
+	/////////////////////////////////////////////////////////////
+	// TODO: Listener o tracker ??
+	private void fireModelUpdatedEvent() {
+		synchronized (this) {
+			for (IModelListener listener : listeners) {
+				listener.modelUpdate(this);
+			}
+		}
+	}
+	
 	private void removeAllListeners() {
-		synchronized (lock) {
+		synchronized (this) {
 			listeners.clear();
 		}
 	}
