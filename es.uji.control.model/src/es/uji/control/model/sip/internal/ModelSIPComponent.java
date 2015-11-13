@@ -55,9 +55,8 @@ public class ModelSIPComponent implements IModelSIP {
 		this.connectionFactory = connectionFactory;
 	}
 	
-	public void unbindConnectionFactorySPI(IControlConnectionFactory connectionFactory, Map<String,?> properties) throws ControlConnectionException {
+	public void unbindConnectionFactorySPI(IControlConnectionFactory connectionFactory, Map<String,?> properties) {
 		this.connectionFactory = null;
-		throw new ControlConnectionException("Se ha perdido la conexión.");
 	}
 	
 	/////////////////////////////////////////////////////////////
