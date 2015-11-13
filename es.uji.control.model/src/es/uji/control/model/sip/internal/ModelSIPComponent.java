@@ -30,8 +30,8 @@ import es.uji.control.model.sip.domain.IModel;
 
 @Component(name = "model.sip.component", immediate = true)
 public class ModelSIPComponent implements IModelSIP {
-	
-	private IModel model;
+
+	private Date date;
 	private List<IModelListener> listeners;
 	private Object lock;
 	private IControlConnectionFactory connectionFactory;
@@ -50,7 +50,7 @@ public class ModelSIPComponent implements IModelSIP {
 		removeAllListeners();
 	}
 	
-	@Reference(policy=ReferencePolicy.STATIC, cardinality=ReferenceCardinality.MANDATORY, name="controlConnectionFactory")
+	@Reference(policy=ReferencePolicy.DYNAMIC, cardinality=ReferenceCardinality.MANDATORY, name="controlConnectionFactory")
 	public void bindConnectionFactorySPI(IControlConnectionFactory connectionFactory, Map<String,?> properties) {
 		this.connectionFactory = connectionFactory;
 	}
@@ -66,13 +66,11 @@ public class ModelSIPComponent implements IModelSIP {
 	
 	@Override
 	public Date getModelDate() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.date;
 	}
 
 	@Override
 	public void updateModel() throws QueryModelSIPException {
-		// TODO Auto-generated method stub
 		
 	}
 

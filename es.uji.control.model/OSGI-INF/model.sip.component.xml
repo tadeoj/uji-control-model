@@ -3,6 +3,6 @@
    <service>
       <provide interface="es.uji.control.model.sip.IModelSIP"/>
    </service>
-   <reference bind="bindConnectionFactorySPI" cardinality="1..1" interface="es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory" name="controlConnectionFactory" policy="static" unbind="unbindConnectionFactorySPI"/>
+   <reference bind="bindConnectionFactorySPI" cardinality="1..1" interface="es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory" name="controlConnectionFactory" policy="dynamic" unbind="unbindConnectionFactorySPI"/>
    <implementation class="es.uji.control.model.sip.internal.ModelSIPComponent"/>
 </scr:component>

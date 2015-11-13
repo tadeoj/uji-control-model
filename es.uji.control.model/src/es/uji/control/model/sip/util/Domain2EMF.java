@@ -5,7 +5,7 @@ import java.util.List;
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.ILinkage;
 import es.uji.control.domain.people.IPerson;
-import es.uji.control.model.factory.domain.IModel;
+import es.uji.control.model.sip.domain.IModel;
 import es.uji.control.sip.model.emf.sip.Accreditation;
 import es.uji.control.sip.model.emf.sip.Linkage;
 import es.uji.control.sip.model.emf.sip.Model;
@@ -15,7 +15,7 @@ import es.uji.control.sip.model.emf.sip.impl.SipPackageImpl;
 
 public class Domain2EMF {
 
-	static public Model convert(IModel domain) throws ModelConverterException {
+	static public Model convert(IModel domain) throws ModelSIPConverterException {
 
 		if (domain != null) {
 			SipPackageImpl.init();
@@ -59,7 +59,7 @@ public class Domain2EMF {
 			}
 			return model;
 		} else {
-			throw new ModelConverterException("El modelo que se quiere convertir esta vacio.");
+			throw new ModelSIPConverterException("El modelo que se quiere convertir esta vacio.");
 		}
 	}
 
