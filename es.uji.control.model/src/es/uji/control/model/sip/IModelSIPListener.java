@@ -7,6 +7,6 @@
  *******************************************************************************/
 package es.uji.control.model.sip;
 
-public interface IModelListener {
-	public void modelUpdate(IModelSIP model);
+public interface IModelSIPListener {
+	public void modelSIPUpdated(IModelSIP model);
 }

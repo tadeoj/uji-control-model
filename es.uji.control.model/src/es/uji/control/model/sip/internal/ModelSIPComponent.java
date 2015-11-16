@@ -22,7 +22,7 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
-import es.uji.control.model.sip.IModelListener;
+import es.uji.control.model.sip.IModelSIPListener;
 import es.uji.control.model.sip.IModelSIP;
 import es.uji.control.model.sip.ModelSIPException;
 import es.uji.control.model.sip.internal.emf.EMFModelWrapper;
@@ -33,7 +33,7 @@ public class ModelSIPComponent implements IModelSIP {
 
 	private IControlConnectionFactory controlConnectionFactory;
 
-	private List<IModelListener> listeners = new ArrayList<IModelListener>();
+	private List<IModelSIPListener> listeners = new ArrayList<IModelSIPListener>();
 	
 	private EMFModelWrapper modelWrapper;
 	
@@ -92,7 +92,7 @@ public class ModelSIPComponent implements IModelSIP {
 	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelSIPException {
 		synchronized (this) {
 			if (modelWrapper == null) {
-				throw new ModelSIPException("No ");
+				throw new ModelSIPException("No hay ningun modelo subyacente con informacion.");
 			} else {
 				try {
 					return modelWrapper.getPersonByAccreditation(accreditation);
@@ -104,14 +104,14 @@ public class ModelSIPComponent implements IModelSIP {
 	}
 	
 	@Override
-	public void addListener(final IModelListener listener) {
+	public void addListener(final IModelSIPListener listener) {
 		synchronized (this) {
 			listeners.add(listener);
 		}
 	}	
 
 	@Override
-	public void removeListener(IModelListener listener) {
+	public void removeListener(IModelSIPListener listener) {
 		synchronized (this) {
 			listeners.remove(listener);
 		}
@@ -123,8 +123,8 @@ public class ModelSIPComponent implements IModelSIP {
 	// TODO: Listener o tracker ??
 	private void fireModelUpdatedEvent() {
 		synchronized (this) {
-			for (IModelListener listener : listeners) {
-				listener.modelUpdate(this);
+			for (IModelSIPListener listener : listeners) {
+				listener.modelSIPUpdated(this);
 			}
 		}
 	}

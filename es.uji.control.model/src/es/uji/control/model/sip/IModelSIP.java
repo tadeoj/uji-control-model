@@ -26,7 +26,7 @@ public interface IModelSIP {
 	/////////////////////////////////////////////////////////////
 	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelSIPException;
 		
-	public void addListener(IModelListener listener);
-	public void removeListener(IModelListener listener);
+	public void addListener(IModelSIPListener listener);
+	public void removeListener(IModelSIPListener listener);
 
 }

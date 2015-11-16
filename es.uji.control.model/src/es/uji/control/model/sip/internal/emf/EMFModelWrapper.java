@@ -20,11 +20,11 @@ import es.uji.control.sip.model.emf.sip.impl.SipPackageImpl;
 
 public class EMFModelWrapper extends ModelWarapperUtil {
 	
-	static public class Builder {
+	static public class ConnectionFactoryBuilder {
 		
 		final private IControlConnectionFactory controlConnectionFactory;
 		
-		public Builder(IControlConnectionFactory controlConnectionFactory) {
+		public ConnectionFactoryBuilder(IControlConnectionFactory controlConnectionFactory) {
 			this.controlConnectionFactory = controlConnectionFactory;
 		}
 		
@@ -38,8 +38,8 @@ public class EMFModelWrapper extends ModelWarapperUtil {
 		
 	}
 	
-	static public Builder newBuilder(IControlConnectionFactory controlConnectionFactory) {
-		return new Builder(controlConnectionFactory); 
+	static public ConnectionFactoryBuilder newBuilder(IControlConnectionFactory controlConnectionFactory) {
+		return new ConnectionFactoryBuilder(controlConnectionFactory); 
 	}
 	
 	final private Model model;
