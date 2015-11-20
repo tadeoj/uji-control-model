@@ -27,55 +27,14 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getIssueDate <em>Issue Date</em>}</li>
- *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getCancelationDate <em>Cancelation Date</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getRaw <em>Raw</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getType <em>Type</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getPerson <em>Person</em>}</li>
  * </ul>
  *
  * @generated
  */
 public class AccreditationImpl extends EObjectImpl implements Accreditation {
-	/**
-	 * The default value of the '{@link #getIssueDate() <em>Issue Date</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIssueDate()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Date ISSUE_DATE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getIssueDate() <em>Issue Date</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getIssueDate()
-	 * @generated
-	 * @ordered
-	 */
-	protected Date issueDate = ISSUE_DATE_EDEFAULT;
-
-	/**
-	 * The default value of the '{@link #getCancelationDate() <em>Cancelation Date</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCancelationDate()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final Date CANCELATION_DATE_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getCancelationDate() <em>Cancelation Date</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getCancelationDate()
-	 * @generated
-	 * @ordered
-	 */
-	protected Date cancelationDate = CANCELATION_DATE_EDEFAULT;
-
 	/**
 	 * The default value of the '{@link #getRaw() <em>Raw</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -95,6 +54,26 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	 * @ordered
 	 */
 	protected Long raw = RAW_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String TYPE_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getType() <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getType()
+	 * @generated
+	 * @ordered
+	 */
+	protected String type = TYPE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -120,48 +99,6 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Date getIssueDate() {
-		return issueDate;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setIssueDate(Date newIssueDate) {
-		Date oldIssueDate = issueDate;
-		issueDate = newIssueDate;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.ACCREDITATION__ISSUE_DATE, oldIssueDate, issueDate));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public Date getCancelationDate() {
-		return cancelationDate;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setCancelationDate(Date newCancelationDate) {
-		Date oldCancelationDate = cancelationDate;
-		cancelationDate = newCancelationDate;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.ACCREDITATION__CANCELATION_DATE, oldCancelationDate, cancelationDate));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public Long getRaw() {
 		return raw;
 	}
@@ -176,6 +113,27 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 		raw = newRaw;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.ACCREDITATION__RAW, oldRaw, raw));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getType() {
+		return type;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setType(String newType) {
+		String oldType = type;
+		type = newType;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.ACCREDITATION__TYPE, oldType, type));
 	}
 
 	/**
@@ -271,12 +229,10 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case SipPackage.ACCREDITATION__ISSUE_DATE:
-				return getIssueDate();
-			case SipPackage.ACCREDITATION__CANCELATION_DATE:
-				return getCancelationDate();
 			case SipPackage.ACCREDITATION__RAW:
 				return getRaw();
+			case SipPackage.ACCREDITATION__TYPE:
+				return getType();
 			case SipPackage.ACCREDITATION__PERSON:
 				return getPerson();
 		}
@@ -291,14 +247,11 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case SipPackage.ACCREDITATION__ISSUE_DATE:
-				setIssueDate((Date)newValue);
-				return;
-			case SipPackage.ACCREDITATION__CANCELATION_DATE:
-				setCancelationDate((Date)newValue);
-				return;
 			case SipPackage.ACCREDITATION__RAW:
 				setRaw((Long)newValue);
+				return;
+			case SipPackage.ACCREDITATION__TYPE:
+				setType((String)newValue);
 				return;
 			case SipPackage.ACCREDITATION__PERSON:
 				setPerson((Person)newValue);
@@ -315,14 +268,11 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case SipPackage.ACCREDITATION__ISSUE_DATE:
-				setIssueDate(ISSUE_DATE_EDEFAULT);
-				return;
-			case SipPackage.ACCREDITATION__CANCELATION_DATE:
-				setCancelationDate(CANCELATION_DATE_EDEFAULT);
-				return;
 			case SipPackage.ACCREDITATION__RAW:
 				setRaw(RAW_EDEFAULT);
+				return;
+			case SipPackage.ACCREDITATION__TYPE:
+				setType(TYPE_EDEFAULT);
 				return;
 			case SipPackage.ACCREDITATION__PERSON:
 				setPerson((Person)null);
@@ -339,12 +289,10 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case SipPackage.ACCREDITATION__ISSUE_DATE:
-				return ISSUE_DATE_EDEFAULT == null ? issueDate != null : !ISSUE_DATE_EDEFAULT.equals(issueDate);
-			case SipPackage.ACCREDITATION__CANCELATION_DATE:
-				return CANCELATION_DATE_EDEFAULT == null ? cancelationDate != null : !CANCELATION_DATE_EDEFAULT.equals(cancelationDate);
 			case SipPackage.ACCREDITATION__RAW:
 				return RAW_EDEFAULT == null ? raw != null : !RAW_EDEFAULT.equals(raw);
+			case SipPackage.ACCREDITATION__TYPE:
+				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
 			case SipPackage.ACCREDITATION__PERSON:
 				return getPerson() != null;
 		}
@@ -361,12 +309,10 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (issueDate: ");
-		result.append(issueDate);
-		result.append(", cancelationDate: ");
-		result.append(cancelationDate);
-		result.append(", raw: ");
+		result.append(" (raw: ");
 		result.append(raw);
+		result.append(", type: ");
+		result.append(type);
 		result.append(')');
 		return result.toString();
 	}

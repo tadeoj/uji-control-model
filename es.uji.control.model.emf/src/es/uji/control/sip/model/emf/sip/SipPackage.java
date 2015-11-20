@@ -194,31 +194,22 @@ public interface SipPackage extends EPackage {
 	int ACCREDITATION = 2;
 
 	/**
-	 * The feature id for the '<em><b>Issue Date</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCREDITATION__ISSUE_DATE = 0;
-
-	/**
-	 * The feature id for the '<em><b>Cancelation Date</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int ACCREDITATION__CANCELATION_DATE = 1;
-
-	/**
 	 * The feature id for the '<em><b>Raw</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACCREDITATION__RAW = 2;
+	int ACCREDITATION__RAW = 0;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCREDITATION__TYPE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Person</b></em>' container reference.
@@ -227,7 +218,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACCREDITATION__PERSON = 3;
+	int ACCREDITATION__PERSON = 2;
 
 	/**
 	 * The number of structural features of the '<em>Accreditation</em>' class.
@@ -236,7 +227,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACCREDITATION_FEATURE_COUNT = 4;
+	int ACCREDITATION_FEATURE_COUNT = 3;
 
 	/**
 	 * The meta object id for the '{@link es.uji.control.sip.model.emf.sip.impl.LinkageImpl <em>Linkage</em>}' class.
@@ -408,28 +399,6 @@ public interface SipPackage extends EPackage {
 	EClass getAccreditation();
 
 	/**
-	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Accreditation#getIssueDate <em>Issue Date</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Issue Date</em>'.
-	 * @see es.uji.control.sip.model.emf.sip.Accreditation#getIssueDate()
-	 * @see #getAccreditation()
-	 * @generated
-	 */
-	EAttribute getAccreditation_IssueDate();
-
-	/**
-	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Accreditation#getCancelationDate <em>Cancelation Date</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Cancelation Date</em>'.
-	 * @see es.uji.control.sip.model.emf.sip.Accreditation#getCancelationDate()
-	 * @see #getAccreditation()
-	 * @generated
-	 */
-	EAttribute getAccreditation_CancelationDate();
-
-	/**
 	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Accreditation#getRaw <em>Raw</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -439,6 +408,17 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getAccreditation_Raw();
+
+	/**
+	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Accreditation#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see es.uji.control.sip.model.emf.sip.Accreditation#getType()
+	 * @see #getAccreditation()
+	 * @generated
+	 */
+	EAttribute getAccreditation_Type();
 
 	/**
 	 * Returns the meta object for the container reference '{@link es.uji.control.sip.model.emf.sip.Accreditation#getPerson <em>Person</em>}'.
@@ -605,28 +585,20 @@ public interface SipPackage extends EPackage {
 		EClass ACCREDITATION = eINSTANCE.getAccreditation();
 
 		/**
-		 * The meta object literal for the '<em><b>Issue Date</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ACCREDITATION__ISSUE_DATE = eINSTANCE.getAccreditation_IssueDate();
-
-		/**
-		 * The meta object literal for the '<em><b>Cancelation Date</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute ACCREDITATION__CANCELATION_DATE = eINSTANCE.getAccreditation_CancelationDate();
-
-		/**
 		 * The meta object literal for the '<em><b>Raw</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
 		EAttribute ACCREDITATION__RAW = eINSTANCE.getAccreditation_Raw();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACCREDITATION__TYPE = eINSTANCE.getAccreditation_Type();
 
 		/**
 		 * The meta object literal for the '<em><b>Person</b></em>' container reference feature.

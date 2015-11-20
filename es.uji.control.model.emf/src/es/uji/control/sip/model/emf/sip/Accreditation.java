@@ -15,9 +15,8 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link es.uji.control.sip.model.emf.sip.Accreditation#getIssueDate <em>Issue Date</em>}</li>
- *   <li>{@link es.uji.control.sip.model.emf.sip.Accreditation#getCancelationDate <em>Cancelation Date</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Accreditation#getRaw <em>Raw</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.Accreditation#getType <em>Type</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Accreditation#getPerson <em>Person</em>}</li>
  * </ul>
  *
@@ -26,58 +25,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Accreditation extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Issue Date</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Issue Date</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Issue Date</em>' attribute.
-	 * @see #setIssueDate(Date)
-	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getAccreditation_IssueDate()
-	 * @model
-	 * @generated
-	 */
-	Date getIssueDate();
-
-	/**
-	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Accreditation#getIssueDate <em>Issue Date</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Issue Date</em>' attribute.
-	 * @see #getIssueDate()
-	 * @generated
-	 */
-	void setIssueDate(Date value);
-
-	/**
-	 * Returns the value of the '<em><b>Cancelation Date</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Cancelation Date</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Cancelation Date</em>' attribute.
-	 * @see #setCancelationDate(Date)
-	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getAccreditation_CancelationDate()
-	 * @model
-	 * @generated
-	 */
-	Date getCancelationDate();
-
-	/**
-	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Accreditation#getCancelationDate <em>Cancelation Date</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Cancelation Date</em>' attribute.
-	 * @see #getCancelationDate()
-	 * @generated
-	 */
-	void setCancelationDate(Date value);
-
 	/**
 	 * Returns the value of the '<em><b>Raw</b></em>' attribute.
 	 * <!-- begin-user-doc -->
@@ -103,6 +50,32 @@ public interface Accreditation extends EObject {
 	 * @generated
 	 */
 	void setRaw(Long value);
+
+	/**
+	 * Returns the value of the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Type</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Type</em>' attribute.
+	 * @see #setType(String)
+	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getAccreditation_Type()
+	 * @model
+	 * @generated
+	 */
+	String getType();
+
+	/**
+	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Accreditation#getType <em>Type</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Type</em>' attribute.
+	 * @see #getType()
+	 * @generated
+	 */
+	void setType(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Person</b></em>' container reference.

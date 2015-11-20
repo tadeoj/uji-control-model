@@ -4,7 +4,7 @@ import es.uji.control.domain.people.IPerson;
 import es.uji.control.sip.model.emf.sip.Person;
 import es.uji.control.sip.model.emf.sip.SipFactory;
 
-public class ModelWarapperUtil {
+public class ModelWrapperUtil {
 	
 	 static public Person domainToEMF(IPerson domainPerson) {
 		Person personEMF = SipFactory.eINSTANCE.createPerson();
