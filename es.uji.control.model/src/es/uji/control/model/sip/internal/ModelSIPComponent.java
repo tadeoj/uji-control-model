@@ -7,9 +7,7 @@
  *******************************************************************************/
 package es.uji.control.model.sip.internal;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import org.osgi.service.component.annotations.Activate;
@@ -22,7 +20,6 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
-import es.uji.control.model.sip.IModelSIPListener;
 import es.uji.control.model.sip.IModelSIP;
 import es.uji.control.model.sip.ModelSIPException;
 import es.uji.control.model.sip.internal.emf.EMFModelWrapper;
@@ -33,8 +30,6 @@ public class ModelSIPComponent implements IModelSIP {
 
 	private IControlConnectionFactory controlConnectionFactory;
 
-	private List<IModelSIPListener> listeners = new ArrayList<IModelSIPListener>();
-	
 	private EMFModelWrapper modelWrapper;
 	
 	@Activate
@@ -43,7 +38,6 @@ public class ModelSIPComponent implements IModelSIP {
 	
 	@Deactivate
 	public void deactivate() {
-		removeAllListeners();
 	}
 	
 	@Reference(policy=ReferencePolicy.DYNAMIC, cardinality=ReferenceCardinality.OPTIONAL, name="controlConnectionFactory")
@@ -54,7 +48,9 @@ public class ModelSIPComponent implements IModelSIP {
 	}
 	
 	public void unbindConnectionFactorySPI(IControlConnectionFactory controlConnectionFactory, Map<String,?> properties) {
-		this.controlConnectionFactory = null;
+		synchronized (this) {
+			this.controlConnectionFactory = null;
+		}
 	}
 	
 	/////////////////////////////////////////////////////////////
@@ -62,19 +58,19 @@ public class ModelSIPComponent implements IModelSIP {
 	/////////////////////////////////////////////////////////////
 	
 	@Override
-	public Date getModelDate() {
+	public void updateModelFromBackend() throws ModelSIPException {
 		synchronized (this) {
-			return modelWrapper == null ? null : modelWrapper.getModelDate();
+			if (controlConnectionFactory != null) {
+				modelWrapper = doUpdateModelFromBackend();
+			} else {
+				throw new ModelSIPException("No hay conexion con el backend en estos momentos");
+			}
 		}
 	}
-
-	@Override
-	public void updateModelFromBackend() throws ModelSIPException {
+	
+	private EMFModelWrapper doUpdateModelFromBackend() throws ModelSIPException {
 		try {
-			EMFModelWrapper tmpModel = EMFModelWrapper.newBuilder(controlConnectionFactory).build();
-			synchronized (this) {
-				this.modelWrapper = tmpModel;
-			}
+			return EMFModelWrapper.newBuilder(controlConnectionFactory).build();
 		} catch (EMFModelWrapperException e) {
 			throw new ModelSIPException("No se ha podido cargar el modelo desde el backend", e);
 		}
@@ -84,8 +80,21 @@ public class ModelSIPComponent implements IModelSIP {
 	public void updatePhotosFromBackend() throws ModelSIPException {
 	}
 
+	
 	/////////////////////////////////////////////////////////////
-	// Metodos del modelo
+	// Estado del modelo
+	/////////////////////////////////////////////////////////////
+	
+	@Override
+	public Date getModelDate() {
+		synchronized (this) {
+			return modelWrapper == null ? null : modelWrapper.getModelDate();
+		}
+	}
+
+	
+	/////////////////////////////////////////////////////////////
+	// Acceso al modelo
 	/////////////////////////////////////////////////////////////
 
 	@Override
@@ -103,36 +112,4 @@ public class ModelSIPComponent implements IModelSIP {
 		}
 	}
 	
-	@Override
-	public void addListener(final IModelSIPListener listener) {
-		synchronized (this) {
-			listeners.add(listener);
-		}
-	}	
-
-	@Override
-	public void removeListener(IModelSIPListener listener) {
-		synchronized (this) {
-			listeners.remove(listener);
-		}
-	}
-	
-	/////////////////////////////////////////////////////////////
-	// Notificaciones del modelo
-	/////////////////////////////////////////////////////////////
-	// TODO: Listener o tracker ??
-	private void fireModelUpdatedEvent() {
-		synchronized (this) {
-			for (IModelSIPListener listener : listeners) {
-				listener.modelSIPUpdated(this);
-			}
-		}
-	}
-	
-	private void removeAllListeners() {
-		synchronized (this) {
-			listeners.clear();
-		}
-	}
-
 }

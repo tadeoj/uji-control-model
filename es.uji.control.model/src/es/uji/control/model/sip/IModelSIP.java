@@ -17,16 +17,17 @@ public interface IModelSIP {
 	/////////////////////////////////////////////////////////////
 	// Metodos que controlan el modelo
 	/////////////////////////////////////////////////////////////
-	public Date getModelDate();
 	public void updateModelFromBackend() throws ModelSIPException;
 	public void updatePhotosFromBackend() throws ModelSIPException;
 	
 	/////////////////////////////////////////////////////////////
-	// Metodos del modelo
+	// Estado del modelo
+	/////////////////////////////////////////////////////////////
+	public Date getModelDate();
+	
+	/////////////////////////////////////////////////////////////
+	// Acceso al modelo
 	/////////////////////////////////////////////////////////////
 	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelSIPException;
 		
-	public void addListener(IModelSIPListener listener);
-	public void removeListener(IModelSIPListener listener);
-
 }
