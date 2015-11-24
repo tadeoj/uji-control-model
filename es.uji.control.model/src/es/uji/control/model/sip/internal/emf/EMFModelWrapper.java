@@ -3,6 +3,7 @@ package es.uji.control.model.sip.internal.emf;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -12,6 +13,7 @@ import org.eclipse.emf.ecore.xmi.XMIResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 import es.uji.control.domain.people.IAccreditation;
+import es.uji.control.domain.people.IAccreditationInfo;
 import es.uji.control.domain.people.ILinkage;
 import es.uji.control.domain.people.IPerson;
 import es.uji.control.domain.provider.service.connectionfactory.ControlConnectionException;
@@ -29,8 +31,7 @@ import es.uji.control.sip.model.emf.sip.impl.SipPackageImpl;
 
 public class EMFModelWrapper extends ModelWrapperUtil {
 
-	static final String EMF_CACHE_DIR = System.getProperty("user.home")
-			+ "\\Universitat Jaume I\\SIP\\cache\\cache.ecore";
+	static final String EMF_CACHE_DIR = System.getProperty("user.home") + "\\Universitat Jaume I\\SIP\\cache\\cache.ecore";
 
 	static public class ConnectionFactoryBuilder {
 
@@ -101,9 +102,8 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 		// Inicializo el modelo EMF
 		SipPackageImpl.init();
-		SipFactory factory = SipFactory.eINSTANCE;
 
-		Model tmpModel = factory.createModel();
+		Model tmpModel = SipFactory.eINSTANCE.createModel();
 
 		try {
 			resource.load(null);
@@ -177,10 +177,8 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 		SipFactory factory = SipFactory.eINSTANCE;
 
 		Model tmpModel = factory.createModel();
-
-		// Se carga en la marca de tiempo del modelo
-		tmpModel.setDate(new Date());
-
+		AtomicBoolean finish = new AtomicBoolean(false);
+		
 		// Se carga la lista de personas
 		try {
 
@@ -195,18 +193,21 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 						// Se instancia la persona EMF
 						Person personEMF = domainToEMF(person);
 
-						// Se carga los linakages de la persona
+						// Se carga los linkages de la persona
 						for (ILinkage linkage : person.getLinkages()) {
-							Linkage linkageEMF = factory.createLinkage();
-							linkageEMF.setName(linkage.getName());
+							Linkage linkageEMF = domainToEMF(linkage);
+							personEMF.getLinkageList().add(linkageEMF);
 						}
 
 						// Se carga las acredtitaciones...
-						// TODO: implementar
+						for (IAccreditationInfo accreditationInfo : person.getAccreditationsInfo()) {
+							Accreditation accreditationEMF = domainToEMF(accreditationInfo.getAccreditation());
+							accreditationEMF.setPerson(personEMF);
+							personEMF.getAccreditationsList().add(accreditationEMF);
+						}
 
 						// Se Se incorpora la persona en la lista del modelo EMF
 						tmpModel.getModelPersonsList().add(personEMF);
-
 					}
 
 				}
@@ -217,6 +218,8 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 				@Override
 				public void onCompleted() {
+					tmpModel.setDate(new Date());
+					finish.set(true);
 				}
 
 			});
@@ -224,8 +227,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 			return tmpModel;
 
 		} catch (ControlConnectionException e) {
-			throw new EMFModelWrapperException("Se han surgido problemas con la conexion duranta la carga del modelo.",
-					e);
+			throw new EMFModelWrapperException("Se han surgido problemas con la conexion duranta la carga del modelo.",	e);
 		}
 
 	}
