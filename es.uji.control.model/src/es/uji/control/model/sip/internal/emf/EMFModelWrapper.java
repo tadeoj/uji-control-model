@@ -61,7 +61,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 		}
 
 		public EMFModelWrapper build() throws EMFModelWrapperException {
-			return new EMFModelWrapper();
+			return new EMFModelWrapper(EMF_CACHE_DIR);
 		}
 
 	}
@@ -72,9 +72,9 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 	private Model model;
 
-	public EMFModelWrapper() throws EMFModelWrapperException {
+	private EMFModelWrapper(String cacheFilePath) throws EMFModelWrapperException {
 
-		URI fileURI = URI.createFileURI(EMF_CACHE_DIR);
+		URI fileURI = URI.createFileURI(cacheFilePath);
 		Resource resource = new XMIResourceFactoryImpl().createResource(fileURI);
 
 		// Se carga el modelo desde la cache
@@ -82,7 +82,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 	}
 
-	public EMFModelWrapper(IControlConnection controlConnection) throws EMFModelWrapperException {
+	private EMFModelWrapper(IControlConnection controlConnection) throws EMFModelWrapperException {
 
 		try {
 
@@ -93,7 +93,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 			this.model = instantiate(personService);
 
 		} catch (ControlNotImplementedException e) {
-			throw new EMFModelWrapperException("No se puede obtener el servicio para acceder al subsistema", e);
+			throw new EMFModelWrapperException("No se puede obtener el servicio para acceder al subsistema 'Person'", e);
 		}
 
 	}
