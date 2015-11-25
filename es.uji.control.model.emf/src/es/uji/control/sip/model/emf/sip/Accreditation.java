@@ -2,8 +2,6 @@
  */
 package es.uji.control.sip.model.emf.sip;
 
-import java.util.Date;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**

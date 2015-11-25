@@ -1,6 +1,7 @@
 package es.uji.control.model.sip.internal.emf;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -23,6 +24,8 @@ import es.uji.control.domain.provider.service.connectionfactory.IControlConnecti
 import es.uji.control.domain.provider.subsystem.people.IPersonService;
 import es.uji.control.domain.provider.subsystem.people.IPersonStream;
 import es.uji.control.model.sip.AsyncModelSIPEvent;
+import es.uji.control.model.sip.AsyncModelSIPEventType;
+import es.uji.control.model.sip.internal.ModelSIPComponent;
 import es.uji.control.sip.model.emf.sip.Accreditation;
 import es.uji.control.sip.model.emf.sip.Linkage;
 import es.uji.control.sip.model.emf.sip.Model;
@@ -188,49 +191,51 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 		SipFactory factory = SipFactory.eINSTANCE;
 
 		Model tmpModel = factory.createModel();
-		AtomicBoolean finish = new AtomicBoolean(false);
 		
 		// Se carga la lista de personas
 		try {
 
 			personService.getAllPersons(new IPersonStream() {
-
+				
+				int numPersons = 0;
+				
 				@Override
 				public void onNext(List<IPerson> persons) {
 
-					// Se procesa este bloque de personas
+					int size = persons.size();
+					
 					for (IPerson person : persons) {
 
-						// Se instancia la persona EMF
 						Person personEMF = domainToEMF(person);
 
-						// Se carga los linkages de la persona
 						for (ILinkage linkage : person.getLinkages()) {
 							Linkage linkageEMF = domainToEMF(linkage);
 							personEMF.getLinkageList().add(linkageEMF);
 						}
 
-						// Se carga las acredtitaciones...
 						for (IAccreditationInfo accreditationInfo : person.getAccreditationsInfo()) {
 							Accreditation accreditationEMF = domainToEMF(accreditationInfo.getAccreditation());
 							accreditationEMF.setPerson(personEMF);
 							personEMF.getAccreditationsList().add(accreditationEMF);
+							tmpModel.getModelCardsList().add(accreditationEMF);
 						}
 
-						// Se Se incorpora la persona en la lista del modelo EMF
 						tmpModel.getModelPersonsList().add(personEMF);
 					}
-
+					
+					numPersons = numPersons + size;
+					consumer.accept(new AsyncModelSIPEvent(Instant.now(), ModelSIPComponent.PERSON_SOURCE, AsyncModelSIPEventType.INFO, String.format("%d Personas cargadas", numPersons)));
 				}
 
 				@Override
 				public void onError(Throwable t) {
+					consumer.accept(new AsyncModelSIPEvent(Instant.now(), ModelSIPComponent.PERSON_SOURCE, AsyncModelSIPEventType.ERROR, String.format("Error duranle la carga (%s).", t.getMessage())));
 				}
 
 				@Override
 				public void onCompleted() {
 					tmpModel.setDate(new Date());
-					finish.set(true);
+					consumer.accept(new AsyncModelSIPEvent(Instant.now(), ModelSIPComponent.PERSON_SOURCE, AsyncModelSIPEventType.INFO, String.format("Modelo cargado correctamente %d Personas cargadas", numPersons)));
 				}
 
 			});
@@ -238,7 +243,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 			return tmpModel;
 
 		} catch (ControlConnectionException e) {
-			throw new EMFModelWrapperException("Se han surgido problemas con la conexion duranta la carga del modelo.",	e);
+			throw new EMFModelWrapperException("Han surgido problemas con la conexion durante la carga del modelo.",	e);
 		}
 
 	}

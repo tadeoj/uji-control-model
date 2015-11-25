@@ -93,7 +93,7 @@ public class ModelSIPComponent implements IModelSIP {
 						ModelSIPComponent.this.modelWrapper = tmpModelWrapper;
 						Duration duration = Duration.between(inicio, Instant.now());
 						long secs = duration.getSeconds();
-						consumer.accept(new AsyncModelSIPEvent(Instant.now(), PERSON_SOURCE, AsyncModelSIPEventType.INFO, String.format("Caraga finalizada correctamente (en %d secs)", secs)));
+						consumer.accept(new AsyncModelSIPEvent(Instant.now(), PERSON_SOURCE, AsyncModelSIPEventType.INFO, String.format("Carga finalizada correctamente (en %d secs)", secs)));
 					} catch (EMFModelWrapperException e) {
 						consumer.accept(new AsyncModelSIPEvent(Instant.now(), PERSON_SOURCE, AsyncModelSIPEventType.ERROR, String.format("Error duranle la carga (%s).", e.getMessage())));
 					} catch (Throwable t) {
