@@ -7,8 +7,11 @@
  *******************************************************************************/
 package es.uji.control.model.sip.internal;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -20,6 +23,8 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
+import es.uji.control.model.sip.AsyncModelSIPEvent;
+import es.uji.control.model.sip.AsyncModelSIPEventType;
 import es.uji.control.model.sip.IModelSIP;
 import es.uji.control.model.sip.ModelSIPException;
 import es.uji.control.model.sip.internal.emf.EMFModelWrapper;
@@ -32,6 +37,10 @@ public class ModelSIPComponent implements IModelSIP {
 
 	private EMFModelWrapper modelWrapper;
 	
+	volatile private Thread updateModelThread;
+	
+	final static public String PERSON_SOURCE = "model.persons";
+
 	@Activate
 	public void activate() {
 	}
@@ -58,26 +67,49 @@ public class ModelSIPComponent implements IModelSIP {
 	/////////////////////////////////////////////////////////////
 	
 	@Override
-	public void updateModelFromBackend() throws ModelSIPException {
+	public void updateModelFromBackend(Consumer<AsyncModelSIPEvent> consumer) {
 		synchronized (this) {
 			if (controlConnectionFactory != null) {
-				modelWrapper = doUpdateModelFromBackend();
+				executeUpdateModelFromBackend(consumer);
 			} else {
-				throw new ModelSIPException("No hay conexion con el backend en estos momentos");
+				consumer.accept(new AsyncModelSIPEvent(Instant.now(), PERSON_SOURCE, AsyncModelSIPEventType.ERROR, "No hay conexion con el backend en estos momentos."));
 			}
 		}
 	}
 	
-	private EMFModelWrapper doUpdateModelFromBackend() throws ModelSIPException {
-		try {
-			return EMFModelWrapper.newBuilder(controlConnectionFactory).build();
-		} catch (EMFModelWrapperException e) {
-			throw new ModelSIPException("No se ha podido cargar el modelo desde el backend", e);
+	private void executeUpdateModelFromBackend(final Consumer<AsyncModelSIPEvent> consumer) {
+		if (updateModelThread != null) {
+			consumer.accept(new AsyncModelSIPEvent(Instant.now(), PERSON_SOURCE, AsyncModelSIPEventType.ERROR, "Ya hay un proceso de carga del modelo en curso."));
+		} else {
+			// Se crea el thread
+			updateModelThread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					try {
+						Instant inicio = Instant.now();
+						// Se ejecuta la carga
+						EMFModelWrapper tmpModelWrapper = EMFModelWrapper.newConnectionFactoryBuilder(controlConnectionFactory, consumer).build();
+						// Se actualiza el modelo y se informa
+						ModelSIPComponent.this.modelWrapper = tmpModelWrapper;
+						Duration duration = Duration.between(inicio, Instant.now());
+						long secs = duration.getSeconds();
+						consumer.accept(new AsyncModelSIPEvent(Instant.now(), PERSON_SOURCE, AsyncModelSIPEventType.INFO, String.format("Caraga finalizada correctamente (en %d secs)", secs)));
+					} catch (EMFModelWrapperException e) {
+						consumer.accept(new AsyncModelSIPEvent(Instant.now(), PERSON_SOURCE, AsyncModelSIPEventType.ERROR, String.format("Error duranle la carga (%s).", e.getMessage())));
+					} catch (Throwable t) {
+						consumer.accept(new AsyncModelSIPEvent(Instant.now(), PERSON_SOURCE, AsyncModelSIPEventType.ERROR, String.format("Error desconocido (%s).", t.getMessage())));
+					} finally {
+						updateModelThread = null;
+					}
+				}
+			});
+			// Se ejecuta
+			updateModelThread.start();
 		}
 	}
-
+	
 	@Override
-	public void updatePhotosFromBackend() throws ModelSIPException {
+	public void updatePhotosFromBackend(Consumer<AsyncModelSIPEvent> consumer) {
 	}
 
 	

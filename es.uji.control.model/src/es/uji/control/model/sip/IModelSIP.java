@@ -8,6 +8,7 @@
 package es.uji.control.model.sip;
 
 import java.util.Date;
+import java.util.function.Consumer;
 
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
@@ -17,8 +18,8 @@ public interface IModelSIP {
 	/////////////////////////////////////////////////////////////
 	// Metodos que controlan el modelo
 	/////////////////////////////////////////////////////////////
-	public void updateModelFromBackend() throws ModelSIPException;
-	public void updatePhotosFromBackend() throws ModelSIPException;
+	public void updateModelFromBackend(Consumer<AsyncModelSIPEvent> consumer);
+	public void updatePhotosFromBackend(Consumer<AsyncModelSIPEvent> consumer);
 	
 	/////////////////////////////////////////////////////////////
 	// Estado del modelo

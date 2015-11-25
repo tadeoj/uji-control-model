@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -17,11 +18,11 @@ import es.uji.control.domain.people.IAccreditationInfo;
 import es.uji.control.domain.people.ILinkage;
 import es.uji.control.domain.people.IPerson;
 import es.uji.control.domain.provider.service.connectionfactory.ControlConnectionException;
-import es.uji.control.domain.provider.service.connectionfactory.ControlNotImplementedException;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnection;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
 import es.uji.control.domain.provider.subsystem.people.IPersonService;
 import es.uji.control.domain.provider.subsystem.people.IPersonStream;
+import es.uji.control.model.sip.AsyncModelSIPEvent;
 import es.uji.control.sip.model.emf.sip.Accreditation;
 import es.uji.control.sip.model.emf.sip.Linkage;
 import es.uji.control.sip.model.emf.sip.Model;
@@ -36,14 +37,16 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 	static public class ConnectionFactoryBuilder {
 
 		final private IControlConnectionFactory controlConnectionFactory;
+		final private Consumer<AsyncModelSIPEvent> consumer;
 
-		public ConnectionFactoryBuilder(IControlConnectionFactory controlConnectionFactory) {
+		public ConnectionFactoryBuilder(IControlConnectionFactory controlConnectionFactory, Consumer<AsyncModelSIPEvent> consumer) {
 			this.controlConnectionFactory = controlConnectionFactory;
+			this.consumer = consumer;
 		}
 
 		public EMFModelWrapper build() throws EMFModelWrapperException {
 			try {
-				return new EMFModelWrapper(controlConnectionFactory.createConnection());
+				return new EMFModelWrapper(controlConnectionFactory.createConnection(), consumer);
 			} catch (ControlConnectionException e) {
 				throw new EMFModelWrapperException("Imposible obtener una nueva conexion con el backend.", e);
 			}
@@ -51,28 +54,34 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 	}
 
-	static public ConnectionFactoryBuilder newBuilder(IControlConnectionFactory controlConnectionFactory) {
-		return new ConnectionFactoryBuilder(controlConnectionFactory);
+	static public ConnectionFactoryBuilder newConnectionFactoryBuilder(IControlConnectionFactory controlConnectionFactory, Consumer<AsyncModelSIPEvent> consumer) {
+		return new ConnectionFactoryBuilder(controlConnectionFactory, consumer);
 	}
 
 	static public class FileBuilder {
 
-		public FileBuilder() {
+		final private Consumer<AsyncModelSIPEvent> consumer;
+
+		public FileBuilder(Consumer<AsyncModelSIPEvent> consumer) {
+			this.consumer = consumer;
 		}
 
 		public EMFModelWrapper build() throws EMFModelWrapperException {
-			return new EMFModelWrapper(EMF_CACHE_DIR);
+			return new EMFModelWrapper(EMF_CACHE_DIR, consumer);
 		}
 
 	}
 
-	static public FileBuilder newBuilder() {
-		return new FileBuilder();
+	static public FileBuilder newFileBuilder(Consumer<AsyncModelSIPEvent> consumer) {
+		return new FileBuilder(consumer);
 	}
 
-	private Model model;
+	final private Model model;
+	final private Consumer<AsyncModelSIPEvent> consumer;
 
-	private EMFModelWrapper(String cacheFilePath) throws EMFModelWrapperException {
+	private EMFModelWrapper(String cacheFilePath, Consumer<AsyncModelSIPEvent> consumer) throws EMFModelWrapperException {
+		
+		this.consumer = consumer;
 
 		URI fileURI = URI.createFileURI(cacheFilePath);
 		Resource resource = new XMIResourceFactoryImpl().createResource(fileURI);
@@ -82,8 +91,10 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 	}
 
-	private EMFModelWrapper(IControlConnection controlConnection) throws EMFModelWrapperException {
+	private EMFModelWrapper(IControlConnection controlConnection, Consumer<AsyncModelSIPEvent> consumer) throws EMFModelWrapperException {
 
+		this.consumer = consumer;
+		
 		try {
 
 			// Se obtienen los servicios que se van a utilizar
@@ -92,7 +103,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 			// Se carga el modelo
 			this.model = instantiate(personService);
 
-		} catch (ControlNotImplementedException e) {
+		} catch (ControlConnectionException e) {
 			throw new EMFModelWrapperException("No se puede obtener el servicio para acceder al subsistema 'Person'", e);
 		}
 
