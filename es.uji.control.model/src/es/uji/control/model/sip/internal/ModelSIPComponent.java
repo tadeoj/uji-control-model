@@ -42,12 +42,12 @@ public class ModelSIPComponent implements IModelSIP {
 	
 	volatile private Consumer<ModelSIPEvent> consumer;
 	
-	private Consumer<ModelSIPEvent> consumerWrapper = (e) -> {
-		Consumer<ModelSIPEvent> localConsumer = this.consumer;
-		if (localConsumer != null) {
-			localConsumer.accept(e);
-		}
-	};
+//	private Consumer<ModelSIPEvent> consumerWrapper = (e) -> {
+//		Consumer<ModelSIPEvent> localConsumer = this.consumer;
+//		if (localConsumer != null) {
+//			localConsumer.accept(e);
+//		}
+//	};
 	
 	@Activate
 	public void activate() {
@@ -89,6 +89,7 @@ public class ModelSIPComponent implements IModelSIP {
 		if (updateModelThread != null) {
 			sendEvent(new ModelSIPEvent(Instant.now(), ModelSIPEventSource.PERSONS, ModelSIPEventType.ERROR, "Ya hay un proceso de carga del modelo en curso."));
 		} else {
+			ModelSIPComponent modelSIPComponent = this;
 			// Se crea el thread
 			updateModelThread = new Thread(new Runnable() {
 				@Override
@@ -96,7 +97,7 @@ public class ModelSIPComponent implements IModelSIP {
 					try {
 						Instant inicio = Instant.now();
 						// Se ejecuta la carga
-						EMFModelWrapper tmpModelWrapper = EMFModelWrapper.newConnectionFactoryBuilder(controlConnectionFactory, consumerWrapper).build();
+						EMFModelWrapper tmpModelWrapper = EMFModelWrapper.newConnectionFactoryBuilder(controlConnectionFactory, modelSIPComponent::sendEvent).build();
 						// Se actualiza el modelo y se informa
 						ModelSIPComponent.this.modelWrapper = tmpModelWrapper;
 						Duration duration = Duration.between(inicio, Instant.now());
@@ -143,7 +144,6 @@ public class ModelSIPComponent implements IModelSIP {
 			localConsumer.accept(event);
 		}
 	}
-
 	
 	/////////////////////////////////////////////////////////////
 	// Acceso al modelo
