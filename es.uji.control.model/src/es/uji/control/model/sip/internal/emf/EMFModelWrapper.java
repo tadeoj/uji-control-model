@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -195,10 +194,12 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 		// Se carga la lista de personas
 		try {
 
+			consumer.accept(new AsyncModelSIPEvent(Instant.now(), ModelSIPComponent.PERSON_SOURCE, AsyncModelSIPEventType.INFO, "Comienza el proceso de carga de personas."));
+			
 			personService.getAllPersons(new IPersonStream() {
 				
 				int numPersons = 0;
-				
+								
 				@Override
 				public void onNext(List<IPerson> persons) {
 
@@ -243,7 +244,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 			return tmpModel;
 
 		} catch (ControlConnectionException e) {
-			throw new EMFModelWrapperException("Han surgido problemas con la conexion durante la carga del modelo.",	e);
+			throw new EMFModelWrapperException("Han surgido problemas con la conexion durante la carga del modelo.", e);
 		}
 
 	}
