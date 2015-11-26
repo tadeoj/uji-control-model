@@ -22,8 +22,9 @@ import es.uji.control.domain.provider.service.connectionfactory.IControlConnecti
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
 import es.uji.control.domain.provider.subsystem.people.IPersonService;
 import es.uji.control.domain.provider.subsystem.people.IPersonStream;
-import es.uji.control.model.sip.AsyncModelSIPEvent;
-import es.uji.control.model.sip.AsyncModelSIPEventType;
+import es.uji.control.model.sip.ModelSIPEvent;
+import es.uji.control.model.sip.ModelSIPEventSource;
+import es.uji.control.model.sip.ModelSIPEventType;
 import es.uji.control.model.sip.internal.ModelSIPComponent;
 import es.uji.control.sip.model.emf.sip.Accreditation;
 import es.uji.control.sip.model.emf.sip.Linkage;
@@ -39,9 +40,9 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 	static public class ConnectionFactoryBuilder {
 
 		final private IControlConnectionFactory controlConnectionFactory;
-		final private Consumer<AsyncModelSIPEvent> consumer;
+		final private Consumer<ModelSIPEvent> consumer;
 
-		public ConnectionFactoryBuilder(IControlConnectionFactory controlConnectionFactory, Consumer<AsyncModelSIPEvent> consumer) {
+		public ConnectionFactoryBuilder(IControlConnectionFactory controlConnectionFactory, Consumer<ModelSIPEvent> consumer) {
 			this.controlConnectionFactory = controlConnectionFactory;
 			this.consumer = consumer;
 		}
@@ -56,15 +57,15 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 	}
 
-	static public ConnectionFactoryBuilder newConnectionFactoryBuilder(IControlConnectionFactory controlConnectionFactory, Consumer<AsyncModelSIPEvent> consumer) {
+	static public ConnectionFactoryBuilder newConnectionFactoryBuilder(IControlConnectionFactory controlConnectionFactory, Consumer<ModelSIPEvent> consumer) {
 		return new ConnectionFactoryBuilder(controlConnectionFactory, consumer);
 	}
 
 	static public class FileBuilder {
 
-		final private Consumer<AsyncModelSIPEvent> consumer;
+		final private Consumer<ModelSIPEvent> consumer;
 
-		public FileBuilder(Consumer<AsyncModelSIPEvent> consumer) {
+		public FileBuilder(Consumer<ModelSIPEvent> consumer) {
 			this.consumer = consumer;
 		}
 
@@ -74,14 +75,14 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 	}
 
-	static public FileBuilder newFileBuilder(Consumer<AsyncModelSIPEvent> consumer) {
+	static public FileBuilder newFileBuilder(Consumer<ModelSIPEvent> consumer) {
 		return new FileBuilder(consumer);
 	}
 
 	final private Model model;
-	final private Consumer<AsyncModelSIPEvent> consumer;
+	final private Consumer<ModelSIPEvent> consumer;
 
-	private EMFModelWrapper(String cacheFilePath, Consumer<AsyncModelSIPEvent> consumer) throws EMFModelWrapperException {
+	private EMFModelWrapper(String cacheFilePath, Consumer<ModelSIPEvent> consumer) throws EMFModelWrapperException {
 		
 		this.consumer = consumer;
 
@@ -93,7 +94,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 	}
 
-	private EMFModelWrapper(IControlConnection controlConnection, Consumer<AsyncModelSIPEvent> consumer) throws EMFModelWrapperException {
+	private EMFModelWrapper(IControlConnection controlConnection, Consumer<ModelSIPEvent> consumer) throws EMFModelWrapperException {
 
 		this.consumer = consumer;
 		
@@ -194,7 +195,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 		// Se carga la lista de personas
 		try {
 
-			consumer.accept(new AsyncModelSIPEvent(Instant.now(), ModelSIPComponent.PERSON_SOURCE, AsyncModelSIPEventType.INFO, "Comienza el proceso de carga de personas."));
+			consumer.accept(new ModelSIPEvent(Instant.now(), ModelSIPEventSource.PERSONS, ModelSIPEventType.INFO, "Comienza el proceso de carga de personas."));
 			
 			personService.getAllPersons(new IPersonStream() {
 				
@@ -225,18 +226,18 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 					}
 					
 					numPersons = numPersons + size;
-					consumer.accept(new AsyncModelSIPEvent(Instant.now(), ModelSIPComponent.PERSON_SOURCE, AsyncModelSIPEventType.INFO, String.format("%d Personas cargadas", numPersons)));
+					consumer.accept(new ModelSIPEvent(Instant.now(), ModelSIPEventSource.PERSONS, ModelSIPEventType.INFO, String.format("%d Personas cargadas", numPersons)));
 				}
 
 				@Override
 				public void onError(Throwable t) {
-					consumer.accept(new AsyncModelSIPEvent(Instant.now(), ModelSIPComponent.PERSON_SOURCE, AsyncModelSIPEventType.ERROR, String.format("Error duranle la carga (%s).", t.getMessage())));
+					consumer.accept(new ModelSIPEvent(Instant.now(), ModelSIPEventSource.PERSONS, ModelSIPEventType.ERROR, String.format("Error duranle la carga (%s).", t.getMessage())));
 				}
 
 				@Override
 				public void onCompleted() {
 					tmpModel.setDate(new Date());
-					consumer.accept(new AsyncModelSIPEvent(Instant.now(), ModelSIPComponent.PERSON_SOURCE, AsyncModelSIPEventType.INFO, String.format("Modelo cargado correctamente %d Personas cargadas", numPersons)));
+					consumer.accept(new ModelSIPEvent(Instant.now(), ModelSIPEventSource.PERSONS, ModelSIPEventType.INFO, String.format("Modelo cargado correctamente %d Personas cargadas", numPersons)));
 				}
 
 			});

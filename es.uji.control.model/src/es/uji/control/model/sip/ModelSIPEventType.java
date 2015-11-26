@@ -1,6 +1,6 @@
 package es.uji.control.model.sip;
 
-public enum AsyncModelSIPEventType {
+public enum ModelSIPEventType {
 	INFO,
 	ERROR
 }

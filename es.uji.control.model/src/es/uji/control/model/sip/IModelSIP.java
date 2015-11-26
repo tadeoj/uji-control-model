@@ -18,12 +18,13 @@ public interface IModelSIP {
 	/////////////////////////////////////////////////////////////
 	// Metodos que controlan el modelo
 	/////////////////////////////////////////////////////////////
-	public void updateModelFromBackend(Consumer<AsyncModelSIPEvent> consumer);
-	public void updatePhotosFromBackend(Consumer<AsyncModelSIPEvent> consumer);
+	public void updateModelFromBackend();
+	public void updatePhotosFromBackend();
 	
 	/////////////////////////////////////////////////////////////
 	// Estado del modelo
 	/////////////////////////////////////////////////////////////
+	public void setEventsConsumer(Consumer<ModelSIPEvent> consumer);
 	public Date getModelDate();
 	
 	/////////////////////////////////////////////////////////////
