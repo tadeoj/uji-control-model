@@ -23,16 +23,16 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
-import es.uji.control.model.sip.ModelSIPEvent;
-import es.uji.control.model.sip.ModelSIPEventSource;
-import es.uji.control.model.sip.ModelSIPEventType;
-import es.uji.control.model.sip.IModelSIP;
-import es.uji.control.model.sip.ModelSIPException;
+import es.uji.control.model.sip.ModelLogEntry;
+import es.uji.control.model.sip.ModelLogSource;
+import es.uji.control.model.sip.ModelLogType;
+import es.uji.control.model.sip.IModel;
+import es.uji.control.model.sip.ModelException;
 import es.uji.control.model.sip.internal.emf.EMFModelWrapper;
 import es.uji.control.model.sip.internal.emf.EMFModelWrapperException;
 
 @Component(name = "model.sip.component", immediate = true)
-public class ModelSIPComponent implements IModelSIP {
+public class ModelSIPComponent implements IModel {
 
 	private IControlConnectionFactory controlConnectionFactory;
 
@@ -40,14 +40,7 @@ public class ModelSIPComponent implements IModelSIP {
 	
 	volatile private Thread updateModelThread;
 	
-	volatile private Consumer<ModelSIPEvent> consumer;
-	
-//	private Consumer<ModelSIPEvent> consumerWrapper = (e) -> {
-//		Consumer<ModelSIPEvent> localConsumer = this.consumer;
-//		if (localConsumer != null) {
-//			localConsumer.accept(e);
-//		}
-//	};
+	volatile private Consumer<ModelLogEntry> consumer;
 	
 	@Activate
 	public void activate() {
@@ -80,16 +73,27 @@ public class ModelSIPComponent implements IModelSIP {
 			if (controlConnectionFactory != null) {
 				executeUpdateModelFromBackend();
 			} else {
-				sendEvent(new ModelSIPEvent(Instant.now(), ModelSIPEventSource.PERSONS, ModelSIPEventType.ERROR, "No hay conexion con el backend en estos momentos."));
+				sendEvent(new ModelLogEntry(Instant.now(), ModelLogSource.PERSONS, ModelLogType.ERROR, "No hay conexion con el backend en estos momentos."));
 			}
 		}
 	}
 	
+	@Override
+	public void setUpdateModelStateListener(Consumer<Boolean> consumer) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void fireUpdateModelStateListener() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void executeUpdateModelFromBackend() {
 		if (updateModelThread != null) {
-			sendEvent(new ModelSIPEvent(Instant.now(), ModelSIPEventSource.PERSONS, ModelSIPEventType.ERROR, "Ya hay un proceso de carga del modelo en curso."));
+			sendEvent(new ModelLogEntry(Instant.now(), ModelLogSource.PERSONS, ModelLogType.ERROR, "Ya hay un proceso de carga del modelo en curso."));
 		} else {
-			ModelSIPComponent modelSIPComponent = this;
 			// Se crea el thread
 			updateModelThread = new Thread(new Runnable() {
 				@Override
@@ -97,16 +101,16 @@ public class ModelSIPComponent implements IModelSIP {
 					try {
 						Instant inicio = Instant.now();
 						// Se ejecuta la carga
-						EMFModelWrapper tmpModelWrapper = EMFModelWrapper.newConnectionFactoryBuilder(controlConnectionFactory, modelSIPComponent::sendEvent).build();
+						EMFModelWrapper tmpModelWrapper = EMFModelWrapper.newConnectionFactoryBuilder(controlConnectionFactory, ModelSIPComponent.this::sendEvent).build();
 						// Se actualiza el modelo y se informa
 						ModelSIPComponent.this.modelWrapper = tmpModelWrapper;
 						Duration duration = Duration.between(inicio, Instant.now());
 						long secs = duration.getSeconds();
-						sendEvent(new ModelSIPEvent(Instant.now(), ModelSIPEventSource.PERSONS, ModelSIPEventType.INFO, String.format("Carga finalizada correctamente (en %d secs)", secs)));
+						sendEvent(new ModelLogEntry(Instant.now(), ModelLogSource.PERSONS, ModelLogType.INFO, String.format("Carga finalizada correctamente (en %d secs)", secs)));
 					} catch (EMFModelWrapperException e) {
-						sendEvent(new ModelSIPEvent(Instant.now(), ModelSIPEventSource.PERSONS, ModelSIPEventType.ERROR, String.format("Error duranle la carga (%s).", e.getMessage())));
+						sendEvent(new ModelLogEntry(Instant.now(), ModelLogSource.PERSONS, ModelLogType.ERROR, String.format("Error duranle la carga (%s).", e.getMessage())));
 					} catch (Throwable t) {
-						sendEvent(new ModelSIPEvent(Instant.now(), ModelSIPEventSource.PERSONS, ModelSIPEventType.ERROR, String.format("Error desconocido (%s).", t.getMessage())));
+						sendEvent(new ModelLogEntry(Instant.now(), ModelLogSource.PERSONS, ModelLogType.ERROR, String.format("Error desconocido (%s).", t.getMessage())));
 					} finally {
 						updateModelThread = null;
 					}
@@ -127,7 +131,7 @@ public class ModelSIPComponent implements IModelSIP {
 	/////////////////////////////////////////////////////////////
 	
 	@Override
-	public void setEventsConsumer(Consumer<ModelSIPEvent> consumer) {
+	public void setEventsConsumer(Consumer<ModelLogEntry> consumer) {
 		this.consumer = consumer;
 	}
 	
@@ -138,8 +142,8 @@ public class ModelSIPComponent implements IModelSIP {
 		}
 	}
 	
-	public void sendEvent(ModelSIPEvent event) {
-		Consumer<ModelSIPEvent> localConsumer = this.consumer;
+	public void sendEvent(ModelLogEntry event) {
+		Consumer<ModelLogEntry> localConsumer = this.consumer;
 		if (localConsumer != null) {
 			localConsumer.accept(event);
 		}
@@ -150,15 +154,15 @@ public class ModelSIPComponent implements IModelSIP {
 	/////////////////////////////////////////////////////////////
 
 	@Override
-	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelSIPException {
+	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelException {
 		synchronized (this) {
 			if (modelWrapper == null) {
-				throw new ModelSIPException("No hay ningun modelo subyacente con informacion.");
+				throw new ModelException("No hay ningun modelo subyacente con informacion.");
 			} else {
 				try {
 					return modelWrapper.getPersonByAccreditation(accreditation);
 				} catch (EMFModelWrapperException e) {
-					throw new ModelSIPException("Error al intentar obtener la persona desde una acreditacion.", e);
+					throw new ModelException("Error al intentar obtener la persona desde una acreditacion.", e);
 				}
 			}
 		}

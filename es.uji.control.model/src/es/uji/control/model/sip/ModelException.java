@@ -7,15 +7,15 @@
  *******************************************************************************/
 package es.uji.control.model.sip;
 
-public class ModelSIPException extends Exception {
+public class ModelException extends Exception {
 
 	private static final long serialVersionUID = -4995866451573580180L;
 
-	public ModelSIPException(String message, Throwable cause) {
+	public ModelException(String message, Throwable cause) {
 		super(message, cause);
 	}
 
-	public ModelSIPException(String message) {
+	public ModelException(String message) {
 		super(message);
 	}
 

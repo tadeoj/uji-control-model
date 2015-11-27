@@ -1,6 +1,6 @@
 package es.uji.control.model.sip;
 
-public enum ModelSIPEventType {
+public enum ModelLogType {
 	INFO,
 	ERROR
 }

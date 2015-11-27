@@ -13,23 +13,29 @@ import java.util.function.Consumer;
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
 
-public interface IModelSIP {
+public interface IModel {
 	
 	/////////////////////////////////////////////////////////////
-	// Metodos que controlan el modelo
+	// Control del modelo
 	/////////////////////////////////////////////////////////////
 	public void updateModelFromBackend();
+	public void setUpdateModelStateListener(Consumer<Boolean> consumer);
+	public void fireUpdateModelStateListener();
+	
+	/////////////////////////////////////////////////////////////
+	// Control de la cache de fotografias
+	/////////////////////////////////////////////////////////////
 	public void updatePhotosFromBackend();
 	
 	/////////////////////////////////////////////////////////////
 	// Estado del modelo
 	/////////////////////////////////////////////////////////////
-	public void setEventsConsumer(Consumer<ModelSIPEvent> consumer);
+	public void setEventsConsumer(Consumer<ModelLogEntry> consumer);
 	public Date getModelDate();
 	
 	/////////////////////////////////////////////////////////////
 	// Acceso al modelo
 	/////////////////////////////////////////////////////////////
-	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelSIPException;
+	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelException;
 		
 }

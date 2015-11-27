@@ -2,14 +2,14 @@ package es.uji.control.model.sip;
 
 import java.time.Instant;
 
-public class ModelSIPEvent {
+public class ModelLogEntry {
 	
 	final private Instant instant;
-	final private ModelSIPEventSource source;
-	final private ModelSIPEventType type;
+	final private ModelLogSource source;
+	final private ModelLogType type;
 	final private String msg;
 	
-	public ModelSIPEvent(Instant instant, ModelSIPEventSource source, ModelSIPEventType type, String msg) {
+	public ModelLogEntry(Instant instant, ModelLogSource source, ModelLogType type, String msg) {
 		super();
 		this.instant = instant;
 		this.source = source;
@@ -21,11 +21,11 @@ public class ModelSIPEvent {
 		return instant;
 	}
 	
-	public ModelSIPEventSource getSource() {
+	public ModelLogSource getSource() {
 		return source;
 	}
 	
-	public ModelSIPEventType getType() {
+	public ModelLogType getType() {
 		return type;
 	}
 	
