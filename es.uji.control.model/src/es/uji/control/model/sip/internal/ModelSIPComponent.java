@@ -131,15 +131,13 @@ public class ModelSIPComponent implements IModel {
 	}
 	
 	private void executeUpdateModelFromBackend(IControlConnectionFactory controlConnectionFactory) {
-		try {
-			rwl.readLock().lock();
-			if (updateModelThread != null) {
-				sendModelPersonLogEntry(ModelLogType.ERROR, "Se ha intentado lanzar la carga del modelo cuando este preceso ya esta en ejecutandose.");
-			} else {
-				startModelUpdate(controlConnectionFactory);
-			}
-		} finally {
-			rwl.readLock().unlock();
+		rwl.readLock().lock();
+		boolean updating = updateModelThread != null;
+		rwl.readLock().unlock();
+		if (updating) {
+			sendModelPersonLogEntry(ModelLogType.ERROR, "Se ha intentado lanzar la carga del modelo cuando este preceso ya esta en ejecutandose.");
+		} else {
+			startModelUpdate(controlConnectionFactory);
 		}
 	}
 	
