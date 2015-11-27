@@ -101,8 +101,15 @@ public class ModelSIPComponent implements IModel {
 	// Metodos que controlan el modelo
 	/////////////////////////////////////////////////////////////
 	
+	private void sendModelUpdatingStatus(boolean updating) {
+		Consumer<Boolean> localModelUpdating = modelUpdating;
+		if (localModelUpdating != null) {
+			localModelUpdating.accept(updating);
+		}
+	}
+
 	@Override
-	public void setUpdateModelUpdatingListener(Consumer<Boolean> modelUpdating) {
+	public void setUpdateModelUpdatingTracker(Consumer<Boolean> modelUpdating) {
 		this.modelUpdating = modelUpdating;
 		try {
 			rwl.writeLock().lock();
@@ -112,13 +119,6 @@ public class ModelSIPComponent implements IModel {
 		}
 	}
 	
-	private void sendModelUpdatingStatus(boolean updating) {
-		Consumer<Boolean> localModelUpdating = modelUpdating;
-		if (localModelUpdating != null) {
-			localModelUpdating.accept(updating);
-		}
-	}
-
 	@Override
 	public void updateModelFromBackend() {
 		synchronized (this) {
@@ -146,12 +146,13 @@ public class ModelSIPComponent implements IModel {
 	private void startModelUpdate(IControlConnectionFactory controlConnectionFactory) {
 		try {
 			rwl.writeLock().lock();
-			// Se lanza el thread
+			// Se lanza el thread ..
 			updateModelThread = new Thread(new ModelUpdateTask(controlConnectionFactory));
-			// Se ejecuta
+			// .. y se ejecuta.
 			updateModelThread.start();
 			// se notifica el inicio de la actualizacion
 			sendModelUpdatingStatus(true);
+			sendModelPersonLogEntry(ModelLogType.INFO, "Se iniciado la carga del modelo.");
 		} finally {
 			rwl.writeLock().unlock();
 		}
@@ -168,18 +169,21 @@ public class ModelSIPComponent implements IModel {
 		@Override
 		public void run() {
 			try {
+				// Se anota el inicio de la carga
 				Instant inicio = Instant.now();
+				
 				// Se ejecuta la carga
-				EMFModelWrapper tmpModelWrapper = EMFModelWrapper.newConnectionFactoryBuilder(connectionFactory, ModelSIPComponent.this::sendLogEntry).build();
-				// Se actualiza el modelo y se informa
-				ModelSIPComponent.this.modelWrapper = tmpModelWrapper;
+				ModelSIPComponent.this.modelWrapper = EMFModelWrapper.newConnectionFactoryBuilder(connectionFactory, ModelSIPComponent.this::sendLogEntry).build();
+				
+				// La carga ha finalizado correctamente, se notifica
 				Duration duration = Duration.between(inicio, Instant.now());
 				long secs = duration.getSeconds();
 				sendModelPersonLogEntry(ModelLogType.INFO, String.format("Carga finalizada correctamente (en %d secs)", secs));
+				
 			} catch (EMFModelWrapperException e) {
 				sendModelPersonLogEntry(ModelLogType.ERROR, String.format("Error duranle la carga (%s).", e.getMessage()));
 			} catch (Throwable t) {
-				sendModelPersonLogEntry(ModelLogType.ERROR, String.format("Error desconocido (%s).", t.getMessage()));
+				sendModelPersonLogEntry(ModelLogType.ERROR, String.format("Error desconocido durante la carga (%s).", t.getMessage()));
 			} finally {
 				try {
 					rwl.writeLock().lock();

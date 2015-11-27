@@ -25,7 +25,6 @@ import es.uji.control.domain.provider.subsystem.people.IPersonStream;
 import es.uji.control.model.sip.ModelLogEntry;
 import es.uji.control.model.sip.ModelLogSource;
 import es.uji.control.model.sip.ModelLogType;
-import es.uji.control.model.sip.internal.ModelSIPComponent;
 import es.uji.control.sip.model.emf.sip.Accreditation;
 import es.uji.control.sip.model.emf.sip.Linkage;
 import es.uji.control.sip.model.emf.sip.Model;

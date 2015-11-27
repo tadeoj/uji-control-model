@@ -24,7 +24,7 @@ public interface IModel {
 	// Control del modelo
 	/////////////////////////////////////////////////////////////
 	public void updateModelFromBackend();
-	public void setUpdateModelUpdatingListener(Consumer<Boolean> consumer);
+	public void setUpdateModelUpdatingTracker(Consumer<Boolean> consumer);
 	
 	/////////////////////////////////////////////////////////////
 	// Control de la cache de fotografias
