@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.ModelImpl#getDate <em>Date</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.impl.ModelImpl#getSignature <em>Signature</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.ModelImpl#getModelPersonsList <em>Model Persons List</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.ModelImpl#getModelCardsList <em>Model Cards List</em>}</li>
  * </ul>
@@ -59,6 +60,26 @@ public class ModelImpl extends EObjectImpl implements Model {
 	 * @ordered
 	 */
 	protected Date date = DATE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getSignature() <em>Signature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignature()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String SIGNATURE_EDEFAULT = "";
+
+	/**
+	 * The cached value of the '{@link #getSignature() <em>Signature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getSignature()
+	 * @generated
+	 * @ordered
+	 */
+	protected String signature = SIGNATURE_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getModelPersonsList() <em>Model Persons List</em>}' containment reference list.
@@ -125,6 +146,27 @@ public class ModelImpl extends EObjectImpl implements Model {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public String getSignature() {
+		return signature;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setSignature(String newSignature) {
+		String oldSignature = signature;
+		signature = newSignature;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.MODEL__SIGNATURE, oldSignature, signature));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EList<Person> getModelPersonsList() {
 		if (modelPersonsList == null) {
 			modelPersonsList = new EObjectContainmentEList<Person>(Person.class, this, SipPackage.MODEL__MODEL_PERSONS_LIST);
@@ -170,6 +212,8 @@ public class ModelImpl extends EObjectImpl implements Model {
 		switch (featureID) {
 			case SipPackage.MODEL__DATE:
 				return getDate();
+			case SipPackage.MODEL__SIGNATURE:
+				return getSignature();
 			case SipPackage.MODEL__MODEL_PERSONS_LIST:
 				return getModelPersonsList();
 			case SipPackage.MODEL__MODEL_CARDS_LIST:
@@ -189,6 +233,9 @@ public class ModelImpl extends EObjectImpl implements Model {
 		switch (featureID) {
 			case SipPackage.MODEL__DATE:
 				setDate((Date)newValue);
+				return;
+			case SipPackage.MODEL__SIGNATURE:
+				setSignature((String)newValue);
 				return;
 			case SipPackage.MODEL__MODEL_PERSONS_LIST:
 				getModelPersonsList().clear();
@@ -213,6 +260,9 @@ public class ModelImpl extends EObjectImpl implements Model {
 			case SipPackage.MODEL__DATE:
 				setDate(DATE_EDEFAULT);
 				return;
+			case SipPackage.MODEL__SIGNATURE:
+				setSignature(SIGNATURE_EDEFAULT);
+				return;
 			case SipPackage.MODEL__MODEL_PERSONS_LIST:
 				getModelPersonsList().clear();
 				return;
@@ -233,6 +283,8 @@ public class ModelImpl extends EObjectImpl implements Model {
 		switch (featureID) {
 			case SipPackage.MODEL__DATE:
 				return DATE_EDEFAULT == null ? date != null : !DATE_EDEFAULT.equals(date);
+			case SipPackage.MODEL__SIGNATURE:
+				return SIGNATURE_EDEFAULT == null ? signature != null : !SIGNATURE_EDEFAULT.equals(signature);
 			case SipPackage.MODEL__MODEL_PERSONS_LIST:
 				return modelPersonsList != null && !modelPersonsList.isEmpty();
 			case SipPackage.MODEL__MODEL_CARDS_LIST:
@@ -253,6 +305,8 @@ public class ModelImpl extends EObjectImpl implements Model {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (date: ");
 		result.append(date);
+		result.append(", signature: ");
+		result.append(signature);
 		result.append(')');
 		return result.toString();
 	}

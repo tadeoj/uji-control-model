@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Model#getDate <em>Date</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.Model#getSignature <em>Signature</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Model#getModelPersonsList <em>Model Persons List</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Model#getModelCardsList <em>Model Cards List</em>}</li>
  * </ul>
@@ -52,6 +53,33 @@ public interface Model extends EObject {
 	 * @generated
 	 */
 	void setDate(Date value);
+
+	/**
+	 * Returns the value of the '<em><b>Signature</b></em>' attribute.
+	 * The default value is <code>""</code>.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Signature</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Signature</em>' attribute.
+	 * @see #setSignature(String)
+	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getModel_Signature()
+	 * @model default=""
+	 * @generated
+	 */
+	String getSignature();
+
+	/**
+	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Model#getSignature <em>Signature</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Signature</em>' attribute.
+	 * @see #getSignature()
+	 * @generated
+	 */
+	void setSignature(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Model Persons List</b></em>' containment reference list.

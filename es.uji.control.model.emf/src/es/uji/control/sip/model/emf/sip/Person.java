@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getId <em>Id</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getRaw <em>Raw</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getIdentification <em>Identification</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getName <em>Name</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Person#getFirstLastName <em>First Last Name</em>}</li>
@@ -54,6 +55,32 @@ public interface Person extends EObject {
 	 * @generated
 	 */
 	void setId(Long value);
+
+	/**
+	 * Returns the value of the '<em><b>Raw</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Raw</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Raw</em>' attribute.
+	 * @see #setRaw(Long)
+	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getPerson_Raw()
+	 * @model
+	 * @generated
+	 */
+	Long getRaw();
+
+	/**
+	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Person#getRaw <em>Raw</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Raw</em>' attribute.
+	 * @see #getRaw()
+	 * @generated
+	 */
+	void setRaw(Long value);
 
 	/**
 	 * Returns the value of the '<em><b>Identification</b></em>' attribute.

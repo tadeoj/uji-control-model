@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getId <em>Id</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getRaw <em>Raw</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getIdentification <em>Identification</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getName <em>Name</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl#getFirstLastName <em>First Last Name</em>}</li>
@@ -63,6 +64,26 @@ public class PersonImpl extends EObjectImpl implements Person {
 	 * @ordered
 	 */
 	protected Long id = ID_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getRaw() <em>Raw</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRaw()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Long RAW_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getRaw() <em>Raw</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRaw()
+	 * @generated
+	 * @ordered
+	 */
+	protected Long raw = RAW_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getIdentification() <em>Identification</em>}' attribute.
@@ -202,6 +223,27 @@ public class PersonImpl extends EObjectImpl implements Person {
 		id = newId;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.PERSON__ID, oldId, id));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Long getRaw() {
+		return raw;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRaw(Long newRaw) {
+		Long oldRaw = raw;
+		raw = newRaw;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.PERSON__RAW, oldRaw, raw));
 	}
 
 	/**
@@ -353,6 +395,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 		switch (featureID) {
 			case SipPackage.PERSON__ID:
 				return getId();
+			case SipPackage.PERSON__RAW:
+				return getRaw();
 			case SipPackage.PERSON__IDENTIFICATION:
 				return getIdentification();
 			case SipPackage.PERSON__NAME:
@@ -380,6 +424,9 @@ public class PersonImpl extends EObjectImpl implements Person {
 		switch (featureID) {
 			case SipPackage.PERSON__ID:
 				setId((Long)newValue);
+				return;
+			case SipPackage.PERSON__RAW:
+				setRaw((Long)newValue);
 				return;
 			case SipPackage.PERSON__IDENTIFICATION:
 				setIdentification((String)newValue);
@@ -416,6 +463,9 @@ public class PersonImpl extends EObjectImpl implements Person {
 			case SipPackage.PERSON__ID:
 				setId(ID_EDEFAULT);
 				return;
+			case SipPackage.PERSON__RAW:
+				setRaw(RAW_EDEFAULT);
+				return;
 			case SipPackage.PERSON__IDENTIFICATION:
 				setIdentification(IDENTIFICATION_EDEFAULT);
 				return;
@@ -448,6 +498,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 		switch (featureID) {
 			case SipPackage.PERSON__ID:
 				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
+			case SipPackage.PERSON__RAW:
+				return RAW_EDEFAULT == null ? raw != null : !RAW_EDEFAULT.equals(raw);
 			case SipPackage.PERSON__IDENTIFICATION:
 				return IDENTIFICATION_EDEFAULT == null ? identification != null : !IDENTIFICATION_EDEFAULT.equals(identification);
 			case SipPackage.PERSON__NAME:
@@ -476,6 +528,8 @@ public class PersonImpl extends EObjectImpl implements Person {
 		StringBuffer result = new StringBuffer(super.toString());
 		result.append(" (id: ");
 		result.append(id);
+		result.append(", raw: ");
+		result.append(raw);
 		result.append(", identification: ");
 		result.append(identification);
 		result.append(", name: ");

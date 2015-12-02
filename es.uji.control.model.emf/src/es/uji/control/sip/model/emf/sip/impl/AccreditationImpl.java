@@ -22,6 +22,7 @@ import es.uji.control.sip.model.emf.sip.SipPackage;
  * The following features are implemented:
  * </p>
  * <ul>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getId <em>Id</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getRaw <em>Raw</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getType <em>Type</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getPerson <em>Person</em>}</li>
@@ -30,6 +31,26 @@ import es.uji.control.sip.model.emf.sip.SipPackage;
  * @generated
  */
 public class AccreditationImpl extends EObjectImpl implements Accreditation {
+	/**
+	 * The default value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Long ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getId() <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getId()
+	 * @generated
+	 * @ordered
+	 */
+	protected Long id = ID_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getRaw() <em>Raw</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -87,6 +108,27 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	@Override
 	protected EClass eStaticClass() {
 		return SipPackage.Literals.ACCREDITATION;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setId(Long newId) {
+		Long oldId = id;
+		id = newId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.ACCREDITATION__ID, oldId, id));
 	}
 
 	/**
@@ -224,6 +266,8 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case SipPackage.ACCREDITATION__ID:
+				return getId();
 			case SipPackage.ACCREDITATION__RAW:
 				return getRaw();
 			case SipPackage.ACCREDITATION__TYPE:
@@ -242,6 +286,9 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case SipPackage.ACCREDITATION__ID:
+				setId((Long)newValue);
+				return;
 			case SipPackage.ACCREDITATION__RAW:
 				setRaw((Long)newValue);
 				return;
@@ -263,6 +310,9 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case SipPackage.ACCREDITATION__ID:
+				setId(ID_EDEFAULT);
+				return;
 			case SipPackage.ACCREDITATION__RAW:
 				setRaw(RAW_EDEFAULT);
 				return;
@@ -284,6 +334,8 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case SipPackage.ACCREDITATION__ID:
+				return ID_EDEFAULT == null ? id != null : !ID_EDEFAULT.equals(id);
 			case SipPackage.ACCREDITATION__RAW:
 				return RAW_EDEFAULT == null ? raw != null : !RAW_EDEFAULT.equals(raw);
 			case SipPackage.ACCREDITATION__TYPE:
@@ -304,7 +356,9 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (raw: ");
+		result.append(" (id: ");
+		result.append(id);
+		result.append(", raw: ");
 		result.append(raw);
 		result.append(", type: ");
 		result.append(type);

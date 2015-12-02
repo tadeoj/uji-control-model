@@ -8,6 +8,7 @@
 package es.uji.control.model.sip;
 
 import java.util.Date;
+import java.util.List;
 import java.util.function.Consumer;
 
 import es.uji.control.domain.people.IAccreditation;
@@ -40,5 +41,6 @@ public interface IModel {
 	// Acceso al modelo
 	/////////////////////////////////////////////////////////////
 	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelException;
+	public List<IPerson> getPersonsBySearch(IPerson person) throws ModelException;
 		
 }

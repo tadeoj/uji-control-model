@@ -135,8 +135,17 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getModel_Signature() {
+		return (EAttribute)modelEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getModel_ModelPersonsList() {
-		return (EReference)modelEClass.getEStructuralFeatures().get(1);
+		return (EReference)modelEClass.getEStructuralFeatures().get(2);
 	}
 
 	/**
@@ -145,7 +154,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * @generated
 	 */
 	public EReference getModel_ModelCardsList() {
-		return (EReference)modelEClass.getEStructuralFeatures().get(2);
+		return (EReference)modelEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -171,7 +180,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_Identification() {
+	public EAttribute getPerson_Raw() {
 		return (EAttribute)personEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -180,7 +189,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_Name() {
+	public EAttribute getPerson_Identification() {
 		return (EAttribute)personEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -189,7 +198,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_FirstLastName() {
+	public EAttribute getPerson_Name() {
 		return (EAttribute)personEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -198,7 +207,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getPerson_SecondLastName() {
+	public EAttribute getPerson_FirstLastName() {
 		return (EAttribute)personEClass.getEStructuralFeatures().get(4);
 	}
 
@@ -207,8 +216,17 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getPerson_SecondLastName() {
+		return (EAttribute)personEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getPerson_AccreditationsList() {
-		return (EReference)personEClass.getEStructuralFeatures().get(5);
+		return (EReference)personEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -217,7 +235,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * @generated
 	 */
 	public EReference getPerson_LinkageList() {
-		return (EReference)personEClass.getEStructuralFeatures().get(6);
+		return (EReference)personEClass.getEStructuralFeatures().get(7);
 	}
 
 	/**
@@ -234,7 +252,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAccreditation_Raw() {
+	public EAttribute getAccreditation_Id() {
 		return (EAttribute)accreditationEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -243,7 +261,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAccreditation_Type() {
+	public EAttribute getAccreditation_Raw() {
 		return (EAttribute)accreditationEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -252,8 +270,17 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getAccreditation_Type() {
+		return (EAttribute)accreditationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getAccreditation_Person() {
-		return (EReference)accreditationEClass.getEStructuralFeatures().get(2);
+		return (EReference)accreditationEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -304,11 +331,13 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 		// Create classes and their features
 		modelEClass = createEClass(MODEL);
 		createEAttribute(modelEClass, MODEL__DATE);
+		createEAttribute(modelEClass, MODEL__SIGNATURE);
 		createEReference(modelEClass, MODEL__MODEL_PERSONS_LIST);
 		createEReference(modelEClass, MODEL__MODEL_CARDS_LIST);
 
 		personEClass = createEClass(PERSON);
 		createEAttribute(personEClass, PERSON__ID);
+		createEAttribute(personEClass, PERSON__RAW);
 		createEAttribute(personEClass, PERSON__IDENTIFICATION);
 		createEAttribute(personEClass, PERSON__NAME);
 		createEAttribute(personEClass, PERSON__FIRST_LAST_NAME);
@@ -317,6 +346,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 		createEReference(personEClass, PERSON__LINKAGE_LIST);
 
 		accreditationEClass = createEClass(ACCREDITATION);
+		createEAttribute(accreditationEClass, ACCREDITATION__ID);
 		createEAttribute(accreditationEClass, ACCREDITATION__RAW);
 		createEAttribute(accreditationEClass, ACCREDITATION__TYPE);
 		createEReference(accreditationEClass, ACCREDITATION__PERSON);
@@ -357,11 +387,13 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 		// Initialize classes and features; add operations and parameters
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getModel_Date(), ecorePackage.getEDate(), "date", null, 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getModel_Signature(), ecorePackage.getEString(), "signature", "", 0, 1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModel_ModelPersonsList(), this.getPerson(), null, "modelPersonsList", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModel_ModelCardsList(), this.getAccreditation(), null, "modelCardsList", null, 0, -1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(personEClass, Person.class, "Person", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPerson_Id(), ecorePackage.getELongObject(), "id", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getPerson_Raw(), ecorePackage.getELongObject(), "raw", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPerson_Identification(), ecorePackage.getEString(), "identification", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPerson_Name(), ecorePackage.getEString(), "name", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getPerson_FirstLastName(), ecorePackage.getEString(), "firstLastName", null, 0, 1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -370,6 +402,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 		initEReference(getPerson_LinkageList(), this.getLinkage(), null, "linkageList", null, 0, -1, Person.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(accreditationEClass, Accreditation.class, "Accreditation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAccreditation_Id(), ecorePackage.getELongObject(), "id", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAccreditation_Raw(), ecorePackage.getELongObject(), "raw", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAccreditation_Type(), ecorePackage.getEString(), "type", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAccreditation_Person(), this.getPerson(), this.getPerson_AccreditationsList(), "person", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

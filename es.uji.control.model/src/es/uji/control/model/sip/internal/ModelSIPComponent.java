@@ -10,6 +10,7 @@ package es.uji.control.model.sip.internal;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Consumer;
@@ -229,6 +230,21 @@ public class ModelSIPComponent implements IModel {
 				}
 			}
 		}
+	}
+
+	@Override
+	public List<IPerson> getPersonsBySearch(IPerson person) throws ModelException {
+		synchronized (this) {
+			if (modelWrapper == null) {
+				throw new ModelException("No hay ningun modelo subyacente con informacion.");
+			} else {
+				try {
+					return modelWrapper.getPersonBySearch(person);
+				} catch (EMFModelWrapperException e) {
+					throw new ModelException("Error al intentar obtener la persona desde una condición de busqueda.", e);
+				}
+			}
+		}		
 	}
 
 }

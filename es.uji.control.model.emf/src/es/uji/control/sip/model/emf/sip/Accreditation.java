@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.Accreditation#getId <em>Id</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Accreditation#getRaw <em>Raw</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Accreditation#getType <em>Type</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.Accreditation#getPerson <em>Person</em>}</li>
@@ -23,6 +24,32 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Accreditation extends EObject {
+	/**
+	 * Returns the value of the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Id</em>' attribute.
+	 * @see #setId(Long)
+	 * @see es.uji.control.sip.model.emf.sip.SipPackage#getAccreditation_Id()
+	 * @model
+	 * @generated
+	 */
+	Long getId();
+
+	/**
+	 * Sets the value of the '{@link es.uji.control.sip.model.emf.sip.Accreditation#getId <em>Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Id</em>' attribute.
+	 * @see #getId()
+	 * @generated
+	 */
+	void setId(Long value);
+
 	/**
 	 * Returns the value of the '<em><b>Raw</b></em>' attribute.
 	 * <!-- begin-user-doc -->

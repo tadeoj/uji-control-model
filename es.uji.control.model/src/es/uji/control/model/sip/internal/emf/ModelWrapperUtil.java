@@ -14,7 +14,7 @@ public class ModelWrapperUtil {
 
 	static public Person domainToEMF(IPerson domainPerson) {
 		Person personEMF = SipFactory.eINSTANCE.createPerson();
-		personEMF.setId(PersonIdentifierType.bytesToGeneralLongId(domainPerson.getId().getRaw()));
+		personEMF.setRaw(PersonIdentifierType.bytesToGeneralLongId(domainPerson.getId().getRaw()));
 		personEMF.setIdentification(domainPerson.getIdentification());
 		personEMF.setName(domainPerson.getName());
 		personEMF.setFirstLastName(domainPerson.getFirstLastName());
@@ -24,6 +24,7 @@ public class ModelWrapperUtil {
 	
 	static public Accreditation domainToEMF(IAccreditation domainAccreditation) {
 		Accreditation accreditationEMF = SipFactory.eINSTANCE.createAccreditation();
+		accreditationEMF.setId(domainAccreditation.getId());
 		accreditationEMF.setType(domainAccreditation.getType().toString());
 		accreditationEMF.setRaw(AccreditationType.bytesToGeneralLongId(domainAccreditation.getRaw()));
 		return accreditationEMF;

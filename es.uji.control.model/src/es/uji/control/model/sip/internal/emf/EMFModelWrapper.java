@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
@@ -199,6 +200,8 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 			personService.getAllPersons(new IPersonStream() {
 				
 				int numPersons = 0;
+				long personId = 1;
+				long accreditationId = 1;
 								
 				@Override
 				public void onNext(List<IPerson> persons) {
@@ -206,8 +209,9 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 					int size = persons.size();
 					
 					for (IPerson person : persons) {
-
+						
 						Person personEMF = domainToEMF(person);
+						personEMF.setId(personId);
 
 						for (ILinkage linkage : person.getLinkages()) {
 							Linkage linkageEMF = domainToEMF(linkage);
@@ -216,12 +220,15 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 						for (IAccreditationInfo accreditationInfo : person.getAccreditationsInfo()) {
 							Accreditation accreditationEMF = domainToEMF(accreditationInfo.getAccreditation());
+							accreditationEMF.setId(accreditationId);
 							accreditationEMF.setPerson(personEMF);
 							personEMF.getAccreditationsList().add(accreditationEMF);
 							tmpModel.getModelCardsList().add(accreditationEMF);
+							accreditationId = accreditationId + 1; 
 						}
 
 						tmpModel.getModelPersonsList().add(personEMF);
+						personId = personId + 1;
 					}
 					
 					numPersons = numPersons + size;
@@ -254,6 +261,12 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 	}
 
 	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws EMFModelWrapperException {
+		throw new EMFModelWrapperException("No implementado.");
+	}
+
+	public List<IPerson> getPersonBySearch(IPerson person) throws EMFModelWrapperException {
+		List<Person> collect = model.getModelPersonsList().stream().filter(p -> person.getName().equals(p.getName())).collect(Collectors.toList());
+		//TODO: Falta la conversión de EMF a domain.
 		throw new EMFModelWrapperException("No implementado.");
 	}
 

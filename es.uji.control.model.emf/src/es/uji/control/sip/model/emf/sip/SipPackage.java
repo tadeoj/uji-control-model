@@ -75,13 +75,22 @@ public interface SipPackage extends EPackage {
 	int MODEL__DATE = 0;
 
 	/**
+	 * The feature id for the '<em><b>Signature</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__SIGNATURE = 1;
+
+	/**
 	 * The feature id for the '<em><b>Model Persons List</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__MODEL_PERSONS_LIST = 1;
+	int MODEL__MODEL_PERSONS_LIST = 2;
 
 	/**
 	 * The feature id for the '<em><b>Model Cards List</b></em>' containment reference list.
@@ -90,7 +99,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL__MODEL_CARDS_LIST = 2;
+	int MODEL__MODEL_CARDS_LIST = 3;
 
 	/**
 	 * The number of structural features of the '<em>Model</em>' class.
@@ -99,7 +108,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_FEATURE_COUNT = 3;
+	int MODEL_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link es.uji.control.sip.model.emf.sip.impl.PersonImpl <em>Person</em>}' class.
@@ -121,13 +130,22 @@ public interface SipPackage extends EPackage {
 	int PERSON__ID = 0;
 
 	/**
+	 * The feature id for the '<em><b>Raw</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int PERSON__RAW = 1;
+
+	/**
 	 * The feature id for the '<em><b>Identification</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__IDENTIFICATION = 1;
+	int PERSON__IDENTIFICATION = 2;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -136,7 +154,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__NAME = 2;
+	int PERSON__NAME = 3;
 
 	/**
 	 * The feature id for the '<em><b>First Last Name</b></em>' attribute.
@@ -145,7 +163,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__FIRST_LAST_NAME = 3;
+	int PERSON__FIRST_LAST_NAME = 4;
 
 	/**
 	 * The feature id for the '<em><b>Second Last Name</b></em>' attribute.
@@ -154,7 +172,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__SECOND_LAST_NAME = 4;
+	int PERSON__SECOND_LAST_NAME = 5;
 
 	/**
 	 * The feature id for the '<em><b>Accreditations List</b></em>' containment reference list.
@@ -163,7 +181,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__ACCREDITATIONS_LIST = 5;
+	int PERSON__ACCREDITATIONS_LIST = 6;
 
 	/**
 	 * The feature id for the '<em><b>Linkage List</b></em>' containment reference list.
@@ -172,7 +190,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON__LINKAGE_LIST = 6;
+	int PERSON__LINKAGE_LIST = 7;
 
 	/**
 	 * The number of structural features of the '<em>Person</em>' class.
@@ -181,7 +199,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int PERSON_FEATURE_COUNT = 7;
+	int PERSON_FEATURE_COUNT = 8;
 
 	/**
 	 * The meta object id for the '{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl <em>Accreditation</em>}' class.
@@ -194,13 +212,22 @@ public interface SipPackage extends EPackage {
 	int ACCREDITATION = 2;
 
 	/**
+	 * The feature id for the '<em><b>Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCREDITATION__ID = 0;
+
+	/**
 	 * The feature id for the '<em><b>Raw</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACCREDITATION__RAW = 0;
+	int ACCREDITATION__RAW = 1;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute.
@@ -209,7 +236,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACCREDITATION__TYPE = 1;
+	int ACCREDITATION__TYPE = 2;
 
 	/**
 	 * The feature id for the '<em><b>Person</b></em>' container reference.
@@ -218,7 +245,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACCREDITATION__PERSON = 2;
+	int ACCREDITATION__PERSON = 3;
 
 	/**
 	 * The number of structural features of the '<em>Accreditation</em>' class.
@@ -227,7 +254,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACCREDITATION_FEATURE_COUNT = 3;
+	int ACCREDITATION_FEATURE_COUNT = 4;
 
 	/**
 	 * The meta object id for the '{@link es.uji.control.sip.model.emf.sip.impl.LinkageImpl <em>Linkage</em>}' class.
@@ -280,6 +307,17 @@ public interface SipPackage extends EPackage {
 	EAttribute getModel_Date();
 
 	/**
+	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Model#getSignature <em>Signature</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Signature</em>'.
+	 * @see es.uji.control.sip.model.emf.sip.Model#getSignature()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EAttribute getModel_Signature();
+
+	/**
 	 * Returns the meta object for the containment reference list '{@link es.uji.control.sip.model.emf.sip.Model#getModelPersonsList <em>Model Persons List</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -321,6 +359,17 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getPerson_Id();
+
+	/**
+	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Person#getRaw <em>Raw</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Raw</em>'.
+	 * @see es.uji.control.sip.model.emf.sip.Person#getRaw()
+	 * @see #getPerson()
+	 * @generated
+	 */
+	EAttribute getPerson_Raw();
 
 	/**
 	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Person#getIdentification <em>Identification</em>}'.
@@ -397,6 +446,17 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getAccreditation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Accreditation#getId <em>Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Id</em>'.
+	 * @see es.uji.control.sip.model.emf.sip.Accreditation#getId()
+	 * @see #getAccreditation()
+	 * @generated
+	 */
+	EAttribute getAccreditation_Id();
 
 	/**
 	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Accreditation#getRaw <em>Raw</em>}'.
@@ -493,6 +553,14 @@ public interface SipPackage extends EPackage {
 		EAttribute MODEL__DATE = eINSTANCE.getModel_Date();
 
 		/**
+		 * The meta object literal for the '<em><b>Signature</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute MODEL__SIGNATURE = eINSTANCE.getModel_Signature();
+
+		/**
 		 * The meta object literal for the '<em><b>Model Persons List</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -525,6 +593,14 @@ public interface SipPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute PERSON__ID = eINSTANCE.getPerson_Id();
+
+		/**
+		 * The meta object literal for the '<em><b>Raw</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute PERSON__RAW = eINSTANCE.getPerson_Raw();
 
 		/**
 		 * The meta object literal for the '<em><b>Identification</b></em>' attribute feature.
@@ -583,6 +659,14 @@ public interface SipPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ACCREDITATION = eINSTANCE.getAccreditation();
+
+		/**
+		 * The meta object literal for the '<em><b>Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACCREDITATION__ID = eINSTANCE.getAccreditation_Id();
 
 		/**
 		 * The meta object literal for the '<em><b>Raw</b></em>' attribute feature.
