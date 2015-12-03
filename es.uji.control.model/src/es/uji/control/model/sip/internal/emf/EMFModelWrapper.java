@@ -2,9 +2,12 @@ package es.uji.control.model.sip.internal.emf;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -264,10 +267,14 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 		throw new EMFModelWrapperException("No implementado.");
 	}
 
-	public List<IPerson> getPersonBySearch(IPerson person) throws EMFModelWrapperException {
-		List<Person> collect = model.getModelPersonsList().stream().filter(p -> person.getName().equals(p.getName())).collect(Collectors.toList());
-		//TODO: Falta la conversión de EMF a domain.
-		throw new EMFModelWrapperException("No implementado.");
+	public List<IPerson> getPersonBySearch(Predicate<IPerson> predicate) throws EMFModelWrapperException {
+		
+		List<IPerson> collect = model.getModelPersonsList().stream()
+				.map(p -> EMFToDomain(p))
+				.filter(predicate)
+				.collect(Collectors.toList());
+
+		return collect; 
 	}
 
 }

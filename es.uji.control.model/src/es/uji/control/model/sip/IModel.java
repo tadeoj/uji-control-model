@@ -10,6 +10,7 @@ package es.uji.control.model.sip;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
@@ -41,6 +42,6 @@ public interface IModel {
 	// Acceso al modelo
 	/////////////////////////////////////////////////////////////
 	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelException;
-	public List<IPerson> getPersonsBySearch(IPerson person) throws ModelException;
+	public List<IPerson> searchPerson(Predicate<IPerson> predicate) throws ModelException;
 		
 }

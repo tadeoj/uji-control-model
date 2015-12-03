@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
@@ -233,13 +234,13 @@ public class ModelSIPComponent implements IModel {
 	}
 
 	@Override
-	public List<IPerson> getPersonsBySearch(IPerson person) throws ModelException {
+	public List<IPerson> searchPerson(Predicate<IPerson> predicate) throws ModelException {
 		synchronized (this) {
 			if (modelWrapper == null) {
 				throw new ModelException("No hay ningun modelo subyacente con informacion.");
 			} else {
 				try {
-					return modelWrapper.getPersonBySearch(person);
+					return modelWrapper.getPersonBySearch(predicate);
 				} catch (EMFModelWrapperException e) {
 					throw new ModelException("Error al intentar obtener la persona desde una condición de busqueda.", e);
 				}
