@@ -272,9 +272,12 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 		List<IPerson> collect = model.getModelPersonsList().stream()
 				.map(p -> EMFToDomain(p))
 				.filter(predicate)
+				.limit(10)
 				.collect(Collectors.toList());
 
 		return collect; 
 	}
+	
+	
 
 }
