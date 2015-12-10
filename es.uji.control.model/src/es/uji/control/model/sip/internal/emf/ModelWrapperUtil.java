@@ -32,11 +32,16 @@ public class ModelWrapperUtil {
 		return personEMF;
 	}
 	
-	static public Accreditation domainToEMF(IAccreditation domainAccreditation) {
+	static public Accreditation domainToEMF(IAccreditationInfo domainAccreditation) {
 		Accreditation accreditationEMF = SipFactory.eINSTANCE.createAccreditation();
-		accreditationEMF.setId(domainAccreditation.getId());
-		accreditationEMF.setType(domainAccreditation.getType().toString());
-		accreditationEMF.setRaw(AccreditationType.bytesToGeneralLongId(domainAccreditation.getRaw()));
+		accreditationEMF.setId(domainAccreditation.getAccreditation().getId());
+		accreditationEMF.setType(domainAccreditation.getAccreditation().getType().toString());
+		accreditationEMF.setRaw(AccreditationType.bytesToGeneralLongId(domainAccreditation.getAccreditation().getRaw()));
+		if (domainAccreditation.getDescription() != null) {
+			accreditationEMF.setDescription(domainAccreditation.getDescription());
+		} else {
+			accreditationEMF.setDescription("Tarjeta sin descripción");
+		}
 		return accreditationEMF;
 	}
 
@@ -85,6 +90,7 @@ public class ModelWrapperUtil {
 		
 		IAccreditationInfo accreditationInfo = new AccreditationInfoBuilder()
 				.setAccreditation(accreditation)
+				.setDescription(accreditatonEMF.getDescription())
 				.build();
 		
 		return accreditationInfo;

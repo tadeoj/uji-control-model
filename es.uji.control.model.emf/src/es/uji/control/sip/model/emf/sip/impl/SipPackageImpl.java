@@ -279,8 +279,17 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getAccreditation_Description() {
+		return (EAttribute)accreditationEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getAccreditation_Person() {
-		return (EReference)accreditationEClass.getEStructuralFeatures().get(3);
+		return (EReference)accreditationEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -349,6 +358,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 		createEAttribute(accreditationEClass, ACCREDITATION__ID);
 		createEAttribute(accreditationEClass, ACCREDITATION__RAW);
 		createEAttribute(accreditationEClass, ACCREDITATION__TYPE);
+		createEAttribute(accreditationEClass, ACCREDITATION__DESCRIPTION);
 		createEReference(accreditationEClass, ACCREDITATION__PERSON);
 
 		linkageEClass = createEClass(LINKAGE);
@@ -405,6 +415,7 @@ public class SipPackageImpl extends EPackageImpl implements SipPackage {
 		initEAttribute(getAccreditation_Id(), ecorePackage.getELongObject(), "id", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAccreditation_Raw(), ecorePackage.getELongObject(), "raw", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAccreditation_Type(), ecorePackage.getEString(), "type", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAccreditation_Description(), ecorePackage.getEString(), "description", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getAccreditation_Person(), this.getPerson(), this.getPerson_AccreditationsList(), "person", null, 0, 1, Accreditation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(linkageEClass, Linkage.class, "Linkage", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

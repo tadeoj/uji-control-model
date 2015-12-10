@@ -2,12 +2,10 @@ package es.uji.control.model.sip.internal.emf;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.TreeIterator;
@@ -163,6 +161,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 							Accreditation accreditationEMF = SipFactory.eINSTANCE.createAccreditation();
 							accreditationEMF.setType(((Accreditation) personContent).getType());
 							accreditationEMF.setRaw(((Accreditation) personContent).getRaw());
+							accreditationEMF.setDescription(((Accreditation) personContent).getDescription());
 							accreditationEMF.setPerson(((Accreditation) personContent).getPerson());
 							personEMF.getAccreditationsList().add(accreditationEMF);
 						}
@@ -178,6 +177,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 					Accreditation accreditationEMF = SipFactory.eINSTANCE.createAccreditation();
 					accreditationEMF.setType(((Accreditation) object).getType());
 					accreditationEMF.setRaw(((Accreditation) object).getRaw());
+					accreditationEMF.setDescription(((Accreditation) object).getDescription());
 					accreditationEMF.setPerson(((Accreditation) object).getPerson());
 					tmpModel.getModelCardsList().add(accreditationEMF);
 				}
@@ -222,11 +222,14 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 						}
 
 						for (IAccreditationInfo accreditationInfo : person.getAccreditationsInfo()) {
-							Accreditation accreditationEMF = domainToEMF(accreditationInfo.getAccreditation());
+							Accreditation accreditationEMF = domainToEMF(accreditationInfo);
 							accreditationEMF.setId(accreditationId);
 							accreditationEMF.setPerson(personEMF);
 							personEMF.getAccreditationsList().add(accreditationEMF);
-							tmpModel.getModelCardsList().add(accreditationEMF);
+							Accreditation accreditationEMFGeneral = domainToEMF(accreditationInfo);
+							accreditationEMFGeneral.setId(accreditationId);
+							accreditationEMFGeneral.setPerson(personEMF);
+							tmpModel.getModelCardsList().add(accreditationEMFGeneral);
 							accreditationId = accreditationId + 1; 
 						}
 

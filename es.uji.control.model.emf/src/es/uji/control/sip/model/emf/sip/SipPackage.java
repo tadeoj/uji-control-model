@@ -239,13 +239,22 @@ public interface SipPackage extends EPackage {
 	int ACCREDITATION__TYPE = 2;
 
 	/**
+	 * The feature id for the '<em><b>Description</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ACCREDITATION__DESCRIPTION = 3;
+
+	/**
 	 * The feature id for the '<em><b>Person</b></em>' container reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ACCREDITATION__PERSON = 3;
+	int ACCREDITATION__PERSON = 4;
 
 	/**
 	 * The number of structural features of the '<em>Accreditation</em>' class.
@@ -254,7 +263,7 @@ public interface SipPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ACCREDITATION_FEATURE_COUNT = 4;
+	int ACCREDITATION_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link es.uji.control.sip.model.emf.sip.impl.LinkageImpl <em>Linkage</em>}' class.
@@ -481,6 +490,17 @@ public interface SipPackage extends EPackage {
 	EAttribute getAccreditation_Type();
 
 	/**
+	 * Returns the meta object for the attribute '{@link es.uji.control.sip.model.emf.sip.Accreditation#getDescription <em>Description</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Description</em>'.
+	 * @see es.uji.control.sip.model.emf.sip.Accreditation#getDescription()
+	 * @see #getAccreditation()
+	 * @generated
+	 */
+	EAttribute getAccreditation_Description();
+
+	/**
 	 * Returns the meta object for the container reference '{@link es.uji.control.sip.model.emf.sip.Accreditation#getPerson <em>Person</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -683,6 +703,14 @@ public interface SipPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute ACCREDITATION__TYPE = eINSTANCE.getAccreditation_Type();
+
+		/**
+		 * The meta object literal for the '<em><b>Description</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ACCREDITATION__DESCRIPTION = eINSTANCE.getAccreditation_Description();
 
 		/**
 		 * The meta object literal for the '<em><b>Person</b></em>' container reference feature.

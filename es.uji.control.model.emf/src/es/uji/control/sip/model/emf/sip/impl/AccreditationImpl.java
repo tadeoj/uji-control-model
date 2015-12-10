@@ -25,6 +25,7 @@ import es.uji.control.sip.model.emf.sip.SipPackage;
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getId <em>Id</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getRaw <em>Raw</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getType <em>Type</em>}</li>
+ *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getDescription <em>Description</em>}</li>
  *   <li>{@link es.uji.control.sip.model.emf.sip.impl.AccreditationImpl#getPerson <em>Person</em>}</li>
  * </ul>
  *
@@ -90,6 +91,26 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 	 * @ordered
 	 */
 	protected String type = TYPE_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String DESCRIPTION_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getDescription() <em>Description</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getDescription()
+	 * @generated
+	 * @ordered
+	 */
+	protected String description = DESCRIPTION_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -171,6 +192,27 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 		type = newType;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.ACCREDITATION__TYPE, oldType, type));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getDescription() {
+		return description;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setDescription(String newDescription) {
+		String oldDescription = description;
+		description = newDescription;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, SipPackage.ACCREDITATION__DESCRIPTION, oldDescription, description));
 	}
 
 	/**
@@ -272,6 +314,8 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 				return getRaw();
 			case SipPackage.ACCREDITATION__TYPE:
 				return getType();
+			case SipPackage.ACCREDITATION__DESCRIPTION:
+				return getDescription();
 			case SipPackage.ACCREDITATION__PERSON:
 				return getPerson();
 		}
@@ -294,6 +338,9 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 				return;
 			case SipPackage.ACCREDITATION__TYPE:
 				setType((String)newValue);
+				return;
+			case SipPackage.ACCREDITATION__DESCRIPTION:
+				setDescription((String)newValue);
 				return;
 			case SipPackage.ACCREDITATION__PERSON:
 				setPerson((Person)newValue);
@@ -319,6 +366,9 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 			case SipPackage.ACCREDITATION__TYPE:
 				setType(TYPE_EDEFAULT);
 				return;
+			case SipPackage.ACCREDITATION__DESCRIPTION:
+				setDescription(DESCRIPTION_EDEFAULT);
+				return;
 			case SipPackage.ACCREDITATION__PERSON:
 				setPerson((Person)null);
 				return;
@@ -340,6 +390,8 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 				return RAW_EDEFAULT == null ? raw != null : !RAW_EDEFAULT.equals(raw);
 			case SipPackage.ACCREDITATION__TYPE:
 				return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
+			case SipPackage.ACCREDITATION__DESCRIPTION:
+				return DESCRIPTION_EDEFAULT == null ? description != null : !DESCRIPTION_EDEFAULT.equals(description);
 			case SipPackage.ACCREDITATION__PERSON:
 				return getPerson() != null;
 		}
@@ -362,6 +414,8 @@ public class AccreditationImpl extends EObjectImpl implements Accreditation {
 		result.append(raw);
 		result.append(", type: ");
 		result.append(type);
+		result.append(", description: ");
+		result.append(description);
 		result.append(')');
 		return result.toString();
 	}
