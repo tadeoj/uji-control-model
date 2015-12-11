@@ -7,7 +7,7 @@
  *******************************************************************************/
 package es.uji.control.model.sip;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -36,7 +36,8 @@ public interface IModel {
 	/////////////////////////////////////////////////////////////
 	// Estado del modelo
 	/////////////////////////////////////////////////////////////
-	public Date getModelDate();
+	public LocalDateTime getModelDate();
+	public void setUpdateModelStateTracker(Consumer<LocalDateTime> state);
 	
 	/////////////////////////////////////////////////////////////
 	// Acceso al modelo

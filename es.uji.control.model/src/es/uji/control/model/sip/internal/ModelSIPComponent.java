@@ -9,7 +9,8 @@ package es.uji.control.model.sip.internal;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -26,11 +27,11 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
+import es.uji.control.model.sip.IModel;
+import es.uji.control.model.sip.ModelException;
 import es.uji.control.model.sip.ModelLogEntry;
 import es.uji.control.model.sip.ModelLogSource;
 import es.uji.control.model.sip.ModelLogType;
-import es.uji.control.model.sip.IModel;
-import es.uji.control.model.sip.ModelException;
 import es.uji.control.model.sip.internal.emf.EMFModelWrapper;
 import es.uji.control.model.sip.internal.emf.EMFModelWrapperException;
 
@@ -44,6 +45,8 @@ public class ModelSIPComponent implements IModel {
 	volatile private Consumer<ModelLogEntry> logger;
 	
 	volatile private Consumer<Boolean> modelUpdating;
+	
+	volatile private Consumer<LocalDateTime> state;
 	
 	private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
 	
@@ -127,7 +130,7 @@ public class ModelSIPComponent implements IModel {
 			if (controlConnectionFactory != null) {
 				executeUpdateModelFromBackend(controlConnectionFactory);
 			} else {
-				sendModelPersonLogEntry(ModelLogType.ERROR, "No hay conexion con el backend en estos momentos.");
+				sendModelPersonLogEntry(ModelLogType.ERROR, "No hay una conexión disponible con el backend en estos momentos.");
 			}
 		}
 	}
@@ -179,7 +182,7 @@ public class ModelSIPComponent implements IModel {
 				Duration duration = Duration.between(inicio, Instant.now());
 				long secs = duration.getSeconds();
 				sendModelPersonLogEntry(ModelLogType.INFO, String.format("Carga finalizada correctamente (en %d secs)", secs));
-				
+				sendUpdateModelState(getModelDate());
 			} catch (EMFModelWrapperException e) {
 				sendModelPersonLogEntry(ModelLogType.ERROR, String.format("Error duranle la carga (%s).", e.getMessage()));
 			} catch (Throwable t) {
@@ -208,9 +211,21 @@ public class ModelSIPComponent implements IModel {
 	/////////////////////////////////////////////////////////////
 	
 	@Override
-	public Date getModelDate() {
+	public LocalDateTime getModelDate() {
 		synchronized (this) {
-			return modelWrapper == null ? null : modelWrapper.getModelDate();
+			return modelWrapper == null ? null : modelWrapper.getModelDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		}
+	}
+	
+	@Override
+	public void setUpdateModelStateTracker(Consumer<LocalDateTime> state) {
+		this.state = state;
+	}
+	
+	private void sendUpdateModelState(LocalDateTime dateTime) {
+		Consumer<LocalDateTime> localConsumer = this.state;
+		if (localConsumer != null) {
+			localConsumer.accept(dateTime);
 		}
 	}
 	
