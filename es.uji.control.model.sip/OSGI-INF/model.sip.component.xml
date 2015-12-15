@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" activate="activate" deactivate="deactivate" immediate="true" name="model.sip.component">
+   <service>
+      <provide interface="es.uji.control.model.sip.IModel"/>
+   </service>
+   <reference bind="bindConnectionFactorySPI" cardinality="0..1" interface="es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory" name="controlConnectionFactory" policy="dynamic" unbind="unbindConnectionFactorySPI"/>
+   <implementation class="es.uji.control.model.sip.internal.ModelSIPComponent"/>
+</scr:component>
