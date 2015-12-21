@@ -7,6 +7,7 @@
  *******************************************************************************/
 package es.uji.control.model.sip.internal;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -41,38 +42,40 @@ public class ModelSIPComponent implements IModel {
 	private IControlConnectionFactory controlConnectionFactory;
 
 	private EMFModelWrapper modelWrapper;
-	
+
 	volatile private Consumer<ModelLogEntry> logger;
-	
+
 	volatile private Consumer<Boolean> modelUpdating;
-	
+
 	volatile private Consumer<LocalDateTime> state;
-	
+
 	private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+
+	private Thread updateModelThreadFromBackend;
 	
-	private Thread updateModelThread;
-	
+	private Thread updateModelThreadFromCache;
+
 	@Activate
 	public void activate() {
 	}
-	
+
 	@Deactivate
 	public void deactivate() {
 	}
-	
-	@Reference(policy=ReferencePolicy.DYNAMIC, cardinality=ReferenceCardinality.OPTIONAL, name="controlConnectionFactory")
-	public void bindConnectionFactorySPI(IControlConnectionFactory controlConnectionFactory, Map<String,?> properties) {
+
+	@Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL, name = "controlConnectionFactory")
+	public void bindConnectionFactorySPI(IControlConnectionFactory controlConnectionFactory, Map<String, ?> properties) {
 		synchronized (this) {
 			this.controlConnectionFactory = controlConnectionFactory;
 		}
 	}
-	
-	public void unbindConnectionFactorySPI(IControlConnectionFactory controlConnectionFactory, Map<String,?> properties) {
+
+	public void unbindConnectionFactorySPI(IControlConnectionFactory controlConnectionFactory, Map<String, ?> properties) {
 		synchronized (this) {
 			this.controlConnectionFactory = null;
 		}
 	}
-	
+
 	/////////////////////////////////////////////////////////////
 	// Logger
 	/////////////////////////////////////////////////////////////
@@ -81,31 +84,26 @@ public class ModelSIPComponent implements IModel {
 	public void setLogger(Consumer<ModelLogEntry> logger) {
 		this.logger = logger;
 	}
-	
+
 	private void sendLogEntry(ModelLogEntry event) {
 		Consumer<ModelLogEntry> localConsumer = this.logger;
 		if (localConsumer != null) {
 			localConsumer.accept(event);
 		}
 	}
-	
+
 	private void sendModelPersonLogEntry(ModelLogType type, String msg) {
 		Consumer<ModelLogEntry> localConsumer = this.logger;
 		if (localConsumer != null) {
-			ModelLogEntry entry = new ModelLogEntry(
-					Instant.now(), 
-					ModelLogSource.PERSONS, 
-					type, 
-					msg
-				);
+			ModelLogEntry entry = new ModelLogEntry(Instant.now(), ModelLogSource.PERSONS, type, msg);
 			localConsumer.accept(entry);
 		}
 	}
-	
+
 	/////////////////////////////////////////////////////////////
 	// Metodos que controlan el modelo
 	/////////////////////////////////////////////////////////////
-	
+
 	private void sendModelUpdatingStatus(boolean updating) {
 		Consumer<Boolean> localModelUpdating = modelUpdating;
 		if (localModelUpdating != null) {
@@ -118,15 +116,18 @@ public class ModelSIPComponent implements IModel {
 		this.modelUpdating = modelUpdating;
 		try {
 			rwl.writeLock().lock();
-			sendModelUpdatingStatus(updateModelThread != null);
+			sendModelUpdatingStatus(updateModelThreadFromBackend != null);
 		} finally {
 			rwl.writeLock().unlock();
 		}
 	}
-	
+
 	@Override
 	public void updateModelFromBackend() {
 		synchronized (this) {
+			// Se ejecuta la carga de la cache
+			executeUpdateModelFromCache();
+			
 			if (controlConnectionFactory != null) {
 				executeUpdateModelFromBackend(controlConnectionFactory);
 			} else {
@@ -134,39 +135,36 @@ public class ModelSIPComponent implements IModel {
 			}
 		}
 	}
-	
-	private void executeUpdateModelFromBackend(IControlConnectionFactory controlConnectionFactory) {
+
+	private void executeUpdateModelFromCache() {
 		rwl.readLock().lock();
-		boolean updating = updateModelThread != null;
+		boolean updating = updateModelThreadFromCache != null;
 		rwl.readLock().unlock();
 		if (updating) {
 			sendModelPersonLogEntry(ModelLogType.ERROR, "Se ha intentado lanzar la carga del modelo cuando este preceso ya esta en ejecutandose.");
 		} else {
-			startModelUpdate(controlConnectionFactory);
+			startModelUpdateFromCache();
 		}
 	}
-	
-	private void startModelUpdate(IControlConnectionFactory controlConnectionFactory) {
+
+	private void startModelUpdateFromCache() {
 		try {
 			rwl.writeLock().lock();
 			// Se lanza el thread ..
-			updateModelThread = new Thread(new ModelUpdateTask(controlConnectionFactory));
+			updateModelThreadFromCache = new Thread(new ModelUpdateFromCacheTask());
 			// .. y se ejecuta.
-			updateModelThread.start();
+			updateModelThreadFromCache.start();
 			// se notifica el inicio de la actualizacion
 			sendModelUpdatingStatus(true);
-			sendModelPersonLogEntry(ModelLogType.INFO, "Se iniciado la carga del modelo.");
+			sendModelPersonLogEntry(ModelLogType.INFO, "Se ha iniciado la carga del modelo.");
 		} finally {
 			rwl.writeLock().unlock();
 		}
 	}
-	
-	private class ModelUpdateTask implements Runnable {
-		
-		private IControlConnectionFactory connectionFactory;
-		
-		public ModelUpdateTask(IControlConnectionFactory connectionFactory) {
-			this.connectionFactory = connectionFactory;
+
+	private class ModelUpdateFromCacheTask implements Runnable {
+
+		public ModelUpdateFromCacheTask() {
 		}
 
 		@Override
@@ -174,14 +172,14 @@ public class ModelSIPComponent implements IModel {
 			try {
 				// Se anota el inicio de la carga
 				Instant inicio = Instant.now();
-				
+
 				// Se ejecuta la carga
-				ModelSIPComponent.this.modelWrapper = EMFModelWrapper.newConnectionFactoryBuilder(connectionFactory, ModelSIPComponent.this::sendLogEntry).build();
-				
+				ModelSIPComponent.this.modelWrapper = EMFModelWrapper.newFileBuilder(ModelSIPComponent.this::sendLogEntry).build();
+
 				// La carga ha finalizado correctamente, se notifica
 				Duration duration = Duration.between(inicio, Instant.now());
 				long secs = duration.getSeconds();
-				sendModelPersonLogEntry(ModelLogType.INFO, String.format("Carga finalizada correctamente (en %d secs)", secs));
+				sendModelPersonLogEntry(ModelLogType.INFO, String.format("Carga finalizada correctamente desde la cache (en %d secs)", secs));
 				sendUpdateModelState(getModelDate());
 			} catch (EMFModelWrapperException e) {
 				sendModelPersonLogEntry(ModelLogType.ERROR, String.format("Error duranle la carga (%s).", e.getMessage()));
@@ -190,45 +188,113 @@ public class ModelSIPComponent implements IModel {
 			} finally {
 				try {
 					rwl.writeLock().lock();
-					updateModelThread = null;
+					updateModelThreadFromCache = null;
 					// Se notifica el final de la actualizacion
 					sendModelUpdatingStatus(false);
 				} finally {
 					rwl.writeLock().unlock();
 				}
-			} 
+			}
 		}
-		
+
 	}
-	
+
+	private void executeUpdateModelFromBackend(IControlConnectionFactory controlConnectionFactory) {
+		rwl.readLock().lock();
+		boolean updating = updateModelThreadFromBackend != null;
+		rwl.readLock().unlock();
+		if (updating) {
+			sendModelPersonLogEntry(ModelLogType.ERROR, "Se ha intentado lanzar la carga del modelo cuando este preceso ya esta en ejecutandose.");
+		} else {
+			startModelUpdateFromBackend(controlConnectionFactory);
+		}
+	}
+
+	private void startModelUpdateFromBackend(IControlConnectionFactory controlConnectionFactory) {
+		try {
+			rwl.writeLock().lock();
+			// Se lanza el thread ..
+			updateModelThreadFromBackend = new Thread(new ModelUpdateFromBackendTask(controlConnectionFactory));
+			// .. y se ejecuta.
+			updateModelThreadFromBackend.start();
+			// se notifica el inicio de la actualizacion
+			sendModelUpdatingStatus(true);
+			sendModelPersonLogEntry(ModelLogType.INFO, "Se ha iniciado la carga del modelo.");
+		} finally {
+			rwl.writeLock().unlock();
+		}
+	}
+
+	private class ModelUpdateFromBackendTask implements Runnable {
+
+		private IControlConnectionFactory connectionFactory;
+
+		public ModelUpdateFromBackendTask(IControlConnectionFactory connectionFactory) {
+			this.connectionFactory = connectionFactory;
+		}
+
+		@Override
+		public void run() {
+			try {
+				// Se anota el inicio de la carga
+				Instant inicio = Instant.now();
+
+				// Se ejecuta la carga
+				ModelSIPComponent.this.modelWrapper = EMFModelWrapper.newConnectionFactoryBuilder(connectionFactory, ModelSIPComponent.this::sendLogEntry).build();
+
+				// La carga ha finalizado correctamente, se notifica
+				Duration duration = Duration.between(inicio, Instant.now());
+				long secs = duration.getSeconds();
+				sendModelPersonLogEntry(ModelLogType.INFO, String.format("Carga finalizada correctamente (en %d secs)", secs));
+				sendUpdateModelState(getModelDate());
+			} catch (EMFModelWrapperException e) {
+				sendModelPersonLogEntry(ModelLogType.ERROR, String.format("Error duranle la carga (%s).", e.getMessage()));
+			} catch (IOException io) {
+				sendModelPersonLogEntry(ModelLogType.ERROR, String.format("Error de IO (%s).", io.getMessage()));
+			} catch (Throwable t) {
+				sendModelPersonLogEntry(ModelLogType.ERROR, String.format("Error desconocido durante la carga (%s).", t.getMessage()));
+			} finally {
+				try {
+					rwl.writeLock().lock();
+					updateModelThreadFromBackend = null;
+					// Se notifica el final de la actualizacion
+					sendModelUpdatingStatus(false);
+				} finally {
+					rwl.writeLock().unlock();
+				}
+			}
+		}
+
+	}
+
 	@Override
 	public void updatePhotosFromBackend() {
 	}
 
-	
 	/////////////////////////////////////////////////////////////
 	// Estado del modelo
 	/////////////////////////////////////////////////////////////
-	
+
 	@Override
 	public LocalDateTime getModelDate() {
 		synchronized (this) {
-			return modelWrapper == null ? null : modelWrapper.getModelDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			return modelWrapper == null ? null
+					: modelWrapper.getModelDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 		}
 	}
-	
+
 	@Override
 	public void setUpdateModelStateTracker(Consumer<LocalDateTime> state) {
 		this.state = state;
 	}
-	
+
 	private void sendUpdateModelState(LocalDateTime dateTime) {
 		Consumer<LocalDateTime> localConsumer = this.state;
 		if (localConsumer != null) {
 			localConsumer.accept(dateTime);
 		}
 	}
-	
+
 	/////////////////////////////////////////////////////////////
 	// Acceso al modelo
 	/////////////////////////////////////////////////////////////
@@ -260,7 +326,7 @@ public class ModelSIPComponent implements IModel {
 					throw new ModelException("Error al intentar obtener la persona desde una condición de busqueda.", e);
 				}
 			}
-		}		
+		}
 	}
 
 }

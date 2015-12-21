@@ -36,7 +36,7 @@ import es.uji.control.sip.model.emf.sip.impl.SipPackageImpl;
 
 public class EMFModelWrapper extends ModelWrapperUtil {
 
-	static final String EMF_CACHE_DIR = System.getProperty("user.home") + "\\Universitat Jaume I\\SIP\\cache\\cache.ecore";
+	static final String EMF_CACHE_DIR = System.getProperty("user.home") + "/cache.ecore";
 
 	static public class ConnectionFactoryBuilder {
 
@@ -48,7 +48,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 			this.consumer = consumer;
 		}
 
-		public EMFModelWrapper build() throws EMFModelWrapperException {
+		public EMFModelWrapper build() throws EMFModelWrapperException, IOException {
 			try {
 				return new EMFModelWrapper(controlConnectionFactory.createConnection(), consumer);
 			} catch (ControlConnectionException e) {
@@ -95,7 +95,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 	}
 
-	private EMFModelWrapper(IControlConnection controlConnection, Consumer<ModelLogEntry> consumer) throws EMFModelWrapperException {
+	private EMFModelWrapper(IControlConnection controlConnection, Consumer<ModelLogEntry> consumer) throws EMFModelWrapperException, IOException {
 
 		this.consumer = consumer;
 		
@@ -106,9 +106,12 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 			// Se carga el modelo
 			this.model = instantiate(personService);
+			saveCache(model);
 
 		} catch (ControlConnectionException e) {
 			throw new EMFModelWrapperException("No se puede obtener el servicio para acceder al subsistema 'Person'", e);
+		} catch (IOException e) {
+			throw new IOException("No se puede perstir el modelo en disco.", e);
 		}
 
 	}
@@ -260,6 +263,14 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 			throw new EMFModelWrapperException("Han surgido problemas con la conexion durante la carga del modelo.", e);
 		}
 
+	}
+	
+	private void saveCache(Model tmpModel) throws IOException {
+		URI fileURI = URI.createFileURI(EMF_CACHE_DIR);
+		Resource resource = new XMIResourceFactoryImpl().createResource(fileURI);
+		resource.getContents().add(tmpModel);
+		
+		resource.save(null);
 	}
 
 	public Date getModelDate() {
