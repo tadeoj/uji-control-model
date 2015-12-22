@@ -54,6 +54,10 @@ public class ModelSIPComponent implements IModel {
 	private Thread updateModelThreadFromBackend;
 	
 	private Thread updateModelThreadFromCache;
+	
+	private Thread updatePhotosThread;
+
+	private Consumer<Boolean> photosUpdating;
 
 	@Activate
 	public void activate() {
@@ -110,13 +114,21 @@ public class ModelSIPComponent implements IModel {
 			localModelUpdating.accept(updating);
 		}
 	}
+	
+	private void checkModelUpdatingStatus() {
+		if (updateModelThreadFromBackend == null && updateModelThreadFromCache == null) {
+			sendModelUpdatingStatus(false);
+		} else {
+			sendModelUpdatingStatus(true);
+		}
+	}
 
 	@Override
 	public void setUpdateModelUpdatingTracker(Consumer<Boolean> modelUpdating) {
 		this.modelUpdating = modelUpdating;
 		try {
 			rwl.writeLock().lock();
-			sendModelUpdatingStatus(updateModelThreadFromBackend != null);
+			sendModelUpdatingStatus(updateModelThreadFromBackend != null && updateModelThreadFromCache != null);
 		} finally {
 			rwl.writeLock().unlock();
 		}
@@ -155,8 +167,8 @@ public class ModelSIPComponent implements IModel {
 			// .. y se ejecuta.
 			updateModelThreadFromCache.start();
 			// se notifica el inicio de la actualizacion
-			sendModelUpdatingStatus(true);
-			sendModelPersonLogEntry(ModelLogType.INFO, "Se ha iniciado la carga del modelo.");
+			checkModelUpdatingStatus();
+			sendModelPersonLogEntry(ModelLogType.INFO, "Se ha iniciado la carga del modelo desde la cache.");
 		} finally {
 			rwl.writeLock().unlock();
 		}
@@ -189,9 +201,8 @@ public class ModelSIPComponent implements IModel {
 				try {
 					rwl.writeLock().lock();
 					updateModelThreadFromCache = null;
-					// Se notifica el final de la actualizacion
-					sendModelUpdatingStatus(false);
 				} finally {
+					checkModelUpdatingStatus();
 					rwl.writeLock().unlock();
 				}
 			}
@@ -218,7 +229,7 @@ public class ModelSIPComponent implements IModel {
 			// .. y se ejecuta.
 			updateModelThreadFromBackend.start();
 			// se notifica el inicio de la actualizacion
-			sendModelUpdatingStatus(true);
+			checkModelUpdatingStatus();
 			sendModelPersonLogEntry(ModelLogType.INFO, "Se ha iniciado la carga del modelo.");
 		} finally {
 			rwl.writeLock().unlock();
@@ -257,18 +268,39 @@ public class ModelSIPComponent implements IModel {
 				try {
 					rwl.writeLock().lock();
 					updateModelThreadFromBackend = null;
-					// Se notifica el final de la actualizacion
-					sendModelUpdatingStatus(false);
 				} finally {
+					checkModelUpdatingStatus();
 					rwl.writeLock().unlock();
 				}
 			}
 		}
 
 	}
+	
+	/////////////////////////////////////////////////////////////
+	// Control de la cache de fotografias
+	/////////////////////////////////////////////////////////////
 
 	@Override
 	public void updatePhotosFromBackend() {
+	}
+	
+	private void sendPhotosUpdatingStatus(boolean updating) {
+		Consumer<Boolean> localPhotosUpdating = photosUpdating;
+		if (localPhotosUpdating != null) {
+			localPhotosUpdating.accept(updating);
+		}
+	}
+	
+	@Override
+	public void setUpdatePhotosUpdatingTracker(Consumer<Boolean> photosUpdating) {
+		this.photosUpdating = photosUpdating;
+		try {
+			rwl.writeLock().lock();
+			sendPhotosUpdatingStatus(updatePhotosThread != null);
+		} finally {
+			rwl.writeLock().unlock();
+		}
 	}
 
 	/////////////////////////////////////////////////////////////
@@ -278,8 +310,7 @@ public class ModelSIPComponent implements IModel {
 	@Override
 	public LocalDateTime getModelDate() {
 		synchronized (this) {
-			return modelWrapper == null ? null
-					: modelWrapper.getModelDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			return modelWrapper == null ? null : modelWrapper.getModelDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 		}
 	}
 
