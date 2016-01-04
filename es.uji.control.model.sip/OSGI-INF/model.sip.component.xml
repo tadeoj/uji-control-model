@@ -4,5 +4,6 @@
       <provide interface="es.uji.control.model.sip.IModel"/>
    </service>
    <reference bind="bindConnectionFactorySPI" cardinality="0..1" interface="es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory" name="controlConnectionFactory" policy="dynamic" unbind="unbindConnectionFactorySPI"/>
+   <reference bind="bindDiskCache" cardinality="0..1" interface="es.uji.control.commons.diskcache.IDiskCache" name="diskCache" policy="dynamic" unbind="unbindDiskCache"/>
    <implementation class="es.uji.control.model.sip.internal.ModelSIPComponent"/>
 </scr:component>

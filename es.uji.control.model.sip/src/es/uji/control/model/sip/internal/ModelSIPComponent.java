@@ -25,6 +25,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
 
+import es.uji.control.commons.diskcache.IDiskCache;
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
@@ -33,6 +34,8 @@ import es.uji.control.model.sip.ModelException;
 import es.uji.control.model.sip.ModelLogEntry;
 import es.uji.control.model.sip.ModelLogSource;
 import es.uji.control.model.sip.ModelLogType;
+import es.uji.control.model.sip.internal.cache.CacheModelPhotos;
+import es.uji.control.model.sip.internal.cache.CacheModelPhotosException;
 import es.uji.control.model.sip.internal.emf.EMFModelWrapper;
 import es.uji.control.model.sip.internal.emf.EMFModelWrapperException;
 
@@ -40,8 +43,12 @@ import es.uji.control.model.sip.internal.emf.EMFModelWrapperException;
 public class ModelSIPComponent implements IModel {
 
 	private IControlConnectionFactory controlConnectionFactory;
+	
+	private IDiskCache diskCache;
 
 	private EMFModelWrapper modelWrapper;
+	
+	private CacheModelPhotos cacheModelPhotos;
 
 	volatile private Consumer<ModelLogEntry> logger;
 
@@ -50,6 +57,8 @@ public class ModelSIPComponent implements IModel {
 	volatile private Consumer<LocalDateTime> state;
 
 	private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+	
+	private ReentrantReadWriteLock rwlC = new ReentrantReadWriteLock();
 
 	private Thread updateModelThreadFromBackend;
 	
@@ -79,6 +88,19 @@ public class ModelSIPComponent implements IModel {
 			this.controlConnectionFactory = null;
 		}
 	}
+	
+	@Reference(policy = ReferencePolicy.DYNAMIC, cardinality = ReferenceCardinality.OPTIONAL, name = "diskCache")
+	public void bindDiskCache(IDiskCache diskCache, Map<String, ?> properties) {
+		synchronized (this) {
+			this.diskCache = diskCache;
+		}
+	}
+
+	public void unbindDiskCache(IDiskCache diskCache, Map<String, ?> properties) {
+		synchronized (this) {
+			this.diskCache = null;
+		}
+	}
 
 	/////////////////////////////////////////////////////////////
 	// Logger
@@ -100,6 +122,14 @@ public class ModelSIPComponent implements IModel {
 		Consumer<ModelLogEntry> localConsumer = this.logger;
 		if (localConsumer != null) {
 			ModelLogEntry entry = new ModelLogEntry(Instant.now(), ModelLogSource.PERSONS, type, msg);
+			localConsumer.accept(entry);
+		}
+	}
+	
+	private void sendModelPhotoLogEntry(ModelLogType type, String msg) {
+		Consumer<ModelLogEntry> localConsumer = this.logger;
+		if (localConsumer != null) {
+			ModelLogEntry entry = new ModelLogEntry(Instant.now(), ModelLogSource.PHOTOS, type, msg);
 			localConsumer.accept(entry);
 		}
 	}
@@ -283,8 +313,26 @@ public class ModelSIPComponent implements IModel {
 
 	@Override
 	public void updatePhotosFromBackend() {
+		synchronized (this) {
+			if (diskCache != null && controlConnectionFactory != null) {
+				executeUpdatePhotos(controlConnectionFactory, diskCache);
+			} else {
+				sendModelPhotoLogEntry(ModelLogType.ERROR, "No hay una conexión disponible con el backend en estos momentos.");
+			}
+		}
 	}
 	
+	private void executeUpdatePhotos(IControlConnectionFactory connectionFactory, IDiskCache diskCache) {
+		rwlC.readLock().lock();
+		boolean updating = updatePhotosThread != null;
+		rwlC.readLock().unlock();
+		if (updating) {
+			sendModelPhotoLogEntry(ModelLogType.ERROR, "Se ha intentado lanzar la carga del modelo cuando este preceso ya esta en ejecutandose.");
+		} else {
+			startPhotosUpdateFromBackend(connectionFactory, diskCache);
+		}		
+	}
+
 	private void sendPhotosUpdatingStatus(boolean updating) {
 		Consumer<Boolean> localPhotosUpdating = photosUpdating;
 		if (localPhotosUpdating != null) {
@@ -292,15 +340,78 @@ public class ModelSIPComponent implements IModel {
 		}
 	}
 	
+	private void checkPhotosUpdatingStatus() {
+		if (updatePhotosThread == null) {
+			sendPhotosUpdatingStatus(false);
+		} else {
+			sendPhotosUpdatingStatus(true);
+		}
+	}
+	
 	@Override
 	public void setUpdatePhotosUpdatingTracker(Consumer<Boolean> photosUpdating) {
 		this.photosUpdating = photosUpdating;
 		try {
-			rwl.writeLock().lock();
+			rwlC.writeLock().lock();
 			sendPhotosUpdatingStatus(updatePhotosThread != null);
 		} finally {
-			rwl.writeLock().unlock();
+			rwlC.writeLock().unlock();
 		}
+	}
+
+	private void startPhotosUpdateFromBackend(IControlConnectionFactory connectionFactory, IDiskCache diskCache) {
+		try {
+			rwlC.writeLock().lock();
+			// Se lanza el thread ..
+			updateModelThreadFromBackend = new Thread(new PhotoUpdateFromBackendTask(connectionFactory, diskCache));
+			// .. y se ejecuta.
+			updateModelThreadFromBackend.start();
+			// se notifica el inicio de la actualizacion
+			checkPhotosUpdatingStatus();
+			sendModelPhotoLogEntry(ModelLogType.INFO, "Se ha iniciado la carga de las fotos.");
+		} finally {
+			rwlC.writeLock().unlock();
+		}
+	}
+
+	private class PhotoUpdateFromBackendTask implements Runnable {
+
+		private IControlConnectionFactory connectionFactory;
+		private IDiskCache diskCache;
+
+		public PhotoUpdateFromBackendTask(IControlConnectionFactory connectionFactory, IDiskCache diskCache) {
+			this.connectionFactory = connectionFactory;
+			this.diskCache = diskCache;
+		}
+
+		@Override
+		public void run() {
+			try {
+				// Se anota el inicio de la carga
+				Instant inicio = Instant.now();
+
+				// Se ejecuta la carga
+				ModelSIPComponent.this.cacheModelPhotos = CacheModelPhotos.newCacheFactoryBuilder(connectionFactory, diskCache, ModelSIPComponent.this::sendLogEntry).build();
+				
+				// La carga ha finalizado correctamente, se notifica
+				Duration duration = Duration.between(inicio, Instant.now());
+				long secs = duration.getSeconds();
+				sendModelPhotoLogEntry(ModelLogType.INFO, String.format("Carga finalizada correctamente (en %d secs)", secs));
+			} catch (CacheModelPhotosException e) {
+				sendModelPhotoLogEntry(ModelLogType.ERROR, String.format("Error durante la carga: %s.", e.getMessage()));
+			} catch (Throwable t) {
+				sendModelPhotoLogEntry(ModelLogType.ERROR, String.format("Error desconocido durante la carga (%s).", t.getMessage()));
+			} finally {
+				try {
+					rwlC.writeLock().lock();
+					updatePhotosThread = null;
+				} finally {
+					checkPhotosUpdatingStatus();
+					rwlC.writeLock().unlock();
+				}
+			}
+		}
+
 	}
 
 	/////////////////////////////////////////////////////////////

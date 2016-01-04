@@ -45,5 +45,11 @@ public interface IModel {
 	/////////////////////////////////////////////////////////////
 	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws ModelException;
 	public List<IPerson> searchPerson(Predicate<IPerson> predicate) throws ModelException;
-		
+	
+	/////////////////////////////////////////////////////////////
+	// Acceso a la cache de fotografias
+	/////////////////////////////////////////////////////////////
+	
+	
+	
 }
