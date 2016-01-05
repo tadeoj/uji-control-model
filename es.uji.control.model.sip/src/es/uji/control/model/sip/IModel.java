@@ -14,6 +14,8 @@ import java.util.function.Predicate;
 
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
+import es.uji.control.domain.people.IPersonIdentifier;
+import es.uji.control.domain.people.IPhoto;
 
 public interface IModel {
 	
@@ -48,8 +50,7 @@ public interface IModel {
 	
 	/////////////////////////////////////////////////////////////
 	// Acceso a la cache de fotografias
-	/////////////////////////////////////////////////////////////
-	
-	
+	/////////////////////////////////////////////////////////////  
+	public IPhoto getPhotoById(IPersonIdentifier personIdentifier) throws ModelException;
 	
 }

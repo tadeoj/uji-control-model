@@ -153,6 +153,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 					Person personEMF = SipFactory.eINSTANCE.createPerson();
 					personEMF.setId(((Person) object).getId());
+					personEMF.setRaw(((Person) object).getRaw());
 					personEMF.setIdentification(((Person) object).getIdentification());
 					personEMF.setName(((Person) object).getName());
 					personEMF.setFirstLastName(((Person) object).getFirstLastName());
@@ -162,6 +163,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 						EObject personContent = personsContents.next();
 						if (personContent instanceof Accreditation) {
 							Accreditation accreditationEMF = SipFactory.eINSTANCE.createAccreditation();
+							accreditationEMF.setId(((Accreditation) personContent).getId());
 							accreditationEMF.setType(((Accreditation) personContent).getType());
 							accreditationEMF.setRaw(((Accreditation) personContent).getRaw());
 							accreditationEMF.setDescription(((Accreditation) personContent).getDescription());
@@ -178,6 +180,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 				}
 				if (object instanceof Accreditation) {
 					Accreditation accreditationEMF = SipFactory.eINSTANCE.createAccreditation();
+					accreditationEMF.setId(((Accreditation) object).getId());
 					accreditationEMF.setType(((Accreditation) object).getType());
 					accreditationEMF.setRaw(((Accreditation) object).getRaw());
 					accreditationEMF.setDescription(((Accreditation) object).getDescription());
@@ -291,7 +294,5 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 		return collect; 
 	}
-	
-	
 
 }

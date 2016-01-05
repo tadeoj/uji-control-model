@@ -1,6 +1,7 @@
 package es.uji.control.model.sip.internal.cache;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +10,10 @@ import java.util.function.Consumer;
 import es.uji.control.commons.diskcache.DiskCacheException;
 import es.uji.control.commons.diskcache.ICacheEntry;
 import es.uji.control.commons.diskcache.IDiskCache;
+import es.uji.control.domain.people.IPersonIdentifier;
 import es.uji.control.domain.people.IPhoto;
+import es.uji.control.domain.people.PersonIdentifierType;
+import es.uji.control.domain.people.PhotoBuilder;
 import es.uji.control.domain.provider.service.connectionfactory.ControlConnectionException;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnection;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
@@ -21,13 +25,13 @@ import es.uji.control.model.sip.ModelLogType;
 
 public class CacheModelPhotos {
 
-	static public class CacheFactoryBuilder {
+	static public class CacheConnectionFactoryBuilder {
 		
 		final private IControlConnectionFactory controlConnectionFactory;
 		final private IDiskCache diskCache;
 		final private Consumer<ModelLogEntry> consumer;
 		
-		public CacheFactoryBuilder(IControlConnectionFactory controlConnectionFactory, IDiskCache diskCache, Consumer<ModelLogEntry> consumer) {
+		public CacheConnectionFactoryBuilder(IControlConnectionFactory controlConnectionFactory, IDiskCache diskCache, Consumer<ModelLogEntry> consumer) {
 			this.controlConnectionFactory = controlConnectionFactory;
 			this.diskCache = diskCache;
 			this.consumer = consumer;
@@ -42,17 +46,34 @@ public class CacheModelPhotos {
 			
 		}
 	}
-	
 
-	static public CacheFactoryBuilder newCacheFactoryBuilder(IControlConnectionFactory controlConnectionFactory, IDiskCache diskCache, Consumer<ModelLogEntry> consumer) {
-		return new CacheFactoryBuilder(controlConnectionFactory, diskCache, consumer);
+	static public CacheConnectionFactoryBuilder newCacheConnectionFactoryBuilder(IControlConnectionFactory controlConnectionFactory, IDiskCache diskCache, Consumer<ModelLogEntry> consumer) {
+		return new CacheConnectionFactoryBuilder(controlConnectionFactory, diskCache, consumer);
+	}
+	
+	static public class CacheFactoryBuilder {
+		
+		final private IDiskCache diskCache;
+		final private Consumer<ModelLogEntry> consumer;
+		
+		public CacheFactoryBuilder(IDiskCache diskCache, Consumer<ModelLogEntry> consumer) {
+			this.diskCache = diskCache;
+			this.consumer = consumer;
+		}
+		
+		public CacheModelPhotos build() throws CacheModelPhotosException {
+			return new CacheModelPhotos(diskCache, consumer);
+		}
+	}
+
+	static public CacheFactoryBuilder newCacheFactoryBuilder(IDiskCache diskCache, Consumer<ModelLogEntry> consumer) {
+		return new CacheFactoryBuilder(diskCache, consumer);
 	}
 	
 	final private Consumer<ModelLogEntry> consumer;
 	final private IDiskCache diskCache;
 	
 	public CacheModelPhotos(IControlConnection controlConnection, IDiskCache diskCache, Consumer<ModelLogEntry> consumer) throws CacheModelPhotosException {
-	
 		this.diskCache = diskCache;
 		this.consumer = consumer;
 		
@@ -61,10 +82,15 @@ public class CacheModelPhotos {
 			updatePhotos(personService);
 		} catch (ControlConnectionException e) {
 			throw new CacheModelPhotosException("No se puede obtener el servicio para acceder al subsistema 'Person'", e);
-		} 
+		} 	
 		
 	}
 	
+	public CacheModelPhotos(IDiskCache diskCache, Consumer<ModelLogEntry> consumer) throws CacheModelPhotosException {
+		this.diskCache = diskCache;
+		this.consumer = consumer;
+	}
+
 	private void updatePhotos(IPersonService personService) throws CacheModelPhotosException {
 		
 		try {
@@ -133,7 +159,26 @@ public class CacheModelPhotos {
 		} catch (ControlConnectionException e) {
 			throw new CacheModelPhotosException("Han surgido problemas con la conexion durante la carga de las fotos.", e);
 		}
-		
+	}
+	
+	public IPhoto getPhotoById(IPersonIdentifier personIdentifier) throws CacheModelPhotosException {
+		try {
+			ICacheEntry entry = diskCache.getEntry(PersonIdentifierType.bytesToGeneralLongId(personIdentifier.getRaw()));
+			byte[] bytes = entry.getBytes();
+			LocalDateTime timestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(entry.getTimestamp().getTime()), ZoneId.systemDefault());
+			
+			if (bytes != null && timestamp != null) {
+				return new PhotoBuilder()
+						.setPersonId(personIdentifier)
+						.setImage(bytes)
+						.setDate(timestamp)
+						.build();
+			} else {
+				throw new CacheModelPhotosException("La imagen se encuentra vacia.");
+			}
+		} catch (DiskCacheException e) {
+			throw new CacheModelPhotosException("No se ha podido obtener la foto.", e);
+		}
 	}
 	
 }

@@ -28,6 +28,8 @@ import org.osgi.service.component.annotations.ReferencePolicy;
 import es.uji.control.commons.diskcache.IDiskCache;
 import es.uji.control.domain.people.IAccreditation;
 import es.uji.control.domain.people.IPerson;
+import es.uji.control.domain.people.IPersonIdentifier;
+import es.uji.control.domain.people.IPhoto;
 import es.uji.control.domain.provider.service.connectionfactory.IControlConnectionFactory;
 import es.uji.control.model.sip.IModel;
 import es.uji.control.model.sip.ModelException;
@@ -363,9 +365,9 @@ public class ModelSIPComponent implements IModel {
 		try {
 			rwlC.writeLock().lock();
 			// Se lanza el thread ..
-			updateModelThreadFromBackend = new Thread(new PhotoUpdateFromBackendTask(connectionFactory, diskCache));
+			updatePhotosThread = new Thread(new PhotoUpdateFromBackendTask(connectionFactory, diskCache));
 			// .. y se ejecuta.
-			updateModelThreadFromBackend.start();
+			updatePhotosThread.start();
 			// se notifica el inicio de la actualizacion
 			checkPhotosUpdatingStatus();
 			sendModelPhotoLogEntry(ModelLogType.INFO, "Se ha iniciado la carga de las fotos.");
@@ -391,7 +393,7 @@ public class ModelSIPComponent implements IModel {
 				Instant inicio = Instant.now();
 
 				// Se ejecuta la carga
-				ModelSIPComponent.this.cacheModelPhotos = CacheModelPhotos.newCacheFactoryBuilder(connectionFactory, diskCache, ModelSIPComponent.this::sendLogEntry).build();
+				ModelSIPComponent.this.cacheModelPhotos = CacheModelPhotos.newCacheConnectionFactoryBuilder(connectionFactory, diskCache, ModelSIPComponent.this::sendLogEntry).build();
 				
 				// La carga ha finalizado correctamente, se notifica
 				Duration duration = Duration.between(inicio, Instant.now());
@@ -466,6 +468,26 @@ public class ModelSIPComponent implements IModel {
 					return modelWrapper.getPersonBySearch(predicate);
 				} catch (EMFModelWrapperException e) {
 					throw new ModelException("Error al intentar obtener la persona desde una condición de busqueda.", e);
+				}
+			}
+		}
+	}
+
+	@Override
+	public IPhoto getPhotoById(IPersonIdentifier personIdentifier) throws ModelException {
+		synchronized (this) {
+			if (cacheModelPhotos == null) {
+				try {
+					cacheModelPhotos = CacheModelPhotos.newCacheFactoryBuilder(diskCache, this::sendLogEntry).build();
+					return cacheModelPhotos.getPhotoById(personIdentifier);
+				} catch (CacheModelPhotosException e) {
+					throw new ModelException(e.getMessage());
+				}
+			} else {
+				try {
+					return cacheModelPhotos.getPhotoById(personIdentifier);
+				} catch (CacheModelPhotosException e) {
+					throw new ModelException(e.getMessage());
 				}
 			}
 		}
