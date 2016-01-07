@@ -82,12 +82,16 @@ public class ModelSIPComponent implements IModel {
 	public void bindConnectionFactorySPI(IControlConnectionFactory controlConnectionFactory, Map<String, ?> properties) {
 		synchronized (this) {
 			this.controlConnectionFactory = controlConnectionFactory;
+			checkModelUpdatingStatus();
+			checkPhotosUpdatingStatus();
 		}
 	}
 
 	public void unbindConnectionFactorySPI(IControlConnectionFactory controlConnectionFactory, Map<String, ?> properties) {
 		synchronized (this) {
 			this.controlConnectionFactory = null;
+			checkModelUpdatingStatus();
+			checkPhotosUpdatingStatus();
 		}
 	}
 	
@@ -148,7 +152,7 @@ public class ModelSIPComponent implements IModel {
 	}
 	
 	private void checkModelUpdatingStatus() {
-		if (updateModelThreadFromBackend == null && updateModelThreadFromCache == null) {
+		if (updateModelThreadFromBackend == null && updateModelThreadFromCache == null && controlConnectionFactory != null) {
 			sendModelUpdatingStatus(false);
 		} else {
 			sendModelUpdatingStatus(true);
@@ -160,7 +164,7 @@ public class ModelSIPComponent implements IModel {
 		this.modelUpdating = modelUpdating;
 		try {
 			rwl.writeLock().lock();
-			sendModelUpdatingStatus(updateModelThreadFromBackend != null && updateModelThreadFromCache != null);
+			checkModelUpdatingStatus();
 		} finally {
 			rwl.writeLock().unlock();
 		}
@@ -343,7 +347,7 @@ public class ModelSIPComponent implements IModel {
 	}
 	
 	private void checkPhotosUpdatingStatus() {
-		if (updatePhotosThread == null) {
+		if (updatePhotosThread == null && controlConnectionFactory != null) {
 			sendPhotosUpdatingStatus(false);
 		} else {
 			sendPhotosUpdatingStatus(true);
@@ -355,7 +359,7 @@ public class ModelSIPComponent implements IModel {
 		this.photosUpdating = photosUpdating;
 		try {
 			rwlC.writeLock().lock();
-			sendPhotosUpdatingStatus(updatePhotosThread != null);
+			checkPhotosUpdatingStatus();
 		} finally {
 			rwlC.writeLock().unlock();
 		}
