@@ -80,7 +80,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 		return new FileBuilder(consumer);
 	}
 
-	final private Model model;
+	private Model model;
 	final private Consumer<ModelLogEntry> consumer;
 
 	private EMFModelWrapper(String cacheFilePath, Consumer<ModelLogEntry> consumer) throws EMFModelWrapperException {
@@ -105,9 +105,12 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 			IPersonService personService = controlConnection.getPersonService();
 
 			// Se carga el modelo
-			this.model = instantiate(personService);
-			saveCache(model);
-
+			Model tmpModel = instantiate(personService);
+			if (tmpModel.getDate() != null) {
+				saveCache(tmpModel);
+				this.model = tmpModel;
+			}
+			
 		} catch (ControlConnectionException e) {
 			throw new EMFModelWrapperException("No se puede obtener el servicio para acceder al subsistema 'Person'", e);
 		} catch (IOException e) {
@@ -259,6 +262,8 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 				}
 
 			});
+			
+			
 
 			return tmpModel;
 
@@ -289,7 +294,6 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 		List<IPerson> collect = model.getModelPersonsList().stream()
 				.map(p -> EMFToDomain(p))
 				.filter(predicate)
-				.limit(10)
 				.collect(Collectors.toList());
 
 		return collect; 

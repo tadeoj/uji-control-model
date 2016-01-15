@@ -164,6 +164,11 @@ public class CacheModelPhotos {
 	public IPhoto getPhotoById(IPersonIdentifier personIdentifier) throws CacheModelPhotosException {
 		try {
 			ICacheEntry entry = diskCache.getEntry(PersonIdentifierType.bytesToGeneralLongId(personIdentifier.getRaw()));
+			
+			if (entry == null) {
+				throw new CacheModelPhotosException("No se ha podido obtener la foto.");
+			}
+			
 			byte[] bytes = entry.getBytes();
 			LocalDateTime timestamp = LocalDateTime.ofInstant(Instant.ofEpochMilli(entry.getTimestamp().getTime()), ZoneId.systemDefault());
 			
