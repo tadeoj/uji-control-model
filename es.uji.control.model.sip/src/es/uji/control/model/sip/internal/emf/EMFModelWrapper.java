@@ -262,8 +262,6 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 				}
 
 			});
-			
-			
 
 			return tmpModel;
 
