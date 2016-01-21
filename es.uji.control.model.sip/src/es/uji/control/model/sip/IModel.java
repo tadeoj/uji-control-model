@@ -40,7 +40,8 @@ public interface IModel {
 	// Estado del modelo
 	/////////////////////////////////////////////////////////////
 	public LocalDateTime getModelDate();
-	public void setUpdateModelStateTracker(Consumer<LocalDateTime> state);
+	public int getModelPersons();
+	public void setUpdateModelStateTracker(Consumer<ModelStatus> state);
 	
 	/////////////////////////////////////////////////////////////
 	// Acceso al modelo

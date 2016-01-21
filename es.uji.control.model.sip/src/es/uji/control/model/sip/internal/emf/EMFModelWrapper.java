@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -37,7 +38,8 @@ import es.uji.control.sip.model.emf.sip.impl.SipPackageImpl;
 public class EMFModelWrapper extends ModelWrapperUtil {
 
 	static final String EMF_CACHE_DIR = System.getProperty("user.home") + "/cache.ecore";
-
+	static final UUID SIGNATURE = UUID.fromString("eed74942-943c-11e5-8994-feff819cdc9f");
+	
 	static public class ConnectionFactoryBuilder {
 
 		final private IControlConnectionFactory controlConnectionFactory;
@@ -50,7 +52,11 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 		public EMFModelWrapper build() throws EMFModelWrapperException, IOException {
 			try {
-				return new EMFModelWrapper(controlConnectionFactory.createConnection(), consumer);
+				if (controlConnectionFactory.getSignature().equals(SIGNATURE)) {
+					return new EMFModelWrapper(controlConnectionFactory.createConnection(), consumer);
+				} else {
+					throw new EMFModelWrapperException("La firma de la conexión no es valida.");
+				}
 			} catch (ControlConnectionException e) {
 				throw new EMFModelWrapperException("Imposible obtener una nueva conexion con el backend.", e);
 			}
@@ -149,6 +155,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 			if (object instanceof Model) {
 				tmpModel.setDate(((Model) object).getDate());
+				tmpModel.setSignature(((Model) object).getSignature());
 			} else {
 				if (object instanceof Person) {
 
@@ -257,6 +264,7 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 				@Override
 				public void onCompleted() {
+					tmpModel.setSignature(SIGNATURE.toString());
 					tmpModel.setDate(new Date());
 					consumer.accept(new ModelLogEntry(Instant.now(), ModelLogSource.PERSONS, ModelLogType.INFO, String.format("Modelo cargado correctamente %d Personas cargadas", numPersons)));
 				}
@@ -281,6 +289,10 @@ public class EMFModelWrapper extends ModelWrapperUtil {
 
 	public Date getModelDate() {
 		return model.getDate();
+	}
+	
+	public int getModelPersons() {
+		return model.getModelPersonsList().size();
 	}
 
 	public IPerson getPersonByAccreditation(IAccreditation accreditation) throws EMFModelWrapperException {

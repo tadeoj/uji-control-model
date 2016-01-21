@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Consumer;
 
 import es.uji.control.commons.diskcache.DiskCacheException;
@@ -25,6 +26,8 @@ import es.uji.control.model.sip.ModelLogType;
 
 public class CacheModelPhotos {
 
+	static final UUID SIGNATURE = UUID.fromString("eed74942-943c-11e5-8994-feff819cdc9f");
+	
 	static public class CacheConnectionFactoryBuilder {
 		
 		final private IControlConnectionFactory controlConnectionFactory;
@@ -39,7 +42,11 @@ public class CacheModelPhotos {
 		
 		public CacheModelPhotos build() throws CacheModelPhotosException {
 			try {
-				return new CacheModelPhotos(controlConnectionFactory.createConnection(), diskCache, consumer);
+				if (controlConnectionFactory.getSignature().equals(SIGNATURE)) {
+					return new CacheModelPhotos(controlConnectionFactory.createConnection(), diskCache, consumer);
+				} else {
+					throw new CacheModelPhotosException("La firma de la conexión no es valida.");
+				}
 			} catch (ControlConnectionException e) {
 				throw new CacheModelPhotosException("Imposible obtener una nueva conexion con el backend.", e.getCause());
 			}

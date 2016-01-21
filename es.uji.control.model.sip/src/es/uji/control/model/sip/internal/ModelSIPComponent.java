@@ -36,6 +36,7 @@ import es.uji.control.model.sip.ModelException;
 import es.uji.control.model.sip.ModelLogEntry;
 import es.uji.control.model.sip.ModelLogSource;
 import es.uji.control.model.sip.ModelLogType;
+import es.uji.control.model.sip.ModelStatus;
 import es.uji.control.model.sip.internal.cache.CacheModelPhotos;
 import es.uji.control.model.sip.internal.cache.CacheModelPhotosException;
 import es.uji.control.model.sip.internal.emf.EMFModelWrapper;
@@ -56,7 +57,7 @@ public class ModelSIPComponent implements IModel {
 
 	volatile private Consumer<Boolean> modelUpdating;
 
-	volatile private Consumer<LocalDateTime> state;
+	volatile private Consumer<ModelStatus> state;
 
 	private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
 	
@@ -82,6 +83,7 @@ public class ModelSIPComponent implements IModel {
 	public void bindConnectionFactorySPI(IControlConnectionFactory controlConnectionFactory, Map<String, ?> properties) {
 		synchronized (this) {
 			this.controlConnectionFactory = controlConnectionFactory;
+			
 			checkModelUpdatingStatus();
 			checkPhotosUpdatingStatus();
 		}
@@ -228,7 +230,7 @@ public class ModelSIPComponent implements IModel {
 				Duration duration = Duration.between(inicio, Instant.now());
 				long secs = duration.getSeconds();
 				sendModelPersonLogEntry(ModelLogType.INFO, String.format("Carga finalizada correctamente desde la cache (en %d secs)", secs));
-				sendUpdateModelState(getModelDate());
+				sendUpdateModelState(new ModelStatus(getModelDate(), getModelPersons()));
 			} catch (EMFModelWrapperException e) {
 				sendModelPersonLogEntry(ModelLogType.ERROR, String.format("Error duranle la carga (%s).", e.getMessage()));
 			} catch (Throwable t) {
@@ -293,7 +295,7 @@ public class ModelSIPComponent implements IModel {
 				Duration duration = Duration.between(inicio, Instant.now());
 				long secs = duration.getSeconds();
 				sendModelPersonLogEntry(ModelLogType.INFO, String.format("Carga finalizada correctamente (en %d secs)", secs));
-				sendUpdateModelState(getModelDate());
+				sendUpdateModelState(new ModelStatus(getModelDate(), getModelPersons()));
 			} catch (EMFModelWrapperException e) {
 				sendModelPersonLogEntry(ModelLogType.ERROR, String.format("Error duranle la carga (%s).", e.getMessage()));
 			} catch (IOException io) {
@@ -430,16 +432,23 @@ public class ModelSIPComponent implements IModel {
 			return modelWrapper == null ? null : modelWrapper.getModelDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 		}
 	}
+	
+	@Override
+	public int getModelPersons() {
+		synchronized (this) {
+			return modelWrapper == null ? null : modelWrapper.getModelPersons();
+		}
+	}
 
 	@Override
-	public void setUpdateModelStateTracker(Consumer<LocalDateTime> state) {
+	public void setUpdateModelStateTracker(Consumer<ModelStatus> state) {
 		this.state = state;
 	}
 
-	private void sendUpdateModelState(LocalDateTime dateTime) {
-		Consumer<LocalDateTime> localConsumer = this.state;
+	private void sendUpdateModelState(ModelStatus modelStatus) {
+		Consumer<ModelStatus> localConsumer = this.state;
 		if (localConsumer != null) {
-			localConsumer.accept(dateTime);
+			localConsumer.accept(modelStatus);
 		}
 	}
 
