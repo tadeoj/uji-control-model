@@ -16,6 +16,10 @@
       [Enter License Description here.]
    </license>
 
+   <includes
+         id="es.uji.control.commons.feature"
+         version="1.0.0"/>
+
    <plugin
          id="es.uji.control.model.sip.emf"
          download-size="0"
