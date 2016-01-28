@@ -70,7 +70,7 @@ public class ModelSIPComponent implements IModel {
 	private Thread updatePhotosThread;
 
 	private Consumer<Boolean> photosUpdating;
-
+	
 	@Activate
 	public void activate() {
 	}
@@ -109,7 +109,7 @@ public class ModelSIPComponent implements IModel {
 			this.diskCache = null;
 		}
 	}
-
+	
 	/////////////////////////////////////////////////////////////
 	// Logger
 	/////////////////////////////////////////////////////////////

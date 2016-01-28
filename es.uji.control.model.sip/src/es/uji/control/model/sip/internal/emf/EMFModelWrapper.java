@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -37,7 +38,7 @@ import es.uji.control.sip.model.emf.sip.impl.SipPackageImpl;
 
 public class EMFModelWrapper extends ModelWrapperUtil {
 
-	static final String EMF_CACHE_DIR = System.getProperty("user.home") + "/cache.ecore";
+	static final String EMF_CACHE_DIR = Platform.getInstanceLocation().getURL().getFile() + "cache.ecore";
 	static final UUID SIGNATURE = UUID.fromString("eed74942-943c-11e5-8994-feff819cdc9f");
 	
 	static public class ConnectionFactoryBuilder {
